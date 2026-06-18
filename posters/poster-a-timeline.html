@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poster A - Timeline</title>
+<style>
+:root{--bg:#f5f3ef;--text:#2a2520;--accent:#b8753e;--green:#5a7a4e;--cyan:#0ff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Serif SC','Source Han Serif SC','STSong','SimSun',serif;background:var(--bg);color:var(--text);display:flex;justify-content:center;align-items:center;min-height:100vh}
+.poster{width:594px;height:841px;background:var(--bg);position:relative;overflow:hidden;box-shadow:0 4px 40px rgba(0,0,0,.12)}
+/* Background watermark */
+.bg-num{position:absolute;font-size:200px;font-weight:900;opacity:.018;font-family:'Courier New',monospace;color:var(--text);right:30px;bottom:80px;line-height:1;pointer-events:none;z-index:0;letter-spacing:-.03em}
+.bg-num2{position:absolute;font-size:120px;font-weight:900;opacity:.012;font-family:'Courier New',monospace;color:var(--text);left:20px;top:200px;line-height:1;pointer-events:none;z-index:0}
+/* Hex grid overlay */
+.hex{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.012;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l26 15v30L30 60 4 45V15z' fill='none' stroke='%23d4a574' stroke-width='.5'/%3E%3C/svg%3E");background-size:60px 60px}
+/* HUD corners */
+.hud{position:absolute;width:50px;height:50px;pointer-events:none;z-index:3;opacity:.35}
+.hud::before,.hud::after{content:'';position:absolute;background:var(--accent)}
+.hud-tl{top:24px;left:24px}.hud-tl::before{top:0;left:0;width:35px;height:1px}.hud-tl::after{top:0;left:0;width:1px;height:35px}
+.hud-tr{top:24px;right:24px}.hud-tr::before{top:0;right:0;width:35px;height:1px}.hud-tr::after{top:0;right:0;width:1px;height:35px}
+.hud-bl{bottom:24px;left:24px}.hud-bl::before{bottom:0;left:0;width:35px;height:1px}.hud-bl::after{bottom:0;left:0;width:1px;height:35px}
+.hud-br{bottom:24px;right:24px}.hud-br::before{bottom:0;right:0;width:35px;height:1px}.hud-br::after{bottom:0;right:0;width:1px;height:35px}
+/* HUD data */
+.hud-data{position:absolute;font-family:'Courier New',monospace;font-size:8px;color:var(--accent);opacity:.3;pointer-events:none;z-index:3;letter-spacing:.05em}
+.hud-data.tl{top:32px;left:32px}.hud-data.tr{top:32px;right:32px}.hud-data.bl{bottom:32px;left:32px}.hud-data.br{bottom:32px;right:32px}
+/* Content */
+.content{position:relative;z-index:2;padding:60px 50px;display:flex;flex-direction:column;height:100%}
+/* Header */
+header{text-align:center;margin-bottom:50px}
+header .tag{font-family:'Courier New',monospace;font-size:9px;letter-spacing:.25em;opacity:.35;margin-bottom:12px}
+header h1{font-size:64px;font-weight:100;letter-spacing:.08em;line-height:.85;margin-bottom:8px}
+header .sub{font-size:11px;letter-spacing:.2em;opacity:.35;font-family:'Courier New',monospace}
+/* Timeline */
+.timeline{flex:1;position:relative;padding-left:0}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(0,0,0,.1);z-index:0}
+.timeline-items{display:flex;flex-direction:column;gap:0;position:relative;z-index:1}
+.t-item{display:flex;align-items:center;gap:20px;padding:18px 0;position:relative}
+.t-item:nth-child(odd){flex-direction:row-reverse;text-align:right}
+.t-item:nth-child(even){flex-direction:row}
+.t-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0;position:absolute;left:50%;transform:translateX(-50%);z-index:2}
+.t-animal{width:50px;text-align:center;font-size:28px;flex-shrink:0;opacity:.7;filter:grayscale(.3)}
+.t-info{width:200px}
+.t-era{font-size:9px;opacity:.3;letter-spacing:.1em;font-family:'Courier New',monospace;margin-bottom:2px}
+.t-era::before{content:'> ';opacity:.5}
+.t-name{font-size:15px;font-weight:400;letter-spacing:.04em;margin-bottom:2px}
+.t-desc{font-size:9px;opacity:.4;line-height:1.6}
+/* ASCII divider */
+.ascii-divider{font-family:'Courier New',monospace;font-size:8px;opacity:.2;text-align:center;letter-spacing:.2em;padding:10px 0;margin:20px 0 0}
+/* Footer */
+footer{text-align:center;padding-top:20px}
+footer .cite-line{font-family:'Courier New',monospace;font-size:8px;opacity:.25;letter-spacing:.15em;line-height:1.8}
+/* Scanlines */
+.scanlines{position:absolute;inset:0;pointer-events:none;z-index:99;opacity:.04;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.6) 2px,rgba(0,0,0,.6) 4px)}
+/* Data line */
+.data-line{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.1;z-index:100;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="poster" id="poster">
+  <div class="hex"></div>
+  <div class="bg-num">100,000</div>
+  <div class="bg-num2">ANIMAL TRACE</div>
+  <div class="scanlines"></div>
+  <div class="data-line"></div>
+  <div class="hud hud-tl"></div><div class="hud hud-tr"></div>
+  <div class="hud hud-bl"></div><div class="hud hud-br"></div>
+  <div class="hud-data tl">SYS::ARCHIVE_v2.0</div>
+  <div class="hud-data tr">TIMELINE::5_ERAS</div>
+  <div class="hud-data bl">100,000 BCE — 2026 CE</div>
+  <div class="hud-data br">[ONLINE]</div>
+
+  <div class="content">
+    <header>
+      <div class="tag">$ POSTER_SERIES_01 _</div>
+      <h1>Animal<br>Trace</h1>
+      <div class="sub">ANIMAL_TRACE.exe / 動物製品情報可視化</div>
+    </header>
+
+    <div class="timeline">
+      <div class="timeline-items">
+        <div class="t-item"><div class="t-dot"></div><div class="t-animal">🦴</div><div class="t-info"><div class="t-era">01 / 旧石器时代</div><div class="t-name">生存</div><div class="t-desc">兽皮御寒 · 兽骨工具<br>阳原侯家窑 · 虎头梁骨针</div></div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-animal">🐂</div><div class="t-info"><div class="t-era">02 / 新石器时代</div><div class="t-name">驯化</div><div class="t-desc">牛羊猪驯化 · 骨器量产<br>稳定原料来源形成</div></div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-animal">🐢</div><div class="t-info"><div class="t-era">03 / 商周时期</div><div class="t-name">礼仪</div><div class="t-desc">象牙雕刻 · 龟甲占卜<br>饕餮纹 · 甲骨文</div></div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-animal">🐘</div><div class="t-info"><div class="t-era">04 / 帝国时代</div><div class="t-name">贸易</div><div class="t-desc">丝绸之路 · 象牙犀角<br>全球贸易网络形成</div></div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-animal">🦏</div><div class="t-info"><div class="t-era">05 / 现代</div><div class="t-name">危机与觉醒</div><div class="t-desc">CITES · 非法贸易200亿$<br>第六次大灭绝</div></div></div>
+      </div>
+    </div>
+
+    <div class="ascii-divider">/* ─── 100,000 BCE ═══════════════════════ 2026 CE ─── */</div>
+
+    <footer>
+      <div class="cite-line">CITES Trade Database · IUCN Red List 2024 · TRAFFIC Monitoring</div>
+      <div class="cite-line">Animal Trace · 動物製品情報可視化プロジェクト</div>
+    </footer>
+  </div>
+</div>
+</body>
+</html>
