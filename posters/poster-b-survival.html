@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poster B - Survival vs Exploitation</title>
+<style>
+:root{--bg:#f5f3ef;--text:#2a2520;--accent:#b8753e;--dark:#1a1815}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Serif SC','Source Han Serif SC','STSong','SimSun',serif;background:#1a1a1a;color:var(--text);display:flex;justify-content:center;align-items:center;min-height:100vh}
+.poster{width:840px;height:594px;background:var(--bg);position:relative;overflow:hidden;box-shadow:0 4px 40px rgba(0,0,0,.3);display:flex}
+/* Left panel: Survival */
+.panel-left{flex:0 0 40%;background:#f0ece4;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:40px 32px;overflow:hidden;border-right:1px solid rgba(0,0,0,.06)}
+.panel-left .bg-texture{position:absolute;inset:0;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='3' fill='%23000'/%3E%3C/svg%3E");background-size:40px 40px;pointer-events:none}
+.panel-left .era-label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.2em;opacity:.35;margin-bottom:12px}
+.panel-left h2{font-size:56px;font-weight:100;letter-spacing:.04em;line-height:.9;margin-bottom:12px;position:relative;z-index:1}
+.panel-left .desc{font-size:12px;opacity:.45;line-height:2;position:relative;z-index:1}
+.panel-left .icon-row{display:flex;gap:16px;margin-bottom:24px;position:relative;z-index:1}
+.panel-left .icon-item{width:48px;height:48px;border:1px solid rgba(0,0,0,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;opacity:.5}
+/* Divider line */
+.divider{width:1px;background:var(--accent);opacity:.2;flex-shrink:0}
+/* Right panel: Exploitation */
+.panel-right{flex:1;background:#f8f6f3;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:40px 32px;overflow:hidden}
+.panel-right .bg-texture{position:absolute;inset:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg width='30' height='30' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='14' y='0' width='2' height='30' fill='%23000'/%3E%3Crect x='0' y='14' width='30' height='2' fill='%23000'/%3E%3C/svg%3E");background-size:30px 30px;pointer-events:none}
+.panel-right .era-label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.2em;opacity:.35;margin-bottom:12px}
+.panel-right h2{font-size:56px;font-weight:100;letter-spacing:.04em;line-height:.9;margin-bottom:12px;color:var(--accent);position:relative;z-index:1}
+.panel-right .desc{font-size:12px;opacity:.45;line-height:2;position:relative;z-index:1}
+.panel-right .item-row{display:flex;gap:12px;margin-bottom:24px;position:relative;z-index:1;flex-wrap:wrap}
+.panel-right .item-tag{padding:6px 14px;border:1px solid rgba(184,117,62,.2);border-radius:20px;font-size:10px;opacity:.5;letter-spacing:.05em;font-family:'Courier New',monospace;color:var(--accent)}
+/* Overlays */
+.scanlines{position:absolute;inset:0;pointer-events:none;z-index:50;opacity:.03;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.5) 2px,rgba(0,0,0,.5) 4px)}
+.crt-flicker{position:absolute;inset:0;pointer-events:none;z-index:49;opacity:.006;background:#fff}
+/* Bottom banner */
+.bottom-banner{position:absolute;bottom:0;left:0;right:0;z-index:10;padding:16px 32px;border-top:1px solid rgba(0,0,0,.05);display:flex;justify-content:space-between;align-items:center;font-family:'Courier New',monospace;font-size:8px;opacity:.3;letter-spacing:.1em}
+/* Main title overlay */
+.main-title{position:absolute;top:28px;left:50%;transform:translateX(-50%);z-index:10;text-align:center;pointer-events:none}
+.main-title h3{font-size:13px;font-weight:400;letter-spacing:.3em;opacity:.5}
+/* Glitch accent */
+.glitch-accent{position:absolute;top:30px;right:30px;font-family:'Courier New',monospace;font-size:60px;opacity:.015;color:var(--text);pointer-events:none}
+</style>
+</head>
+<body>
+<div class="poster" id="poster">
+  <div class="scanlines"></div>
+  <div class="crt-flicker"></div>
+  <div class="main-title"><h3>ANIMAL TRACE</h3></div>
+  <div class="glitch-accent">EXPLOIT</div>
+
+  <!-- Left: Survival -->
+  <div class="panel-left">
+    <div class="bg-texture"></div>
+    <div class="icon-row">
+      <div class="icon-item">🦴</div>
+      <div class="icon-item">🪡</div>
+      <div class="icon-item">🗿</div>
+    </div>
+    <div class="era-label">$ 100,000 BCE _</div>
+    <h2>生存</h2>
+    <div class="desc">兽皮御寒 · 兽骨制作工具<br>阳原侯家窑遗址石器切割痕迹<br>虎头梁遗址磨制骨针骨锥<br>旧石器时代 · 生存驱动</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Right: Exploitation -->
+  <div class="panel-right">
+    <div class="bg-texture"></div>
+    <div class="item-row">
+      <div class="item-tag">象牙雕刻</div>
+      <div class="item-tag">犀角"药材"</div>
+      <div class="item-tag">虎皮奢侈品</div>
+      <div class="item-tag">穿山甲鳞片</div>
+      <div class="item-tag">玳瑁珠宝</div>
+      <div class="item-tag">鳄鱼皮手袋</div>
+    </div>
+    <div class="era-label">$ 2026 CE _</div>
+    <h2>掠夺</h2>
+    <div class="desc">全球非法野生动物贸易每年200亿美元<br>非洲象从130万头锐减至41.5万头<br>每15分钟一头大象因象牙被猎杀<br>第六次大灭绝 · 正在进行</div>
+  </div>
+
+  <div class="bottom-banner">
+    <span>CITES · IUCN · TRAFFIC</span>
+    <span>100,000 BCE — 2026 CE</span>
+  </div>
+</div>
+</body>
+</html>
