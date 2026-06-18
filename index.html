@@ -232,6 +232,15 @@ footer{text-align:center;padding:60px 20px;opacity:.25;font-size:11px;letter-spa
 .gcard::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,rgba(0,255,255,.03) 50%,transparent 100%);opacity:0;transition:opacity .3s;pointer-events:none;z-index:2}
 .gcard:hover::after{opacity:1}
 .gcard:hover{border-color:rgba(0,255,255,.3)!important;box-shadow:0 0 40px rgba(0,255,255,.1),0 20px 60px rgba(0,0,0,.5)!important}
+/* Research card interactive */
+.research-card{cursor:pointer;position:relative;overflow:hidden;display:block!important}
+.research-card:hover{transform:translateY(-4px)!important;border-color:var(--accent)!important;box-shadow:0 12px 40px rgba(184,117,62,.15)!important}
+.card-arrow{position:absolute;bottom:18px;right:22px;font-size:18px;opacity:0;transform:translateX(-10px);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:'Courier New',monospace;color:var(--accent)}
+.research-card:hover .card-arrow{opacity:1;transform:translateX(0)}
+.research-card:hover h3{color:var(--accent)}
+/* Hover glow line on top */
+.research-card::after{content:'';position:absolute;top:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
+.research-card:hover::after{opacity:.6}
 
 /* Terminal nav */
 nav a{font-family:'Courier New',monospace!important;font-size:12px!important;letter-spacing:.1em!important}
@@ -327,12 +336,36 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 
 <section class="content-section" id="research">
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.025;font-family:'Courier New',monospace;line-height:1;pointer-events:none">04</div>
-  <div class="section-header"><div class="num">04 / RESEARCH</div><h2>研究基础与数据来源</h2></div>
-  <div class="grid-2">
-    <div class="gcard"><div class="num">[ A ]</div><h3>CITES 贸易数据库</h3><p>《濒危野生动植物种国际贸易公约》全球合法贸易记录，覆盖超过35,000个物种的跨境交易数据。1973年签署，183个缔约方。</p><div class="cite">trade.cites.org · 2024</div></div>
-    <div class="gcard"><div class="num">[ B ]</div><h3>IUCN 红色名录</h3><p>世界自然保护联盟的全球物种濒危状况评估。1964年建立，至今评估超过150,000个物种，是生物多样性保护最权威的数据来源。</p><div class="cite">iucnredlist.org · 2024</div></div>
-    <div class="gcard"><div class="num">[ C ]</div><h3>TRAFFIC 监测报告</h3><p>国际野生物贸易研究组织，成立于1976年。监测全球野生动物非法贸易网络，为CITES执法提供关键情报。</p><div class="cite">traffic.org · 2023</div></div>
-    <div class="gcard"><div class="num">[ D ]</div><h3>考古与文献</h3><p>侯家窑遗址的石器切割痕迹、虎头梁的骨针骨锥、殷墟的象牙雕刻——中国考古为动物制品史提供了最古老的连续证据链。</p><div class="cite">卫奇 2012 · 盖培 1977 · 张光直 2002</div></div>
+  <div class="section-header"><div class="num">04 / RESEARCH</div><h2>研究基础与数据来源</h2><p>点击卡片进入作品集查看完整数据</p></div>
+  <div class="grid-2" id="researchGrid">
+    <a href="https://jgytfrc.github.io/portfolio/#status" target="_blank" class="gcard research-card" style="text-decoration:none;color:inherit">
+      <div class="num">[ A ]</div>
+      <h3>CITES 贸易数据库</h3>
+      <p>《濒危野生动植物种国际贸易公约》全球合法贸易记录，覆盖超过35,000个物种的跨境交易数据。1973年签署，183个缔约方。</p>
+      <div class="cite">trade.cites.org · 2024</div>
+      <span class="card-arrow">→</span>
+    </a>
+    <a href="https://jgytfrc.github.io/portfolio/#status" target="_blank" class="gcard research-card" style="text-decoration:none;color:inherit">
+      <div class="num">[ B ]</div>
+      <h3>IUCN 红色名录</h3>
+      <p>世界自然保护联盟的全球物种濒危状况评估。1964年建立，至今评估超过150,000个物种，是生物多样性保护最权威的数据来源。</p>
+      <div class="cite">iucnredlist.org · 2024</div>
+      <span class="card-arrow">→</span>
+    </a>
+    <a href="https://jgytfrc.github.io/portfolio/#status" target="_blank" class="gcard research-card" style="text-decoration:none;color:inherit">
+      <div class="num">[ C ]</div>
+      <h3>TRAFFIC 监测报告</h3>
+      <p>国际野生物贸易研究组织，成立于1976年。监测全球野生动物非法贸易网络，为CITES执法提供关键情报。</p>
+      <div class="cite">traffic.org · 2023</div>
+      <span class="card-arrow">→</span>
+    </a>
+    <a href="https://jgytfrc.github.io/portfolio/#sources" target="_blank" class="gcard research-card" style="text-decoration:none;color:inherit">
+      <div class="num">[ D ]</div>
+      <h3>考古与文献</h3>
+      <p>侯家窑遗址的石器切割痕迹、虎头梁的骨针骨锥、殷墟的象牙雕刻——中国考古为动物制品史提供了最古老的连续证据链。</p>
+      <div class="cite">卫奇 2012 · 盖培 1977 · 张光直 2002</div>
+      <span class="card-arrow">→</span>
+    </a>
   </div>
 </section>
 
