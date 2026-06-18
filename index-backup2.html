@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animal Trace · 动物制品启示录</title>
+<style>
+:root{--bg:#f5f3ef;--text:#2a2520;--accent:#b8753e;--green:#5a7a4e;--card:#ffffff;--border:#e5e0d8}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Noto Serif SC','Source Han Serif SC',serif;background:var(--bg);color:var(--text);line-height:1.8;position:relative}
+/* Mouse-follow glow */
+.mouse-glow{position:fixed;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(200,150,100,.06) 0%,transparent 70%);pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:opacity .3s}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#333}
+/* Hex grid overlay */
+section::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.015;background-image:url(\"data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l26 15v30L30 60 4 45V15z' fill='none' stroke='%23d4a574' stroke-width='.5'/%3E%3C/svg%3E\");background-size:60px 60px}
+/* 3D card tilt */
+.gcard,.timeline-item,.wcard,.flying-poster{transform-style:preserve-3d;perspective:800px}
+/* ===== POST-HUMAN: Scanlines + Glitch ===== */
+.scanlines{position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.06;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.6) 2px,rgba(0,0,0,.6) 4px)}
+/* Terminal cursor */
+.terminal-cursor{display:inline-block;width:8px;height:16px;background:var(--accent);animation:blink 1s step-end infinite;vertical-align:middle;margin-left:4px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.glitch-hover{transition:all .3s}
+.glitch-hover:hover{animation:glitch .3s ease-in-out}
+@keyframes glitch{0%,100%{transform:translate(0)}20%{transform:translate(-3px,2px);filter:hue-rotate(10deg)}40%{transform:translate(3px,-1px);filter:hue-rotate(-5deg)}60%{transform:translate(-2px,-2px)}80%{transform:translate(2px,1px)}}
+/* Glitch text layers */
+.glitch-text{position:relative}
+.glitch-text::before,.glitch-text::after{content:attr(data-text);position:absolute;left:0;top:0;width:100%;height:100%}
+.glitch-text::before{color:#0ff;animation:glitchShift .3s infinite reverse;z-index:-1;opacity:.7}
+.glitch-text::after{color:#f0f;animation:glitchShift .3s infinite;z-index:-2;opacity:.5}
+@keyframes glitchShift{0%,100%{transform:translate(0)}20%{transform:translate(-2px,1px)}40%{transform:translate(2px,-1px)}60%{transform:translate(-1px,-1px)}80%{transform:translate(1px,1px)}}
+/* ===== SYNTHETIC NATURE: Wireframe watermark ===== */
+.synth-watermark{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.06;background-image:url(\"data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M100 20 L130 40 L120 70 L100 90 L80 70 L70 40 Z' fill='none' stroke='%23d4a574' stroke-width='1'/%3E%3Ccircle cx='100' cy='55' r='15' fill='none' stroke='%23d4a574' stroke-width='.5'/%3E%3Ccircle cx='100' cy='55' r='25' fill='none' stroke='%23d4a574' stroke-width='.3'/%3E%3C/svg%3E\");background-size:200px 200px}
+/* ASCII animal watermark */
+.ascii-art{font-family:'Courier New',monospace;font-size:8px;line-height:1.2;color:var(--accent);opacity:.08;pointer-events:none;white-space:pre;position:absolute;z-index:0}
+/* ===== ASCII: Terminal-style elements ===== */
+.ascii-num{font-family:'Courier New',monospace;color:var(--accent);opacity:.5;font-size:10px;letter-spacing:.3em}
+.ascii-divider{font-family:'Courier New',monospace;color:var(--accent);opacity:.35;font-size:11px;text-align:center;letter-spacing:.3em;padding:24px 0;pointer-events:none;animation:dividerPulse 4s ease-in-out infinite}
+@keyframes dividerPulse{0%,100%{opacity:.2}50%{opacity:.5}}
+/* Terminal-style section num */
+.section-header .num{font-family:'Courier New',monospace!important;font-size:11px;letter-spacing:.2em;opacity:.5;margin-bottom:8px;color:var(--accent)}
+.section-header .num::before{content:'> ';opacity:.5}
+.section-header .num::after{content:' _';animation:blink 1s step-end infinite}
+/* Post-human data corruption borders */
+.gcard{border:1px solid rgba(200,150,100,.12);position:relative}
+.gcard::before{content:'';position:absolute;top:-1px;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
+.gcard:hover::before{opacity:.6}
+.progress{position:fixed;top:0;left:0;height:1px;background:var(--cyan);z-index:1000;transition:width .1s;box-shadow:0 0 8px var(--cyan)}
+.data-line{position:fixed;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.15;z-index:1001;pointer-events:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;pointer-events:none;background:rgba(245,243,239,.6);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.03)}
+nav a{color:var(--text);text-decoration:none;font-size:11px;letter-spacing:.1em;pointer-events:auto;transition:all .5s;font-family:'Courier New',monospace;opacity:.5}
+nav a:hover{opacity:1;color:var(--accent)}.nav-links{display:flex;gap:24px}
+section{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative}
+#works{display:block!important;overflow:visible!important}
+#works .section-header{max-width:none}
+#works .flying-posters{column-count:5;column-gap:20px;padding:40px 20px;width:100%}
+@media(max-width:1400px){#works .flying-posters{column-count:4}}
+@media(max-width:1000px){#works .flying-posters{column-count:3}}
+@media(max-width:700px){#works .flying-posters{column-count:2}}
+.hero{overflow:hidden;background:radial-gradient(ellipse at center,#e8e4dd 0%,#f5f3ef 100%)}
+#heroCanvas{position:absolute;top:0;left:0;width:100%;height:100%;display:block}
+.hero-content{position:relative;z-index:2;text-align:center;pointer-events:none}
+.hero-content h1{font-size:clamp(56px,12vw,140px);font-weight:100;letter-spacing:.04em;margin-bottom:16px;line-height:.9;text-shadow:0 0 80px rgba(0,0,0,.05)}
+.hero-content .sub{font-size:clamp(13px,2vw,17px);letter-spacing:.35em;opacity:.5;font-family:'Courier New',monospace!important}
+.hero-scroll{position:absolute;bottom:30px;z-index:2;left:50%;transform:translateX(-50%);animation:floatDown 3s ease-in-out infinite;cursor:pointer;pointer-events:auto;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.6;transition:opacity .5s}
+.hero-scroll:hover{opacity:1}
+.hero-scroll-arrow{width:24px;height:24px;border-right:1px solid var(--accent);border-bottom:1px solid var(--accent);transform:rotate(45deg);animation:arrowPulse 3s ease-in-out infinite}
+.hero-scroll-arrow:nth-child(2){animation-delay:.3s}.hero-scroll-arrow:nth-child(3){animation-delay:.6s}
+@keyframes floatDown{0%,100%{transform:translateX(-50%)translateY(0)}50%{transform:translateX(-50%)translateY(12px)}}
+@keyframes arrowPulse{0%,100%{opacity:.2}50%{opacity:.8}}
+/* Sci-fi HUD corners */
+.hud-corner{position:absolute;width:60px;height:60px;pointer-events:none;z-index:3;opacity:.4}
+.hud-corner::before,.hud-corner::after{content:'';position:absolute;background:var(--accent)}
+.hud-tl{top:20px;left:20px}.hud-tl::before{top:0;left:0;width:40px;height:1px}.hud-tl::after{top:0;left:0;width:1px;height:40px}
+.hud-tr{top:20px;right:20px}.hud-tr::before{top:0;right:0;width:40px;height:1px}.hud-tr::after{top:0;right:0;width:1px;height:40px}
+.hud-bl{bottom:20px;left:20px}.hud-bl::before{bottom:0;left:0;width:40px;height:1px}.hud-bl::after{bottom:0;left:0;width:1px;height:40px}
+.hud-br{bottom:20px;right:20px}.hud-br::before{bottom:0;right:0;width:40px;height:1px}.hud-br::after{bottom:0;right:0;width:1px;height:40px}
+/* HUD data readout */
+.hud-data{position:absolute;font-family:'Courier New',monospace;font-size:9px;color:var(--accent);opacity:.35;pointer-events:none;z-index:3;letter-spacing:.05em}
+.hud-data.top-left{top:28px;left:28px}
+.hud-data.top-right{top:28px;right:28px;text-align:right}
+.hud-data.bottom-left{bottom:28px;left:28px}
+.hud-data.bottom-right{bottom:28px;right:28px;text-align:right}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s}
+.modal-overlay.show{opacity:1;pointer-events:auto}
+.modal-card{background:#fff;border:1px solid var(--accent);border-radius:12px;padding:40px;max-width:440px;width:90%;text-align:center;position:relative;color:#2a2520}
+.modal-card .close{position:absolute;top:12px;right:16px;background:none;border:none;color:#999;font-size:20px;cursor:pointer}
+.modal-card .close:hover{color:#333}
+.modal-card .big-emoji{font-size:80px;margin-bottom:12px}
+.modal-card h3{font-size:22px;font-weight:400;color:var(--accent)}
+.modal-card .prod{font-size:13px;opacity:.5;margin:4px 0 16px}
+.modal-card .desc{font-size:13px;opacity:.55;line-height:1.9;margin-bottom:20px}
+.modal-card .stat{display:flex;justify-content:center;gap:32px}
+.modal-card .stat-item{text-align:center}
+.modal-card .stat-val{font-size:24px;color:var(--accent)}
+.modal-card .stat-label{font-size:10px;opacity:.4}
+.modal-img-wrap{width:100%;height:200px;border-radius:8px;overflow:hidden;margin:0 auto 16px;border:1px solid #333}
+.modal-img{width:100%;height:100%;object-fit:cover}
+.modal-sources{text-align:left;margin-top:16px;padding-top:12px;border-top:1px solid #222}
+.modal-sources h4{font-size:11px;opacity:.4;margin-bottom:6px;letter-spacing:.1em}
+.modal-sources ul{list-style:none;padding:0}
+.modal-sources li{font-size:10px;opacity:.35;line-height:1.8;padding:2px 0}
+
+.content-section{flex-direction:column;padding:160px 80px 140px;gap:120px}
+.content-section:nth-of-type(even){background:rgba(0,0,0,.015)}
+/* Full-bleed immersive sections */
+.spotlight-section{padding:0;min-height:100vh;display:flex;align-items:stretch}
+.spotlight-section .spotlight-img{flex:0 0 45%;overflow:hidden;position:relative;background:#e8e4dd;min-height:50vh;max-height:80vh}
+.spotlight-section .spotlight-img canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.spotlight-section .spotlight-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.spotlight-section .spotlight-text{flex:1;padding:100px 60px;display:flex;flex-direction:column;justify-content:center;max-width:600px}
+.spotlight-section .spotlight-text h3{font-size:clamp(28px,4vw,48px);font-weight:100;letter-spacing:.02em;margin-bottom:24px;line-height:1.1}
+.spotlight-section .spotlight-text p{opacity:.5;font-size:15px;line-height:2.2;margin-bottom:12px}
+.spotlight-section .spotlight-text .cite{font-size:10px;opacity:.3;font-family:'Courier New',monospace}
+@media(max-width:768px){.spotlight-section{flex-direction:column}.spotlight-section .spotlight-img{height:50vh}}
+/* Center guide marker */
+.spine-dot{pointer-events:none;z-index:2}/* Alternating side content */
+.side-block{display:flex;align-items:flex-start;gap:60px;max-width:1100px;width:100%;margin:0 auto;position:relative}
+.side-block.left{justify-content:flex-start;padding-right:45%}
+.side-block.right{justify-content:flex-end;padding-left:45%}
+/* Vertical label (lisovskiy-inspired) */
+.side-label{writing-mode:vertical-rl;font-family:'Courier New',monospace;font-size:10px;letter-spacing:.2em;opacity:.25;flex-shrink:0;padding-top:8px}
+.side-block .side-content{max-width:460px}
+.side-block .side-content h3{font-size:clamp(26px,4vw,40px);font-weight:200;letter-spacing:.02em;margin-bottom:20px;line-height:1.15}
+.side-block .side-content p{opacity:.45;font-size:15px;line-height:2.2;margin-bottom:12px}
+.side-block .side-content .cite{font-size:10px;opacity:.25;font-family:'Courier New',monospace;margin-top:14px}
+.section-header{text-align:left;max-width:720px;position:relative}
+.section-header::after{content:'';display:block;height:1px;background:rgba(0,0,0,.08);margin:24px 0 0;width:100%}
+.section-header .num{font-size:10px;letter-spacing:.25em;opacity:.35;font-family:'Courier New',monospace;margin-bottom:12px}
+.section-header h2{font-size:clamp(34px,5vw,60px);font-weight:200;letter-spacing:.01em;margin-bottom:20px;line-height:1.1}
+.section-header p{opacity:.4;font-size:15px;line-height:2;max-width:560px}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:60px 80px;max-width:900px;width:100%}
+.gcard{background:rgba(255,255,255,.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,.04);border-radius:2px;padding:36px;position:relative;transition:all .6s cubic-bezier(.16,1,.3,1)}
+.gcard:hover{background:rgba(255,255,255,.5);border-color:rgba(0,0,0,.08);transform:translateY(-2px)}
+/* Image-text mix */
+.imgtext-row{display:grid;grid-template-columns:1fr 1fr;gap:100px;max-width:1100px;width:100%;align-items:center}
+.imgtext-row.reverse{direction:rtl}
+.imgtext-row.reverse>*{direction:ltr}
+.imgtext-img{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--accent);opacity:.4;letter-spacing:.1em;font-family:'Courier New',monospace;position:relative;overflow:hidden;background:rgba(0,0,0,.02)}
+.imgtext-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.imgtext-text h3{font-size:clamp(28px,4vw,44px);font-weight:200;letter-spacing:.02em;margin-bottom:20px;line-height:1.15}
+.imgtext-text p{opacity:.45;font-size:15px;line-height:2.2;margin-bottom:12px}
+.imgtext-text .cite{font-size:10px;opacity:.25;font-family:'Courier New',monospace;margin-top:16px}
+.gcard h3{font-weight:300;margin-bottom:16px;font-size:20px;letter-spacing:.04em;line-height:1.3}
+.gcard p{opacity:.45;font-size:13px;line-height:2;max-width:340px}
+.gcard .cite{font-size:10px;opacity:.25;margin-top:16px;font-family:'Courier New',monospace}
+
+.timeline{max-width:700px;width:100%;position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:1px;background:var(--border)}
+.timeline-item{position:relative;margin-bottom:40px}
+.timeline-item::before{content:'';position:absolute;left:-28px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--accent);transition:all .3s}
+.timeline-item .era{font-size:11px;opacity:.35;letter-spacing:.15em;font-family:'Inter',sans-serif}
+.timeline-item h3{font-weight:400;font-size:16px;margin:4px 0}
+.timeline-item p{opacity:.45;font-size:13px;line-height:1.8}
+
+.works-wrap{width:100%;overflow-x:auto;scroll-snap-type:x mandatory;cursor:grab;padding:60px 0;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;perspective:1000px}
+.works-wrap:active{cursor:grabbing}
+.works-wrap::-webkit-scrollbar{height:0}
+.works-track{display:flex;gap:0;padding:0 calc(50vw - 180px);width:max-content;align-items:center}
+.wcard{min-width:350px;flex-shrink:0;margin-left:-140px;background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;scroll-snap-align:center;transition:all .65s cubic-bezier(.16,1,.3,1);position:relative}
+.wcard:first-child{margin-left:0}
+.wcard:nth-child(odd){transform:rotate(-5deg)translateY(20px)translateX(10px)scale(.75);opacity:.3;filter:brightness(.4);z-index:1}
+.wcard:nth-child(even){transform:rotate(4deg)translateY(-12px)translateX(-5px)scale(.75);opacity:.3;filter:brightness(.4);z-index:2}
+.wcard:nth-child(3n){transform:rotate(-2deg)translateY(8px)scale(.73)}
+.wcard:nth-child(4n){transform:rotate(3deg)translateY(-15px)translateX(8px)scale(.72)}
+.wcard.active{transform:rotate(0)translateY(0)translateX(0)scale(1.1)!important;opacity:1!important;filter:brightness(1)!important;z-index:30!important;border-color:#666;box-shadow:0 20px 100px rgba(0,0,0,.8);margin-left:-140px;margin-right:-60px}
+.wcard.active~.wcard{transform:rotate(5deg)translateY(15px)scale(.7);z-index:1}
+.wcard:not(.active):hover{transform:rotate(-1deg)translateY(-20px)scale(.85)!important;opacity:.75!important;z-index:25!important}
+.wcard-img{height:260px;background:#1a1a1a;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.wcard-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s}
+.wcard.active .wcard-img img{transform:scale(1.03)}
+.wcard-info{padding:22px;transition:all .5s}
+.wcard:not(.active) .wcard-info{opacity:.3}
+.wcard-info h3{font-size:15px;font-weight:400;margin-bottom:4px}
+.wcard-info p{font-size:12px;opacity:.5;line-height:1.7}
+.wcard-num{position:absolute;bottom:12px;right:16px;font-size:64px;font-weight:800;opacity:.04;font-family:'Inter',sans-serif;color:#fff;pointer-events:none;transition:all .5s}
+.wcard.active .wcard-num{opacity:.08;font-size:80px}
+
+/* ===== FLYING POSTERS ===== */
+.flying-poster{width:100%;margin-bottom:20px;break-inside:avoid;position:relative;cursor:pointer;animation:floatPoster 7s ease-in-out infinite;overflow:hidden;border-radius:10px}
+.flying-poster img{width:100%;display:block;border-radius:10px;border:1px solid #333;transition:all .4s}
+.flying-poster:hover img{border-color:var(--accent);box-shadow:0 30px 80px rgba(200,150,100,.25)}
+.flying-poster .label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.9));padding:40px 14px 14px;border-radius:0 0 10px 10px}
+.flying-poster .label h3{font-size:13px;font-weight:600;color:var(--accent)}
+.flying-poster .label p{font-size:10px;opacity:.6}
+.flying-poster:nth-child(odd){animation-delay:-3.5s;margin-top:25px}
+.flying-poster:nth-child(even){margin-top:-15px}
+.flying-poster:nth-child(3n){animation-delay:-1.8s;margin-top:35px}
+.flying-poster:nth-child(4n){animation-delay:-5s;margin-top:-25px}
+.flying-poster:nth-child(5n){margin-top:10px;animation-delay:-6s}
+@keyframes floatPoster{0%,100%{transform:translateY(0)rotateX(0)rotateY(0)}25%{transform:translateY(-18px)rotateX(3deg)rotateY(4deg)}50%{transform:translateY(6px)rotateX(-2deg)rotateY(-3deg)}75%{transform:translateY(-10px)rotateX(2deg)rotateY(-2deg)}}
+.flying-poster:hover{animation-play-state:paused;z-index:20!important}
+.flying-poster img{width:100%;height:100%;object-fit:cover;border-radius:10px;border:1px solid #333;transition:all .4s}
+.flying-poster:hover img{border-color:var(--accent);box-shadow:0 30px 80px rgba(200,150,100,.25)}
+.flying-poster .label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.95));padding:40px 16px 16px;opacity:1;transform:translateY(10px);transition:all .4s}
+.flying-poster:hover .label{transform:translateY(0)}
+.flying-poster .label h3{font-size:14px;font-weight:600;color:var(--accent);margin-bottom:2px}
+.flying-poster .label p{font-size:10px;opacity:.6}
+
+footer{text-align:center;padding:60px 20px;opacity:.25;font-size:11px;letter-spacing:.1em}
+@media(max-width:768px){nav{padding:16px 20px}.nav-links{display:none}.content-section{padding:60px 16px}.grid-2{grid-template-columns:1fr}.wcard{min-width:300px}.wcard-img{height:200px}}
+
+/* ══════════════════════════════════════
+   ANIMAL FOOTPRINTS BACKGROUND
+   ══════════════════════════════════════ */
+.trail-print{position:fixed;pointer-events:none;z-index:999;transition:opacity 3s ease-out,transform 3s ease-out}
+.trail-print svg{width:100%;height:100%;display:block;opacity:.6}
+/* Mouse glow - now warm amber tint */
+.mouse-glow{position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(184,117,62,.08) 0%,rgba(184,117,62,.03) 40%,transparent 70%);pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:opacity .5s}
+
+/* ══════════════════════════════════════
+   POST-HUMAN + SYNTHETIC NATURE + ASCII
+   ══════════════════════════════════════ */
+.crt-overlay{position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.1;background:radial-gradient(ellipse at center,transparent 50%,#000 100%),repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.3) 2px,rgba(0,0,0,.3) 4px);mix-blend-mode:multiply}
+.crt-flicker{position:fixed;inset:0;pointer-events:none;z-index:9997;opacity:.008;background:#fff;animation:flicker 8s infinite}
+@keyframes flicker{0%,100%{opacity:.005}2%{opacity:.02}4%{opacity:.005}98%{opacity:.005}99%{opacity:.015}}
+
+/* Digital rain */
+.digirail{position:fixed;inset:0;pointer-events:none;z-index:0;font-family:'Courier New',monospace;font-size:16px;line-height:1;opacity:.06;color:var(--green);overflow:hidden;white-space:pre}
+
+/* Data corruption scanline */
+@keyframes datamosh{0%{clip-path:inset(0 0 100% 0)}5%{clip-path:inset(20% 0 70% 0)}10%{clip-path:inset(50% 0 40% 0)}15%{clip-path:inset(0 0 50% 0)}20%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 0 0 0)}}
+.datamosh{animation:datamosh 8s infinite}
+
+/* Card data corruption */
+.gcard{overflow:hidden}
+.gcard::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,rgba(0,255,255,.03) 50%,transparent 100%);opacity:0;transition:opacity .3s;pointer-events:none;z-index:2}
+.gcard:hover::after{opacity:1}
+.gcard:hover{border-color:rgba(0,255,255,.3)!important;box-shadow:0 0 40px rgba(0,255,255,.1),0 20px 60px rgba(0,0,0,.5)!important}
+
+/* Terminal nav */
+nav a{font-family:'Courier New',monospace!important;font-size:12px!important;letter-spacing:.1em!important}
+nav a:first-child{color:var(--green)!important}
+nav a:first-child::before{content:'> ';color:var(--accent)}
+
+/* Section number terminal style */
+.section-header .num{font-family:'Courier New',monospace!important;color:var(--accent)!important;opacity:.6!important}
+.section-header .num::before{content:'$ '!important;color:var(--green)!important;opacity:.8!important}
+.section-header .num::after{content:' _'!important;animation:blink 1s step-end infinite!important}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ASCII Divider */
+.ascii-divider{font-family:'Courier New',monospace;text-align:center;font-size:10px;letter-spacing:.15em;padding:20px 0;pointer-events:none;opacity:.4;color:var(--cyan)}
+
+/* Corrupt border on animal strip */
+#animalStrip>div{border-color:rgba(0,255,255,.12)!important}
+#animalStrip>div:hover{border-color:var(--cyan)!important;box-shadow:0 0 30px rgba(0,255,255,.2)!important}
+
+/* Glitch title */
+.glitch-text{position:relative;display:inline-block}
+.glitch-text::before,.glitch-text::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%}
+.glitch-text::before{color:var(--cyan);animation:glitchA .3s infinite reverse}
+.glitch-text::after{color:var(--magenta);animation:glitchA .4s infinite}
+@keyframes glitchA{0%,100%{transform:translate(0)}20%{transform:translate(-3px,2px)}40%{transform:translate(3px,-1px)}60%{transform:translate(-2px,-2px)}80%{transform:translate(1px,1px)}}
+
+/* Synthetic wireframe animals on section bg */
+section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='300' height='300' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%230ff' stroke-width='.6' opacity='.08'%3E%3Cpolygon points='150,20 170,55 150,90 130,55'/%3E%3Ccircle cx='150' cy='55' r='18'/%3E%3Ccircle cx='150' cy='55' r='30' stroke-width='.3'/%3E%3Cline x1='150' y1='90' x2='150' y2='150'/%3E%3Cline x1='150' y1='150' x2='120' y2='180'/%3E%3Cline x1='150' y1='150' x2='180' y2='180'/%3E%3Cline x1='120' y1='180' x2='130' y2='220'/%3E%3Cline x1='180' y1='180' x2='170' y2='220'/%3E%3C/g%3E%3C/svg%3E\");background-size:300px 300px;background-position:right bottom;background-repeat:repeat}
+</style>
+</head>
+<body>
+<canvas id="bgParticles" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.4"></canvas>
+<div class="mouse-glow" id="mouseGlow"></div>
+
+<!-- PRELOADER -->
+<div id="preloader" style="position:fixed;inset:0;z-index:10000;background:#f5f3ef;display:flex;align-items:center;justify-content:center;transition:opacity .6s,visibility .6s;font-family:'Courier New',monospace;font-size:14px;color:var(--accent);letter-spacing:.2em">ANIMAL TRACE</div>
+<div class="crt-overlay"></div>
+<div class="crt-flicker"></div>
+<div class="digirail" id="digirail"></div>
+<div class="data-line"></div>
+<div class="progress" id="progress"></div>
+<div class="modal-overlay" id="modal"><div class="modal-card"><button class="close" onclick="document.getElementById('modal').classList.remove('show')">&times;</button><canvas class="modal-img-wrap" id="mdCanvas" width="600" height="340"></canvas><h3 id="mdName"></h3><div class="prod" id="mdProduct"></div><div class="desc" id="mdDesc"></div><div class="stat"><div class="stat-item"><div class="stat-val" id="mdStat1">—</div><div class="stat-label">IUCN濒危等级</div></div><div class="stat-item"><div class="stat-val" id="mdStat2">—</div><div class="stat-label">CITES附录</div></div><div class="modal-sources"><h4>数据来源</h4><ul id="mdSources"></ul></div></div></div></div>
+
+<nav>
+  <a href="#home">Animal Trace</a>
+  <div class="nav-links"><a href="#about">关于</a><a href="#timeline">历史</a><a href="#works">物种</a><a href="#research">研究</a></div>
+</nav>
+
+<section class="hero" id="home">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hud-corner hud-tl"></div><div class="hud-corner hud-tr"></div>
+  <div class="hud-corner hud-bl"></div><div class="hud-corner hud-br"></div>
+  <div class="hud-data top-left">SYS::ARCHIVE_v2.0</div>
+  <div class="hud-data top-right">LAT: --&#8239;LNG: --</div>
+  <div class="hud-data bottom-left">SPECIES_INDEX::16_ENTRIES</div>
+  <div class="hud-data bottom-right">[ONLINE]</div>
+  <div class="hero-content"><h1 class="glitch-text" data-text="Animal Trace">Animal Trace</h1><div class="sub">ANIMAL_TRACE.exe</div></div>
+  <div class="hero-scroll" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})"><div class="hero-scroll-arrow"></div><div class="hero-scroll-arrow"></div><div class="hero-scroll-arrow"></div></div>
+</section>
+
+<section class="content-section" id="about" style="position:relative">
+  <div class="synth-watermark"></div>
+  <div class="section-header"><div class="num"><span class="status-dot"></span>01 / ABOUT</div><h2>以动物制品为镜</h2><p>十万年前，人类用兽皮御寒、用兽骨制作工具——那是生存。今天，象牙被雕刻成奢侈品、犀角被研磨成"药材"。这个项目以数字媒体为媒介，重新审视人与动物的关系。</p></div>
+  <div class="side-block left"><div class="side-content"><h3>历史维度</h3><p>从旧石器时代以兽皮御寒、以兽骨制作工具的生存驱动，到商周时期象牙雕刻和甲骨占卜的礼仪化，再到丝绸之路上的象牙犀角贸易——动物制品的使用史，就是一部人类文明的欲望编年史。阳原侯家窑遗址的石器切割痕迹和虎头梁遗址的骨针骨锥，是中国最早的动物制品考古证据。</p><div class="cite">贾兰坡《中国旧石器时代》1957 · 袁靖《中国动物考古学》2015 · Frankopan《The Silk Roads》2015</div></div></div>
+  <div class="side-block right"><div class="side-content"><h3>全球数据</h3><p>1973年《濒危野生动植物种国际贸易公约》（CITES）签署，覆盖超过35,000个物种。IUCN红色名录自1964年建立以来已评估超过150,000个物种。国际野生物贸易研究组织（TRAFFIC）成立于1976年，监测全球非法野生动物贸易网络。数据不是冰冷的数字——每一个统计数字背后，都是一个正在消失的物种。</p><div class="cite">CITES Trade Database · IUCN Red List 2024 · TRAFFIC 2023</div></div></div>
+  <div class="side-block left"><div class="side-content"><h3>数字媒介</h3><p>以数据可视化、交互装置、生成艺术为方法。列夫·马诺维奇在《新媒体的语言》（2001）中提出，数字媒介的本质是可编程性与模块化。情報デザイン的任务不是让信息更漂亮——而是通过视觉编码让抽象的数据产生情感重量，让观者从被动的信息接收者转变为主动的意义建构者。</p><div class="cite">Manovich《The Language of New Media》2001 · Tufte《The Visual Display of Quantitative Information》1990</div></div></div>
+  <div class="side-block right"><div class="side-content"><h3>对话而非说教</h3><p>彼得·辛格在《动物解放》（1975）中首次系统论证了物种歧视（speciesism）的概念。伊丽莎白·科尔伯特的《第六次大灭绝》（2014）记录了人类世背景下正在发生的物种消亡。这个项目不提供标准答案，不进行道德审判——用沉浸体验制造认知冲突，让观者自己走向结论。最好的教育，是让人以为是自己想到的。</p><div class="cite">Singer《Animal Liberation》1975 · Kolbert《The Sixth Extinction》2014</div></div></div>
+</section>
+
+<div class="ascii-divider">/* ---- TIMELINE: 100000 BCE → 2024 CE ---- */</div>
+<section class="content-section" id="timeline">
+  <div class="section-header"><div class="num">02 / HISTORY</div><h2>人与动物制品的千年谱系</h2></div>
+  <div class="timeline">
+    <div class="timeline-item"><div class="era">距今约10万年前</div><h3>旧石器时代 — 生存</h3><p>兽皮御寒：阳原侯家窑遗址出土石器切割兽皮痕迹；虎头梁遗址出土磨制骨针、骨锥用于缝制皮衣。骨骼与鹿角制作骨锥、鱼叉、标枪头和早期装饰品。这是人类与动物制品关系的最早考古证据。</p><div class="cite">贾兰坡 1957 · 卫奇 2012 · 盖培 1977</div></div>
+    <div class="timeline-item"><div class="era">距今约1万年–4000年前</div><h3>新石器时代 — 驯化</h3><p>动物驯化使骨器、角器产量大增。牛、羊、猪成为稳定原料来源。兽骨广泛用于农具、武器和宗教仪式。Jared Diamond在《枪炮、病菌与钢铁》中将动物驯化视为文明演进的关键因素。</p><div class="cite">袁靖 2015 · Diamond 1997 · 刘莉,陈星灿 2017</div></div>
+    <div class="timeline-item"><div class="era">公元前1600年–前256年</div><h3>商周时期 — 礼仪</h3><p>殷墟出土大量象牙雕刻品、甲骨文占卜用龟甲兽骨。张光直指出，商代青铜器上的动物纹饰（饕餮纹）是沟通人神世界的媒介。动物制品从实用走向礼仪化和权力象征。</p><div class="cite">张光直 2002 · 王宇信 2015 · 李学勤 1997</div></div>
+    <div class="timeline-item"><div class="era">公元前221年–19世纪</div><h3>帝国时代 — 贸易</h3><p>丝绸之路上的象牙、犀角、虎皮、麝香成为国际贸易商品。Peter Frankopan在《丝绸之路》中记录了动物材料如何连接欧亚大陆。Edward Schafer的《撒马尔罕的金桃》详述了唐代珍稀动物制品的国际贸易。</p><div class="cite">Frankopan 2015 · Schafer 1963 · Allsen 1997</div></div>
+    <div class="timeline-item"><div class="era">20世纪至今</div><h3>现代 — 危机与觉醒</h3><p>1973年CITES公约签署。1989年象牙国际贸易禁令生效。非洲象从1979年130万头锐减至2023年约41.5万头。全球每年非法野生动物贸易估值高达200亿美元，是全球第四大非法贸易。同时，全球保护意识正在觉醒。</p><div class="cite">CITES · IUCN Red List 2024 · Kolbert 2014 · Singer 1975</div></div>
+  </div>
+</section>
+
+<div class="ascii-divider">/* ---- WORKS: 16_SPECIES / 6_RELATIONSHIPS ---- */</div>
+<section id="works" style="min-height:100vh;padding:100px 0 80px">
+  <div class="section-header"><div class="num">03 / SPECIES</div><h2>受威胁物种</h2><p>悬停查看详情</p></div>
+  <div class="flying-posters" id="flyingPosters"></div>
+</section>
+
+
+<section class="content-section" id="research">
+  <div class="section-header"><div class="num">04 / RESEARCH</div><h2>研究基础与数据来源</h2></div>
+  <div class="grid-2">
+    <div class="gcard"><div class="num">[ A ]</div><h3>CITES 贸易数据库</h3><p>《濒危野生动植物种国际贸易公约》全球合法贸易记录，覆盖超过35,000个物种的跨境交易数据。1973年签署，183个缔约方。</p><div class="cite">trade.cites.org · 2024</div></div>
+    <div class="gcard"><div class="num">[ B ]</div><h3>IUCN 红色名录</h3><p>世界自然保护联盟的全球物种濒危状况评估。1964年建立，至今评估超过150,000个物种，是生物多样性保护最权威的数据来源。</p><div class="cite">iucnredlist.org · 2024</div></div>
+    <div class="gcard"><div class="num">[ C ]</div><h3>TRAFFIC 监测报告</h3><p>国际野生物贸易研究组织，成立于1976年。监测全球野生动物非法贸易网络，为CITES执法提供关键情报。</p><div class="cite">traffic.org · 2023</div></div>
+    <div class="gcard"><div class="num">[ D ]</div><h3>考古与文献</h3><p>侯家窑遗址的石器切割痕迹、虎头梁的骨针骨锥、殷墟的象牙雕刻——中国考古为动物制品史提供了最古老的连续证据链。</p><div class="cite">卫奇 2012 · 盖培 1977 · 张光直 2002</div></div>
+  </div>
+</section>
+
+<footer style="padding:100px 40px;text-align:center;opacity:.3;font-size:11px;letter-spacing:.15em;font-family:'Courier New',monospace">
+  <p style="margin-bottom:8px">ANIMAL TRACE</p>
+  <p style="opacity:.5;font-size:10px">動物製品情報可視化プロジェクト</p>
+  <p style="opacity:.3;font-size:9px;margin-top:20px">CITES · IUCN · TRAFFIC · 100,000 BCE — 2026 CE</p>
+</footer>
+
+<script>
+// ===== PRELOADER (cappen-inspired) =====
+window.addEventListener('load',()=>{
+  const pl=document.getElementById('preloader');
+  setTimeout(()=>{pl.style.opacity='0';pl.style.visibility='hidden';setTimeout(()=>pl.remove(),600)},800);
+});
+
+// ===== PROGRESS =====
+window.addEventListener('scroll',()=>{document.getElementById('progress').style.width=(scrollY/(document.documentElement.scrollHeight-innerHeight)*100)+'%'});
+
+// ===== ANIMALS (16 species) =====
+const animals=[
+  {name:'非洲象',en:'Elephant',file:'elephant',product:'象牙',emoji:'🐘',color:'#d4a574',radius:3.2,speed:.14,tilt:.25,yOff:.35,desc:'现存最大的陆地哺乳动物。由于象牙贸易，非洲象种群从1979年约130万头锐减至2023年约41.5万头。每15分钟就有一头大象因象牙被猎杀。',iucn:'濒危(EN)',cites:'附录I（除部分国家种群）',sources:['IUCN Red List 2024: Loxodonta africana','CITES Trade Database: Elephantidae spp.','WWF African Elephant Report 2023']},
+  {name:'白犀牛',en:'White Rhino',file:'rhinoceros',product:'犀角',emoji:'🦏',color:'#8a9a7e',radius:2.8,speed:.18,tilt:-.35,yOff:-.3,desc:'现存体型第二大的陆地哺乳动物，分为南白犀和北白犀两个亚种。北方白犀牛已功能性灭绝，全球仅存最后2头雌性个体（Najin和Fatu），均生活在肯尼亚Ol Pejeta保护区。南白犀约存1.6万头。',iucn:'近危(NT)',cites:'附录I/II（种群差异）',sources:['IUCN Red List 2024: Ceratotherium simum','CITES CoP19: Rhino trade data','Save The Rhino International 2024']},
+  {name:'孟加拉虎',en:'Tiger',file:'tiger',product:'虎皮·虎骨',emoji:'🐯',color:'#c88050',radius:3.0,speed:.17,tilt:.45,yOff:.5,desc:'现存最大的猫科动物之一。全球野生虎种群从20世纪初约10万只锐减至约5574只（2023年IUCN评估）。虎皮、虎骨仍被用于奢侈品和传统药材，印度、中国、俄罗斯为主要分布国。',iucn:'濒危(EN)',cites:'附录I',sources:['IUCN Red List 2024: Panthera tigris','WWF Tiger Report 2023','TRAFFIC: Tiger trade monitoring']},
+  {name:'玳瑁海龟',en:'Hawksbill',file:'seaturtle',product:'龟甲',emoji:'🐢',color:'#6a8a7a',radius:2.6,speed:.12,tilt:-.2,yOff:-.45,desc:'以其琥珀色半透明的美丽背甲闻名，被称为"龟甲"或"玳瑁"，用于制作珠宝、梳子、眼镜框等装饰品。过去三个世代全球种群数量下降了80%以上。现存成年雌龟仅约2.5万只。',iucn:'极危(CR)',cites:'附录I',sources:['IUCN Red List 2024: Eretmochelys imbricata','CITES Hawksbill Turtle Status Report','NOAA Fisheries: Hawksbill Turtle']},
+  {name:'梅花鹿',en:'Sika Deer',file:'deer',product:'鹿角·兽皮',emoji:'🦌',color:'#b8956c',radius:3.1,speed:.2,tilt:.3,yOff:.1,desc:'鹿茸和鹿皮从旧石器时代沿用至今。鹿茸（未骨化的幼角）被东亚传统医学视为珍贵药材。中国、新西兰为全球最大鹿茸产地。野生梅花鹿在中国属国家一级保护动物。',iucn:'无危(LC)',cites:'—（部分亚种限制）',sources:['IUCN Red List 2024: Cervus nippon','中国传统药材药典 2020版','中国野生动物保护法 2022']},
+  {name:'蓝黄金刚鹦鹉',en:'Macaw',file:'parrot',product:'羽毛',emoji:'🦜',color:'#c84040',radius:2.5,speed:.24,tilt:-.4,yOff:.6,desc:'南美洲热带雨林的特有鸟种，以其蓝黄相间的绚丽羽毛闻名。因宠物贸易被大量捕捉。多种金刚鹦鹉已被列入CITES附录I，禁止国际贸易。栖息地破坏是另一大威胁。',iucn:'无危(LC)',cites:'附录I/II（物种差异）',sources:['IUCN Red List 2024: Ara ararauna','CITES Appendices: Psittaciformes','BirdLife International 2023']},
+  {name:'湾鳄',en:'Crocodile',file:'crocodile',product:'皮革',emoji:'🐊',color:'#5a7a4a',radius:3.3,speed:.13,tilt:.15,yOff:-.5,desc:'现存最大的爬行动物，体长可达6米以上。其腹部皮肤被用于制作手袋、鞋履等高端皮革制品。合法的养殖和贸易在CITES监管下进行，但也存在非法猎捕。澳大利亚、东南亚为主要养殖区。',iucn:'无危(LC)',cites:'附录I/II（种群差异）',sources:['IUCN Red List 2024: Crocodylus porosus','CITES Crocodile trade data','FAO Crocodile farming report']},
+  {name:'中华穿山甲',en:'Pangolin',file:'pangolin',product:'鳞片',emoji:'🦎',color:'#9a8a6a',radius:2.4,speed:.22,tilt:-.1,yOff:.2,desc:'全球非法贸易量最大的哺乳动物。2014-2024十年间约有超过100万只穿山甲被盗猎，其鳞片被误认为具有药用价值。2020年，中国将穿山甲属所有种提升为国家一级保护动物，并移除了鳞片的药用标准。',iucn:'极危(CR)',cites:'附录I',sources:['IUCN Red List 2024: Manis pentadactyla','TRAFFIC: Pangolin trade report 2023','中国药典2020版：穿山甲鳞片剔除']},
+  {name:'藏羚羊',en:'Chiru',file:'antelope',product:'羊绒',emoji:'🐐',color:'#c8b090',radius:2.9,speed:.16,tilt:.5,yOff:-.2,desc:'青藏高原特有物种。其底绒被称为"沙图什"（Shahtoosh），意为"羊毛之王"，极细极轻。一条沙图什披肩需猎杀3-5只藏羚羊。1990年代种群因盗猎锐减至约7.5万只。经中国政府和国际社会保护，现已恢复到约30万只。',iucn:'近危(NT)',cites:'附录I',sources:['IUCN Red List 2024: Pantholops hodgsonii','中国青藏高原野生动物保护报告','WWF Tibet Project 2023']},
+  {name:'雪豹',en:'Snow Leopard',file:'snowleopard',product:'皮毛',emoji:'🐆',color:'#9ab8c0',radius:3.5,speed:.11,tilt:-.5,yOff:.4,desc:'中亚高山地区的标志性物种，分布范围跨越12个国家。其厚密美丽的银灰色皮毛是非法贸易的主要目标。全球现存4000-6500只。2017年IUCN将其从"濒危"降为"易危"，但保护工作仍不可松懈。',iucn:'易危(VU)',cites:'附录I',sources:['IUCN Red List 2024: Panthera uncia','Snow Leopard Trust 2023','CITES Snow Leopard Resolution Conf. 12.5']},
+  {name:'河马',en:'Hippo',file:'hippo',product:'牙齿',emoji:'🦛',color:'#8a7a9e',radius:2.7,speed:.19,tilt:.55,yOff:-.6,desc:'现存第三大陆地哺乳动物。象牙贸易禁令（1989年）后，河马的长犬齿成为"象牙替代品"，在国际市场上需求激增。全球现存约11.5-13万头。2022年CITES缔约方大会将其列入附录II进行贸易管制。',iucn:'易危(VU)',cites:'附录II（2022年新增）',sources:['IUCN Red List 2024: Hippopotamus amphibius','CITES CoP19: Hippo listing proposal','TRAFFIC: Hippo ivory trade report']},
+  {name:'蛇',en:'Snake',file:'snake',product:'蛇皮',emoji:'🐍',color:'#6a9a5a',radius:3.4,speed:.15,tilt:-.3,yOff:.55,desc:'蛇皮（尤其是蟒蛇、蚺蛇和眼镜蛇）是全球皮革工业的重要原料。每年数百万张蛇皮进入合法的国际贸易渠道，用于手袋、鞋履等奢侈品。印尼、马来西亚、越南为主要出口国。',iucn:'物种差异',cites:'附录II（蟒科所有种）',sources:['CITES Snake trade database 2023','IUCN: Pythonidae assessment','FAO: Reptile skin trade report']},
+  {name:'棕熊',en:'Brown Bear',file:'brownbear',product:'熊胆·皮毛',emoji:'🐻',color:'#8a6a4a',radius:3.6,speed:.1,tilt:.2,yOff:-.35,desc:'北半球分布最广的熊科动物。熊胆在东亚传统医学中被用于治疗肝病等，活熊取胆（Bile Farming）引发严重动物福利争议，中国、越南、韩国为主要"养殖"国家。部分种群受CITES管制。',iucn:'无危(LC)',cites:'附录I/II（种群差异）',sources:['IUCN Red List 2024: Ursus arctos','World Animal Protection 2023','CITES Bear trade resolution']},
+  {name:'狐狸',en:'Fox',file:'fox',product:'皮毛',emoji:'🦊',color:'#c87040',radius:2.3,speed:.23,tilt:.35,yOff:.15,desc:'狐狸是全球皮毛养殖业的核心物种之一。芬兰、中国、波兰为最大狐皮生产国。养殖狐狸（主要为银狐和蓝狐）年产量约8000万张。动物福利组织长期批评养殖场的圈养条件和处死方式。',iucn:'无危(LC)',cites:'—（养殖毛皮不列入）',sources:['FAO Fur Trade Statistics 2023','Fur Free Alliance Report','IUCN: Vulpes vulpes']},
+  {name:'鲸鱼',en:'Whale',file:'whale',product:'鲸脂·龙涎香',emoji:'🐋',color:'#6a8aaa',radius:3.8,speed:.08,tilt:-.15,yOff:.7,desc:'商业捕鲸于1986年被国际捕鲸委员会（IWC）禁止，但日本、挪威、冰岛以"科研捕鲸"或"异议权"为由持续进行。日本于2019年退出IWC并重启商业捕鲸。座头鲸、蓝鲸等大型鲸类仍面临船只碰撞、渔具缠绕等威胁。',iucn:'物种差异',cites:'附录I（多数大型鲸类）',sources:['IWC: International Whaling Commission','IUCN Red List: Cetacea','WWF: Whaling report 2023']},
+  {name:'鸵鸟',en:'Ostrich',file:'ostrich',product:'羽毛·皮革',emoji:'🐦',color:'#4a4a4a',radius:2.2,speed:.26,tilt:.6,yOff:-.1,desc:'现存最大的鸟类。19世纪末至20世纪初鸵鸟羽毛风靡欧美时尚界。现代鸵鸟养殖遍布南非、澳大利亚、中国等地，年产羽革约9万吨。鸵鸟皮革以独特的毛囊纹理（"羽根孔"）为特征。',iucn:'无危(LC)',cites:'—（养殖个体不列入）',sources:['IUCN Red List: Struthio camelus','FAO Ostrich farming statistics','南非鸵鸟产业协会年报 2023']},
+];
+
+// ===== CANVAS-GENERATED ANIMAL TEXTURES (always works, no network needed) =====
+const animalTextures={};
+
+// Unique pattern generators for each species
+const patterns={
+  elephant:t=>{for(let i=0;i<200;i++){t.fillStyle=`rgba(255,255,255,${.02+.02*Math.random()})`;t.beginPath();t.arc(100+Math.random()*312,80+Math.random()*380,5+Math.random()*15,0,Math.PI*2);t.fill()}},
+  rhinoceros:t=>{t.fillStyle='rgba(255,255,255,.04)';for(let i=0;i<60;i++){t.fillRect(20+Math.random()*472,20+Math.random()*472,20+Math.random()*40,8+Math.random()*12)}},
+  tiger:t=>{t.strokeStyle='rgba(0,0,0,.15)';t.lineWidth=3;for(let i=0;i<30;i++){const y=30+i*16;t.beginPath();t.moveTo(40,y);for(let x=40;x<472;x+=20)t.lineTo(x,y+Math.sin(x*.05+i)*8);t.stroke()}},
+  seaturtle:t=>{for(let i=0;i<80;i++){t.strokeStyle=`rgba(200,180,150,${.08+.06*Math.random()})`;t.lineWidth=1.5;t.beginPath();t.arc(60+Math.random()*392,60+Math.random()*392,15+Math.random()*30,0,Math.PI*2);t.stroke()}},
+  deer:t=>{t.fillStyle='rgba(255,255,255,.03)';for(let i=0;i<100;i++){t.beginPath();t.ellipse(40+Math.random()*432,40+Math.random()*432,3+Math.random()*8,2+Math.random()*4,Math.random()*Math.PI,0,Math.PI*2);t.fill()}},
+  parrot:t=>{for(let i=0;i<40;i++){const x=60+i*10,y=256+Math.sin(i*.5)*180;t.fillStyle=`hsl(${i*8},70%,${40+Math.random()*30}%)`;t.beginPath();t.arc(x,y,8,0,Math.PI*2);t.fill()}},
+  crocodile:t=>{t.strokeStyle='rgba(255,255,255,.06)';t.lineWidth=2;for(let i=0;i<40;i++){const y=40+i*12;t.beginPath();t.moveTo(30,y);for(let x=30;x<482;x+=15)t.lineTo(x,y+Math.sin(x*.03)*4);t.stroke()}},
+  pangolin:t=>{t.fillStyle='rgba(200,180,150,.08)';for(let y=20;y<492;y+=24)for(let x=(y%48?20:32);x<492;x+=24){t.beginPath();t.arc(x,y,10,0,Math.PI*2);t.fill()}},
+  antelope:t=>{t.strokeStyle='rgba(255,255,255,.04)';t.lineWidth=1;for(let i=0;i<50;i++){t.beginPath();t.arc(256,256,80+i*8,0,Math.PI*2);t.stroke()}},
+  snowleopard:t=>{t.fillStyle='rgba(255,255,255,.04)';for(let i=0;i<60;i++){t.beginPath();t.arc(40+Math.random()*432,40+Math.random()*432,4+Math.random()*6,0,Math.PI*2);t.fill()}},
+  hippo:t=>{t.fillStyle='rgba(255,255,255,.03)';for(let i=0;i<40;i++){t.beginPath();t.ellipse(70+Math.random()*372,50+Math.random()*412,20+Math.random()*35,10+Math.random()*20,0,0,Math.PI*2);t.fill()}},
+  snake:t=>{t.strokeStyle='rgba(255,255,255,.05)';t.lineWidth=2;for(let i=0;i<20;i++){t.beginPath();for(let j=0;j<512;j+=5){const x=256+Math.sin(j*.03+i)*180;t.lineTo(x,j)}}},
+  brownbear:t=>{t.fillStyle='rgba(255,255,255,.03)';for(let i=0;i<80;i++){t.beginPath();t.arc(60+Math.random()*392,60+Math.random()*392,10+Math.random()*25,0,Math.PI*2);t.fill()}},
+  fox:t=>{t.fillStyle='rgba(255,255,255,.03)';for(let i=0;i<50;i++){t.beginPath();t.moveTo(256+Math.random()*200,30+Math.random()*40);t.lineTo(256+Math.random()*200,480-Math.random()*40);t.stroke()}},
+  whale:t=>{for(let i=0;i<50;i++){t.fillStyle=`rgba(100,140,180,${.04+.05*Math.random()})`;t.beginPath();t.ellipse(100+Math.random()*312,60+Math.random()*392,30+Math.random()*50,8+Math.random()*15,0,0,Math.PI*2);t.fill()}},
+  ostrich:t=>{t.fillStyle='rgba(255,255,255,.03)';for(let i=0;i<80;i++){const x=40+Math.random()*432;t.beginPath();t.moveTo(x,480);t.lineTo(x-10+Math.random()*20,20+Math.random()*60);t.stroke()}},
+};
+
+animals.forEach(a=>{
+  const c=document.createElement('canvas');c.width=c.height=512;
+  const t=c.getContext('2d');
+  // Dark radial bg
+  const g=t.createRadialGradient(256,200,40,256,280,350);
+  g.addColorStop(0,'#1c1c1c');g.addColorStop(.6,'#0f0f0f');g.addColorStop(1,'#060606');
+  t.fillStyle=g;t.fillRect(0,0,512,512);
+
+  // Species-specific pattern
+  if(patterns[a.file])patterns[a.file](t);
+
+  // Outer ring
+  t.strokeStyle=a.color;t.lineWidth=8;t.globalAlpha=.35;
+  t.beginPath();t.arc(256,256,248,0,Math.PI*2);t.stroke();t.globalAlpha=1;
+
+  // Inner dash ring
+  t.setLineDash([20,40]);t.strokeStyle=a.color;t.globalAlpha=.12;
+  t.beginPath();t.arc(256,256,220,0,Math.PI*2);t.stroke();t.setLineDash([]);t.globalAlpha=1;
+
+  // Emoji
+  t.font='170px serif';t.textAlign='center';t.textBaseline='middle';
+  t.fillText(a.emoji,256,240);
+
+  // Name
+  t.fillStyle=a.color;t.font='bold 46px "Inter","PingFang SC",sans-serif';
+  t.fillText(a.name,256,410);
+
+  // Product label
+  t.fillStyle='rgba(255,255,255,.5)';t.font='34px "Inter","PingFang SC",sans-serif';
+  t.fillText(a.product,256,460);
+
+  animalTextures[a.name]=c;
+});
+
+// Also try loading local real photos (replaces texture when available)
+animals.forEach(a=>{
+  const img=new Image();
+  img.src='assets/animals/'+a.file+'.jpg';
+  img.onload=()=>{animalTextures[a.name]=img};
+  img.onerror=()=>{}; // keep canvas texture
+});
+
+// ===== CANVAS 3D ORBIT =====
+const canvas=document.getElementById('heroCanvas');
+const ctx=canvas.getContext('2d');
+let W,H,dpr;
+
+function resize(){
+  dpr=Math.min(devicePixelRatio,2);
+  W=canvas.width=(canvas.offsetWidth||innerWidth)*dpr;
+  H=canvas.height=(canvas.offsetHeight||innerHeight)*dpr;
+}
+resize();window.addEventListener('resize',resize);
+setTimeout(resize,200); // safety: re-measure after layout
+
+let rotY=0,rotX=.3,targetY=0,targetX=.3,autoRot=true;
+let scrollOff=0,hoveredI=-1;
+let mx=0,my=0;
+
+let sx=0,sy=0;
+canvas.addEventListener('mousemove',e=>{sx=e.clientX;sy=e.clientY;targetY=(e.clientX/innerWidth-.5)*Math.PI*2;targetX=(e.clientY/innerHeight-.5)*1.5+.3;autoRot=false;setTimeout(()=>autoRot=true,3000)});
+canvas.addEventListener('click',e=>{if(hoveredI>=0)showModal(hoveredI)});
+canvas.addEventListener('touchmove',e=>{targetY=(e.touches[0].clientX/innerWidth-.5)*Math.PI*2;targetX=(e.touches[0].clientY/innerHeight-.5)*1.5+.3;autoRot=false;setTimeout(()=>autoRot=true,3000)},{passive:true});
+window.addEventListener('scroll',()=>{scrollOff=Math.min(1,scrollY/innerHeight)});
+
+function project(x,y,z){
+  const scale=420/(5+z);
+  return {x:W/2+x*scale*dpr,y:H/2+y*scale*dpr,s:scale/80};
+}
+
+let frames=0;
+function draw(){
+  try{
+  ctx.clearRect(0,0,W,H);
+  // Dark bg gradient
+  const bg=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,W*.7);
+  bg.addColorStop(0,'#f0ece6');bg.addColorStop(1,'#f5f3ef');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+
+  if(frames===0)console.log('Canvas 3D orbit running:',W+'x'+H);
+  frames++;
+  if(autoRot)targetY+=.002;
+  rotY+=(targetY-rotY)*.04;rotX+=(targetX-rotX)*.04;
+
+  const sz=1-Math.max(0,scrollOff)*.7;
+
+  // Store projected positions for hit testing
+  const cards=[];
+
+  // ===== CENTER WIREFRAME SPHERE =====
+  const centerR=1.6*sz;
+  // Latitude rings
+  for(let lat=-4;lat<=4;lat++){
+    const phi=(lat/5)*Math.PI*.45;
+    const r=centerR*Math.cos(phi);
+    const yOff=centerR*Math.sin(phi);
+    ctx.beginPath();
+    for(let j=0;j<=120;j++){
+      const ang=(j/120)*Math.PI*2;
+      const p2=project(r*Math.cos(ang),yOff,r*Math.sin(ang));
+      j===0?ctx.moveTo(p2.x,p2.y):ctx.lineTo(p2.x,p2.y);
+    }
+    ctx.strokeStyle='#c8956c';ctx.lineWidth=.3*dpr;ctx.globalAlpha=.1;ctx.stroke();
+  }
+  // Longitude rings
+  for(let lon=0;lon<6;lon++){
+    const theta=(lon/6)*Math.PI;
+    ctx.beginPath();
+    for(let j=0;j<=120;j++){
+      const phi=(j/120)*Math.PI*2-Math.PI/2;
+      const x=centerR*Math.cos(phi)*Math.cos(theta);
+      const y=centerR*Math.sin(phi);
+      const z=centerR*Math.cos(phi)*Math.sin(theta);
+      const p2=project(x,y,z);
+      j===0?ctx.moveTo(p2.x,p2.y):ctx.lineTo(p2.x,p2.y);
+    }
+    ctx.strokeStyle='#7a9a6e';ctx.lineWidth=.25*dpr;ctx.globalAlpha=.08;ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+
+  // ===== ORBIT RINGS (sort by z) =====
+  const ringsData=animals.map(a=>{
+    const r=a.radius*sz;
+    const pts=[];
+    for(let j=0;j<=180;j++){
+      const ang=(j/180)*Math.PI*2;
+      pts.push({x:r*Math.cos(ang),y:a.yOff+r*Math.sin(ang)*Math.sin(a.tilt)*sz,z:r*Math.sin(ang)*Math.cos(a.tilt)*sz});
+    }
+    const avgZ=pts.reduce((s,p)=>s+p.z,0)/pts.length;
+    return {a,pts,avgZ};
+  });
+  ringsData.sort((a,b)=>a.avgZ-b.avgZ); // far→near
+  ringsData.forEach(({a,pts})=>{
+    ctx.beginPath();
+    pts.forEach((p,j)=>{const p2=project(p.x,p.y,p.z);j===0?ctx.moveTo(p2.x,p2.y):ctx.lineTo(p2.x,p2.y)});
+    ctx.strokeStyle=a.color;ctx.lineWidth=.5*dpr;ctx.globalAlpha=.07;ctx.stroke();ctx.globalAlpha=1;
+  });
+
+  // ===== ANIMAL SPHERES =====
+  animals.forEach((a,i)=>{
+    const ang=i*Math.PI*2/animals.length+rotY*a.speed;
+    const r=a.radius*sz;
+    const p3={x:r*Math.cos(ang),y:a.yOff+r*Math.sin(ang)*Math.sin(a.tilt)*sz,z:r*Math.sin(ang)*Math.cos(a.tilt)*sz};
+    const p2=project(p3.x,p3.y,p3.z);
+    cards.push({i,x:p2.x,y:p2.y,z:p3.z,s:p2.s,a});
+  });
+
+  // Sort far→near
+  cards.sort((a,b)=>a.z-b.z);
+
+  const hoverDist=60*dpr;
+  hoveredI=-1;
+
+  cards.forEach(c=>{
+    const {x,y,s,a,i}=c;
+    const size=45*dpr*s*sz;
+    const isHovered=i===hoveredI;
+
+    // Hit test (check against mouse position)
+    const dx=mx-x,dy=my-y;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<size*.9)hoveredI=i;
+
+    const sc=isHovered?1.4:1;
+
+    // Outer glow on hover
+    if(isHovered){
+      const glow=ctx.createRadialGradient(x,y,size*.3,x,y,size*1.3);
+      glow.addColorStop(0,a.color+'50');glow.addColorStop(.5,a.color+'15');glow.addColorStop(1,'transparent');
+      ctx.fillStyle=glow;ctx.beginPath();ctx.arc(x,y,size*1.3*sc,0,Math.PI*2);ctx.fill();
+    }
+
+    // Sphere radius
+    const r=size*sc*.55;
+    ctx.save();
+    ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.clip();
+
+    // === Texture (canvas-generated or loaded real photo) ===
+    const tex=animalTextures[a.name];
+    if(tex){
+      const imgW=r*2.3,imgH=r*2.3;
+      ctx.drawImage(tex,x-imgW/2,y-imgH/2,imgW,imgH);
+      const shadow=ctx.createRadialGradient(x,y,r*.4,x,y,r);
+      shadow.addColorStop(0,'transparent');shadow.addColorStop(1,'rgba(0,0,0,.4)');
+      ctx.fillStyle=shadow;ctx.fillRect(x-r,y-r,r*2,r*2);
+    }
+    ctx.restore();
+
+    // Border ring
+    ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+    ctx.strokeStyle=a.color;ctx.lineWidth=2*dpr*(isHovered?2.5:1);
+    ctx.globalAlpha=isHovered?.95:.45;ctx.stroke();ctx.globalAlpha=1;
+
+    // Small label
+    ctx.fillStyle=a.color;ctx.globalAlpha=isHovered?.9:.5;
+    ctx.font=`bold ${Math.max(9,r*.16)}px 'Inter','PingFang SC',sans-serif`;ctx.textAlign='center';
+    ctx.fillText(a.product,x,y+r+15*dpr*(isHovered?1.1:1));
+    ctx.globalAlpha=1;
+  });
+
+  // Update mouse for next frame
+  canvas.style.cursor=hoveredI>=0?'pointer':'default';
+
+  // Hint
+  if(scrollOff<.3){
+    ctx.fillStyle='#fff';ctx.globalAlpha=.15;
+    ctx.font=`11px 'Inter',sans-serif`;ctx.textAlign='center';
+    ctx.fillText('拖动旋转 · 点击查看详情',W/2,H-24*dpr);ctx.globalAlpha=1;
+  }
+
+  // Track mouse for hit testing
+  canvas.onmousemove=e=>{mx=e.offsetX*dpr;my=e.offsetY*dpr};
+
+  requestAnimationFrame(draw);
+  }catch(e){console.error('draw error:',e);requestAnimationFrame(draw);}
+}
+
+// ===== MODAL =====
+function showModal(i){
+  const a=animals[i];
+  // Render modal canvas
+  const mc=document.getElementById('mdCanvas');
+  const mt=mc.getContext('2d');mt.clearRect(0,0,600,340);
+  const g=mt.createRadialGradient(300,100,30,300,200,380);g.addColorStop(0,'#1c1c1c');g.addColorStop(1,'#080808');
+  mt.fillStyle=g;mt.fillRect(0,0,600,340);
+  if(patterns[a.file]){mt.save();mt.scale(1.17,.67);patterns[a.file](mt);mt.restore();}
+  mt.strokeStyle=a.color;mt.lineWidth=2;mt.globalAlpha=.5;mt.strokeRect(4,4,592,332);mt.globalAlpha=1;
+  mt.font='100px serif';mt.textAlign='center';mt.textBaseline='middle';mt.fillText(a.emoji,300,160);
+  mt.fillStyle=a.color;mt.font='bold 34px "Inter","PingFang SC",sans-serif';mt.fillText(a.name+' · '+a.product,300,300);
+  const img=new Image();img.src='assets/animals/'+a.file+'.jpg';
+  img.onload=()=>{mt.clearRect(0,0,600,340);mt.drawImage(img,0,0,600,340);mt.fillStyle='rgba(0,0,0,.25)';mt.fillRect(0,0,600,340);mt.fillStyle='#fff';mt.font='bold 26px "Inter","PingFang SC",sans-serif';mt.textAlign='center';mt.fillText(a.name+' · '+a.product,300,320)};
+
+  document.getElementById('mdName').textContent=a.name+'（'+a.en+'）';
+  document.getElementById('mdProduct').textContent='制品：'+a.product;
+  document.getElementById('mdDesc').textContent=a.desc;
+  document.getElementById('mdStat1').textContent=a.iucn;
+  document.getElementById('mdStat2').textContent=a.cites;
+  document.getElementById('mdSources').innerHTML=(a.sources||[]).map(s=>'<li>'+s+'</li>').join('');
+  document.getElementById('modal').classList.add('show');
+  const ripple=document.createElement('div');ripple.style.cssText='position:fixed;width:20px;height:20px;border-radius:50%;background:'+a.color+';pointer-events:none;z-index:300;transition:all .6s ease-out;opacity:.8;left:'+(sx-10)+'px;top:'+(sy-10)+'px';
+  document.body.appendChild(ripple);requestAnimationFrame(()=>{ripple.style.transform='scale(8)';ripple.style.opacity='0'});setTimeout(()=>ripple.remove(),700);
+}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('show')});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('modal').classList.remove('show')});
+
+requestAnimationFrame(draw);
+
+// ===== ANIMAL SPOTLIGHTS - scattered throughout page =====
+const spotlights=[
+  {a:'rhinoceros',title:'犀角 · 无意义的杀戮',desc:'犀牛角由角蛋白构成——与人类指甲相同成分。北方白犀牛已功能性灭绝，仅存最后两头雌性个体，生活在肯尼亚Ol Pejeta保护区，由24小时武装警卫守护。',cite:'Save The Rhino 2024 · CITES · IUCN'},
+  {a:'tiger',title:'虎皮 · 权力的外衣',desc:'全球野生虎从20世纪初约10万只锐减至约5574只。虎皮被铺设成地位的象征，虎骨被研磨成"药材"。每一张虎皮背后，都是一个曾统治丛林的灵魂。',cite:'IUCN 2024 · WWF Tiger Report'},
+  {a:'seaturtle',title:'龟甲 · 古老的奢侈品',desc:'玳瑁的背甲呈现出琥珀色半透明光泽。从古埃及到江户日本，玳瑁制品是跨越文明的奢侈品。过去三个世代，全球种群下降80%以上。',cite:'IUCN 2024 · NOAA Fisheries'},
+  {a:'deer',title:'鹿角 · 文明的外衣',desc:'鹿茸和鹿皮从旧石器时代沿用至今。中国和新西兰是全球最大鹿茸产地。野生梅花鹿在中国属国家一级保护动物。',cite:'中国野生动物保护法 · FAO · 袁靖 2015'},
+  {a:'snowleopard',title:'皮毛 · 雪线上的幽灵',desc:'雪豹分布于中亚12个国家的高山地区。其银灰色皮毛是非法贸易的目标。全球现存约4000-6500只。',cite:'Snow Leopard Trust · IUCN · CITES'},
+  {a:'whale',title:'鲸脂 · 深海巨人的悲歌',desc:'商业捕鲸于1986年被IWC禁止，但日本于2019年退出IWC并重启商业捕鲸。座头鲸、蓝鲸仍面临船只碰撞和渔具缠绕的威胁。',cite:'IWC · IUCN · WWF 2023'},
+];
+// Scatter: insert after about cards, after timeline, between works sections
+const targets=['#about .side-block:last-of-type','#timeline','#works','#research'];
+spotlights.forEach((s,i)=>{
+  const sec=document.createElement('section');sec.className='spotlight-section';
+  const imgFirst=i%2===0;
+  const canvasId='spc_'+i;
+  sec.innerHTML=imgFirst
+    ?`<div class="spotlight-img"><canvas id="${canvasId}" style="width:100%;height:100%"></canvas></div><div class="spotlight-text"><h3>${s.title}</h3><p>${s.desc}</p><div class="cite">${s.cite}</div></div>`
+    :`<div class="spotlight-text"><h3>${s.title}</h3><p>${s.desc}</p><div class="cite">${s.cite}</div></div><div class="spotlight-img"><canvas id="${canvasId}" style="width:100%;height:100%"></canvas></div>`;
+  // Try loading image, use canvas fallback
+  const img=new Image();img.src=`assets/animals/${s.a}.jpg`;
+  img.onload=()=>{const c=document.getElementById(canvasId);if(c){const r=c.parentElement;c.width=r.offsetWidth;c.height=r.offsetHeight;const ctx=c.getContext('2d');const iw=img.width,ih=img.height,cw=c.width,ch=c.height;const scale=Math.max(cw/iw,ch/ih);const sw=iw*scale,sh=ih*scale;ctx.drawImage(img,(cw-sw)/2,(ch-sh)/2,sw,sh)}};
+  // Scatter throughout page
+  const refs=[document.querySelector('#about'),document.querySelector('#timeline'),document.querySelector('#works'),document.querySelector('#research')];
+  const ref=refs[Math.min(i,refs.length-1)];
+  if(ref)ref.before(sec);
+});
+
+// ===== ABOUT SECTION: animated footprint guide markers =====
+const aboutSec=document.getElementById('about');
+if(aboutSec){
+  const prints=['🐘','🦏','🐯','🐢','🦌'];
+  prints.forEach((p,i)=>{
+    const m=document.createElement('span');
+    m.textContent=p;
+    m.style.cssText=`position:absolute;left:${20+i*15}%;top:${30+i*12}%;font-size:24px;opacity:0;pointer-events:none;z-index:2;transition:all 1s ease-out;filter:grayscale(.4)`;
+    aboutSec.appendChild(m);
+    setTimeout(()=>{m.style.opacity='.5';m.style.transform='scale(1.3)'},i*600);
+    setTimeout(()=>{m.style.opacity='.25';m.style.transform='scale(1)'},i*600+2000);
+    setInterval(()=>{
+      m.style.opacity='.5';m.style.transform='scale(1.3)';
+      setTimeout(()=>{m.style.opacity='.2';m.style.transform='scale(1)'},2000);
+    },12000+i*2000);
+  });
+}
+
+// ===== MASONRY POSTERS =====
+const fp=document.getElementById('flyingPosters');
+animals.forEach((a,i)=>{
+  const d=document.createElement('div');d.className='flying-poster';
+  d.innerHTML=`<img src="assets/animals/${a.file}.jpg" alt="${a.name}" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=background:#111;padding:40%20px;border-radius:10px;text-align:center><h3 style=color:var(--accent)>${a.name}</h3><p style=opacity:.5>${a.product}</p></div>'"><div class="label"><h3>${a.name} · ${a.product}</h3><p>${a.desc.slice(0,60)}…</p></div>`;
+  d.addEventListener('click',()=>showModal(i));
+  d.addEventListener('mouseenter',()=>{d.style.transform='scale(1.03)';d.style.zIndex='10';d.style.transition='transform .3s'});
+  d.addEventListener('mouseleave',()=>{d.style.transform='scale(1)';d.style.zIndex='';});
+  fp.appendChild(d);
+});
+
+// ===== SPRING-EASED SCROLL REVEAL (8-site inspired) =====
+const spring='cubic-bezier(.34,1.56,.64,1)'; // spring bounce
+const allContent=document.querySelectorAll('.side-block,.section-header,.flying-poster,.timeline-item,.imgtext-row,.gcard');
+allContent.forEach((el,i)=>{
+  const fromLeft=i%2===0;
+  el.style.opacity='0';
+  el.style.transform=`translateX(${fromLeft?'-60px':'60px'})translateY(20px)`;
+  el.style.filter='blur(4px)';
+  el.style.transition=`all .9s ${spring}`;
+  el.style.transitionDelay='0s';
+});
+const altObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      setTimeout(()=>{
+        e.target.style.opacity='1';
+        e.target.style.transform='translateX(0)translateY(0)';
+        e.target.style.filter='blur(0)';
+      },100);
+      altObs.unobserve(e.target);
+    }
+  });
+},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+allContent.forEach(el=>altObs.observe(el));
+
+// ===== SPOTLIGHT PARALLAX (scroll-driven) =====
+window.addEventListener('scroll',()=>{
+  document.querySelectorAll('.spotlight-img img.loaded').forEach(img=>{
+    const rect=img.parentElement.getBoundingClientRect();
+    const pct=(rect.top+rect.height/2)/innerHeight-.5;
+    img.style.transform=`scale(1.05)translateY(${pct*15}px)`;
+  });
+});
+
+// ===== ELASTIC HOVER (framer-inspired spring) =====
+document.querySelectorAll('.imgtext-img img,.flying-poster img,.gcard').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{el.style.transition=`transform .5s ${spring}`;el.style.transform='scale(1.03)'});
+  el.addEventListener('mouseleave',()=>{el.style.transition=`transform .6s ${spring}`;el.style.transform='scale(1)'});
+});
+
+// ===== WORD-REVEAL (cappen-inspired text reveal) =====
+document.querySelectorAll('.section-header h2,.imgtext-text h3,.side-content h3').forEach(h=>{
+  const text=h.textContent;
+  h.innerHTML='';
+  text.split('').forEach((ch,i)=>{
+    const s=document.createElement('span');
+    s.textContent=ch===' '?' ':ch;
+    s.style.cssText=`display:inline-block;opacity:0;transform:translateY(20px);transition:all .5s ${spring};transition-delay:${i*0.02}s`;
+    h.appendChild(s);
+  });
+  // Reveal when parent is in view
+  const wObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){h.querySelectorAll('span').forEach((s,i)=>{setTimeout(()=>{s.style.opacity='1';s.style.transform='translateY(0)'},i*20)});wObs.unobserve(h)}})},{threshold:.3});
+  wObs.observe(h);
+});
+
+// ===== BACKGROUND PARTICLES =====
+const bgCanvas=document.getElementById('bgParticles');
+const bgCtx=bgCanvas.getContext('2d');
+let bgW,bgH;
+function resizeBg(){bgW=bgCanvas.width=innerWidth;bgH=bgCanvas.height=innerHeight}
+resizeBg();window.addEventListener('resize',resizeBg);
+const bgParts=Array.from({length:60},()=>({x:Math.random()*bgW,y:Math.random()*bgH,r:.5+Math.random()*1.5,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,o:.1+Math.random()*.3}));
+function animateBg(){
+  bgCtx.clearRect(0,0,bgW,bgH);
+  bgParts.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=bgW;if(p.x>bgW)p.x=0;if(p.y<0)p.y=bgH;if(p.y>bgH)p.y=0;
+    bgCtx.beginPath();bgCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    bgCtx.fillStyle=`rgba(200,150,100,${p.o})`;bgCtx.fill();
+    // Connect nearby
+    bgParts.forEach(p2=>{const d=Math.hypot(p.x-p2.x,p.y-p2.y);if(d<120){bgCtx.beginPath();bgCtx.moveTo(p.x,p.y);bgCtx.lineTo(p2.x,p2.y);bgCtx.strokeStyle=`rgba(200,150,100,${.03*(1-d/120)})`;bgCtx.stroke()}})
+  });
+  requestAnimationFrame(animateBg);
+}
+animateBg();
+
+// ===== MOUSE GLOW FOLLOW =====
+const glow=document.getElementById('mouseGlow');
+document.addEventListener('mousemove',e=>{glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px';glow.style.opacity='1'});
+document.addEventListener('mouseleave',()=>{glow.style.opacity='0'});
+
+// ===== 3D CARD TILT =====
+document.querySelectorAll('.gcard,.flying-poster,.wcard,.timeline-item').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`perspective(800px)rotateY(${x*8}deg)rotateX(${-y*6}deg)translateZ(5px)`;
+    card.style.transition='transform .15s ease-out';
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform='perspective(800px)rotateY(0)rotateX(0)translateZ(0)';
+    card.style.transition='transform .6s cubic-bezier(.16,1,.3,1)';
+  });
+});
+
+// ===== POST-HUMAN: Glitch on section transition =====
+const glitchObserver=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.style.animation='glitch .4s ease-in-out';
+      setTimeout(()=>e.target.style.animation='',400);
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('.section-header h2').forEach(h=>glitchObserver.observe(h));
+
+// ===== ASCII: Dynamic divider text =====
+const dividers=document.querySelectorAll('.ascii-divider');
+setInterval(()=>{
+  dividers.forEach(d=>{d.style.opacity=(.08+.04*Math.sin(Date.now()*.001+Math.random())).toString()});
+},3000);
+
+// ===== MOUSE GLOW + FOOTPRINT TRAIL =====
+let trailLast=0,trailIdx=0;
+const trailSvgs=[
+  '<svg viewBox="0 0 60 60"><circle cx="30" cy="35" r="13" fill="%23b8753e44" stroke="%23b8753e" stroke-width="2.5"/><circle cx="22" cy="18" r="4.5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.8"/><circle cx="38" cy="18" r="4.5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.8"/><circle cx="14" cy="24" r="3.5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.5"/><circle cx="46" cy="24" r="3.5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.5"/></svg>', // 大象
+  '<svg viewBox="0 0 55 55"><ellipse cx="28" cy="34" rx="6.5" ry="5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="2"/><circle cx="22" cy="22" r="3.5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.5"/><circle cx="34" cy="22" r="3.5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.5"/><circle cx="16" cy="26" r="2.8" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.2"/><circle cx="40" cy="26" r="2.8" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.2"/></svg>', // 猫科
+  '<svg viewBox="0 0 50 50"><ellipse cx="20" cy="16" rx="6" ry="10" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="2"/><ellipse cx="30" cy="16" rx="6" ry="10" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="2"/></svg>', // 偶蹄目
+  '<svg viewBox="0 0 50 50"><line x1="25" y1="6" x2="25" y2="22" stroke="%23b8753e" stroke-width="2"/><line x1="25" y1="22" x2="12" y2="32" stroke="%23b8753e" stroke-width="1.8"/><line x1="25" y1="22" x2="25" y2="36" stroke="%23b8753e" stroke-width="1.8"/><line x1="25" y1="22" x2="38" y2="32" stroke="%23b8753e" stroke-width="1.8"/></svg>', // 鸟类
+  '<svg viewBox="0 0 60 60"><ellipse cx="30" cy="36" rx="9" ry="7" fill="%23b8753e44" stroke="%23b8753e" stroke-width="2"/><circle cx="22" cy="20" r="3.5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.5"/><circle cx="30" cy="16" r="3" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.5"/><circle cx="38" cy="20" r="3.5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.5"/><circle cx="26" cy="12" r="2.5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.2"/><circle cx="34" cy="12" r="2.5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.2"/></svg>', // 熊
+  '<svg viewBox="0 0 55 55"><ellipse cx="28" cy="32" rx="6" ry="4.5" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="1.8"/><circle cx="20" cy="20" r="3" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="1.3"/><circle cx="36" cy="20" r="3" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="1.3"/><circle cx="15" cy="26" r="2.5" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="1.1"/><circle cx="41" cy="26" r="2.5" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="1.1"/></svg>', // 犬科
+  '<svg viewBox="0 0 45 45"><ellipse cx="18" cy="20" rx="4" ry="6" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.5"/><ellipse cx="27" cy="20" rx="4" ry="6" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.5"/><circle cx="14" cy="30" r="2.5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1"/><circle cx="31" cy="30" r="2.5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1"/></svg>', // 兔
+  '<svg viewBox="0 0 55 55"><path d="M8 25 Q18 21 28 23 Q38 25 48 22" fill="none" stroke="%235a7a4e" stroke-width="1.8"/><circle cx="15" cy="20" r="3" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="1.3"/><circle cx="28" cy="27" r="3" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="1.3"/><circle cx="42" cy="18" r="3" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="1.3"/></svg>', // 爬行
+  '<svg viewBox="0 0 40 40"><ellipse cx="14" cy="18" rx="5" ry="8" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="1.8"/><ellipse cx="26" cy="18" rx="5" ry="8" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="1.8"/></svg>', // 水禽
+  '<svg viewBox="0 0 50 50"><circle cx="22" cy="24" r="5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.8"/><circle cx="28" cy="24" r="5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.8"/><circle cx="18" cy="18" r="3.5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.3"/><circle cx="32" cy="18" r="3.5" fill="%23b8753e44" stroke="%23b8753e" stroke-width="1.3"/></svg>', // 小型兽
+  '<svg viewBox="0 0 60 60"><circle cx="12" cy="35" r="3" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="1.5"/><circle cx="48" cy="35" r="3" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="1.5"/><circle cx="10" cy="42" r="3.5" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="1.5"/><circle cx="50" cy="42" r="3.5" fill="%235a7a4e44" stroke="%235a7a4e" stroke-width="1.5"/><path d="M15 38 Q30 30 45 38" fill="none" stroke="%235a7a4e" stroke-width="1.8"/></svg>', // 蛙/两栖
+];
+document.addEventListener('mousemove',e=>{
+  const now=Date.now();
+  if(now-trailLast<120)return;
+  trailLast=now;
+  const d=document.createElement('div');d.className='trail-print';
+  const size=80+Math.random()*70;
+  const rot=(Math.random()-.5)*50;
+  d.style.cssText=`left:${e.clientX-size/2}px;top:${e.clientY-size/2}px;width:${size}px;height:${size}px;opacity:1;transform:rotate(${rot}deg)scale(.5)`;
+  d.innerHTML=trailSvgs[trailIdx%trailSvgs.length];trailIdx++;
+  document.body.appendChild(d);
+  requestAnimationFrame(()=>{
+    d.style.opacity='0';
+    d.style.transform=`rotate(${rot+10}deg)scale(.2)translateY(-25px)`;
+  });
+  setTimeout(()=>d.remove(),3200);
+});
+
+// ===== HUD CLOCK =====
+const hudTime=document.querySelector('.hud-data.top-right');
+setInterval(()=>{if(hudTime){const d=new Date();hudTime.textContent=d.toISOString().replace('T',' ').slice(0,19)+' UTC'}},1000);
+
+// ===== DIGITAL RAIN (Matrix-style) =====
+const rail=document.getElementById('digirail');
+const chars='01アイウエオカキクケコABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const cols=Math.floor(innerWidth/20);
+const drops=Array(cols).fill(0);
+setInterval(()=>{
+  let html='';
+  for(let i=0;i<cols;i++){
+    const ch=chars[Math.floor(Math.random()*chars.length)];
+    const y=(drops[i]*20)%innerHeight;
+    html+=`<span style=\"position:absolute;left:${i*20}px;top:${y}px;color:var(--green);opacity:${.3+Math.random()*.7}\">${ch}</span>`;
+    if(Math.random()>.95)drops[i]++;
+  }
+  rail.innerHTML=html;
+},150);
+</script>
+</body>
+</html>
