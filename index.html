@@ -13,6 +13,11 @@ body{font-family:'Noto Serif SC','Source Han Serif SC','STSong','SimSun','FangSo
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#333}
 /* Hex grid overlay */
 section::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.015;background-image:url(\"data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l26 15v30L30 60 4 45V15z' fill='none' stroke='%23d4a574' stroke-width='.5'/%3E%3C/svg%3E\");background-size:60px 60px}
+/* ── NATURAL AMBIANCE ── */
+.tree-rings{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.04;background-image:url(\"data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='100' cy='100' r='95' fill='none' stroke='%23b8753e' stroke-width='.4'/%3E%3Ccircle cx='99' cy='98' r='85' fill='none' stroke='%23b8753e' stroke-width='.35'/%3E%3Ccircle cx='101' cy='100' r='73' fill='none' stroke='%23b8753e' stroke-width='.3'/%3E%3Ccircle cx='100' cy='99' r='58' fill='none' stroke='%23b8753e' stroke-width='.25'/%3E%3Ccircle cx='99' cy='101' r='40' fill='none' stroke='%23b8753e' stroke-width='.2'/%3E%3Ccircle cx='100' cy='100' r='20' fill='none' stroke='%23b8753e' stroke-width='.15'/%3E%3C/svg%3E\");background-size:200px 200px}
+.paper-grain{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.05;background-image:url(\"data:image/svg+xml,%3Csvg width='256' height='256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gr'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gr)' opacity='.5'/%3E%3C/svg%3E\");background-size:256px 256px}
+.light-rays{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.04;background:radial-gradient(ellipse at 50% 20%,rgba(184,117,62,.15) 0%,transparent 55%),radial-gradient(ellipse at 80% 70%,rgba(200,180,140,.08) 0%,transparent 45%)}
+.leaf-vein{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.02;background-image:url(\"data:image/svg+xml,%3Csvg width='160' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M80 5 Q80 100 80 195' fill='none' stroke='%235a7a4e' stroke-width='.5'/%3E%3Cpath d='M80 40 Q55 35 25 28' fill='none' stroke='%235a7a4e' stroke-width='.25'/%3E%3Cpath d='M80 40 Q105 35 135 28' fill='none' stroke='%235a7a4e' stroke-width='.25'/%3E%3Cpath d='M80 75 Q50 70 20 62' fill='none' stroke='%235a7a4e' stroke-width='.25'/%3E%3Cpath d='M80 75 Q110 70 140 62' fill='none' stroke='%235a7a4e' stroke-width='.25'/%3E%3Cpath d='M80 115 Q55 110 30 102' fill='none' stroke='%235a7a4e' stroke-width='.2'/%3E%3Cpath d='M80 115 Q105 110 130 102' fill='none' stroke='%235a7a4e' stroke-width='.2'/%3E%3C/svg%3E\");background-size:160px 200px}
 /* 3D card tilt */
 .gcard,.timeline-item,.wcard,.flying-poster{transform-style:preserve-3d;perspective:800px}
 /* ===== POST-HUMAN: Scanlines + Glitch ===== */
@@ -264,6 +269,13 @@ nav a:first-child::before{content:'> ';color:var(--accent)}
 
 /* ASCII Divider */
 .ascii-divider{font-family:'Courier New',monospace;text-align:center;font-size:10px;letter-spacing:.15em;padding:20px 0;pointer-events:none;opacity:.4;color:var(--cyan)}
+.ascii-panel{position:relative;padding:20px 16px;background:rgba(0,0,0,.015);border:1px solid rgba(184,117,62,.12);border-radius:2px}
+.ascii-panel::before{content:"┌──────────────────────────────┐";display:block;font-family:"Courier New",monospace;font-size:8px;color:var(--accent);opacity:.35;margin-bottom:4px;white-space:pre}
+.ascii-panel::after{content:"└──────────────────────────────┘";display:block;font-family:"Courier New",monospace;font-size:8px;color:var(--accent);opacity:.25;margin-top:4px;white-space:pre}
+.ascii-watermark{position:absolute;font-family:"Courier New",monospace;font-size:4px;line-height:1.15;color:var(--accent);opacity:.05;pointer-events:none;white-space:pre;z-index:0;filter:blur(.5px)}
+.data-strip{overflow:hidden;font-family:"Courier New",monospace;font-size:8px;opacity:.12;color:var(--accent);white-space:nowrap;pointer-events:none;user-select:none;padding:6px 0;letter-spacing:.04em}
+.ascii-divider-lg{font-family:"Courier New",monospace;font-size:9px;opacity:.3;color:var(--accent);text-align:center;white-space:pre;padding:16px 0;pointer-events:none}
+
 
 
 /* Synthetic wireframe animals on section bg */
@@ -289,7 +301,14 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 </nav>
 
 <section class="hero" id="home">
-  <canvas id="heroCanvas"></canvas>
+  <canvas id="heroCanvas"></canvas><pre class="ascii-watermark" style="bottom:30px;left:50%;transform:translateX(-50%);font-size:4px;opacity:.04">                              .---.        
+                             /       __  
+                            / /     (..)   
+                           //////   /  
+                          // /   /  :    
+                         //  ...    //....
+                                 </pre>
+
   <div class="hud-corner hud-tl"></div><div class="hud-corner hud-tr"></div>
   <div class="hud-corner hud-bl"></div><div class="hud-corner hud-br"></div>
   <div class="hud-data top-left">SYS::ARCHIVE_v2.0</div>
@@ -304,7 +323,7 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 <nav class="section-nav" id="sectionNav"></nav>
 
 <!-- EDITORIAL STATEMENT (alche+j-type) -->
-<section id="statement" style="min-height:60vh;display:flex;align-items:center;padding:80px 60px;max-width:900px;margin:0 auto;position:relative">
+<section id="statement" style="min-height:60vh;display:flex;align-items:center;padding:80px 60px;max-width:900px;margin:0 auto;position:relative"><div class="leaf-vein"></div><div class="light-rays"></div>
   <div style="position:absolute;left:0;top:40px;font-family:'Courier New',monospace;font-size:9px;writing-mode:vertical-rl;opacity:.2;letter-spacing:.3em">STATEMENT OF PURPOSE</div>
   <div>
     <p style="font-size:clamp(18px,2.5vw,28px);font-weight:200;line-height:1.6;opacity:.55;max-width:680px;letter-spacing:.02em">十万年前，人类用兽皮御寒、用兽骨制作工具——<span style="color:var(--accent);opacity:.8">那是生存。</span></p>
@@ -313,7 +332,7 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
   </div>
 </section>
 
-<section class="content-section" id="about" style="position:relative">
+<section class="content-section" id="about" style="position:relative"><div class="tree-rings"></div><div class="paper-grain"></div><div class="light-rays"></div>
   <div class="synth-watermark"></div>
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.025;font-family:'Courier New',monospace;line-height:1;pointer-events:none">01</div>
   <div class="section-header"><div class="num"><span class="status-dot"></span>01 / ABOUT</div><h2>以动物制品为镜</h2><p>十万年前，人类用兽皮御寒、用兽骨制作工具——那是生存。今天，象牙被雕刻成奢侈品、犀角被研磨成"药材"。这个项目以数字媒体为媒介，重新审视人与动物的关系。</p></div>
@@ -324,7 +343,7 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 </section>
 
 <div class="ascii-divider">/* ---- TIMELINE: 100000 BCE → 2024 CE ---- */</div>
-<section class="content-section" id="timeline">
+<section class="content-section" id="timeline"><div class="tree-rings" style="opacity:.03"></div>
   <div style="position:absolute;left:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.025;font-family:'Courier New',monospace;line-height:1;pointer-events:none">02</div>
   <div class="section-header"><div class="num">02 / HISTORY</div><h2>人与动物制品的千年谱系</h2></div>
   <div class="timeline">
@@ -343,7 +362,7 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 </section>
 
 
-<section class="content-section" id="research">
+<section class="content-section" id="research"><div class="tree-rings" style="opacity:.035"></div><div class="light-rays" style="opacity:.035"></div>
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.025;font-family:'Courier New',monospace;line-height:1;pointer-events:none">04</div>
   <div class="section-header"><div class="num">04 / RESEARCH</div><h2>研究基础与数据来源</h2><p>点击卡片进入作品集查看完整数据</p></div>
   <div class="grid-2" id="researchGrid">
@@ -405,6 +424,9 @@ function closePortfolio(){
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closePortfolio();});
 
+
+// ASCII burst on click
+document.addEventListener("click",function(e){if(e.target.closest("a")||e.target.closest("button")||e.target.closest(".research-card")||e.target.closest(".modal-overlay")||e.target.closest(".portfolio-overlay"))return;const b=document.createElement("div");const chars="01│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬";let t="";for(let i=0;i<30;i++)t+=chars[Math.floor(Math.random()*chars.length)];b.textContent=t;b.style.cssText="position:fixed;pointer-events:none;z-index:9999;font-family:Courier New,monospace;font-size:14px;color:var(--accent);white-space:pre;transition:all 1.5s ease-out;left:"+(e.clientX-40)+"px;top:"+(e.clientY-10)+"px;opacity:.6;transform:scale(1)";document.body.appendChild(b);requestAnimationFrame(()=>{b.style.opacity="0";b.style.transform="scale(2) translateY(-40px)";b.style.filter="blur(4px)"});setTimeout(()=>b.remove(),1600)});
 // ===== PROGRESS =====
 window.addEventListener('scroll',()=>{document.getElementById('progress').style.width=(scrollY/(document.documentElement.scrollHeight-innerHeight)*100)+'%'});
 
@@ -780,7 +802,7 @@ const altObs=new IntersectionObserver(entries=>{
 allContent.forEach(el=>altObs.observe(el));
 
 // ===== SECTION NAV DOTS =====
-const navLabels={home:"HERO",statement:"宣言",about:"关于",timeline:"历史",research:"研究"};
+const navLabels={home:"首页",statement:"生存/掠夺",about:"关于课题",timeline:"千年谱系",works:"物种档案",research:"研究数据"};
 const navTargets=[];
 document.querySelectorAll("section[id], #statement, #about, #timeline, #research").forEach(el=>{if(el.id)navTargets.push(el)});
 navTargets.forEach((el)=>{const a=document.createElement("a");a.setAttribute("data-label",navLabels[el.id]||el.id.toUpperCase());a.addEventListener("click",e=>{e.preventDefault();el.scrollIntoView({behavior:"smooth"})});navDots.appendChild(a);});
