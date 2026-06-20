@@ -273,7 +273,11 @@ footer{text-align:center;padding:60px 20px;opacity:.25;font-size:11px;letter-spa
 #research .light-rays{opacity:.035!important}
 
 /* ── Enhanced ASCII ── */
-.ascii-watermark{opacity:.05!important}
+.ascii-watermark{opacity:.04!important;transition:opacity 1.5s ease,filter 1.5s ease,transform 1.5s ease;filter:blur(1.5px)}
+.hero:hover .ascii-watermark,.timeline-item:hover .ascii-watermark,section:hover .ascii-watermark{opacity:.09!important;filter:blur(.5px);transform:scale(1.02)}
+/* ── 趣味：滚动时ASCII水印呼吸 ── */
+@keyframes asciiBreathe{0%,100%{opacity:.03;filter:blur(2px)}50%{opacity:.07;filter:blur(.8px)}}
+.ascii-watermark{animation:asciiBreathe 8s ease-in-out infinite}
 
 /* Terminal nav */
 nav a{font-family:'Courier New',monospace!important;font-size:12px!important;letter-spacing:.1em!important}
@@ -553,6 +557,24 @@ document.addEventListener('click',e=>{
     document.querySelectorAll('.research-expand').forEach(p=>p.style.display='none');
     document.querySelectorAll('.research-card').forEach(c=>c.classList.remove('open'));
   }
+});
+
+// ===== ASCII BURST ON CLICK =====
+document.addEventListener('click',function(e){
+  if(e.target.closest('a')||e.target.closest('button')||e.target.closest('.research-card')||e.target.closest('.modal-overlay'))return;
+  const burst=document.createElement('div');
+  const chars='01│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪';
+  let txt='';
+  for(let i=0;i<30;i++)txt+=chars[Math.floor(Math.random()*chars.length)];
+  burst.textContent=txt;
+  burst.style.cssText='position:fixed;pointer-events:none;z-index:9999;font-family:Courier New,monospace;font-size:14px;color:var(--accent);white-space:pre;transition:all 1.5s ease-out;left:'+(e.clientX-40)+'px;top:'+(e.clientY-10)+'px;opacity:.6;transform:scale(1)';
+  document.body.appendChild(burst);
+  requestAnimationFrame(()=>{
+    burst.style.opacity='0';
+    burst.style.transform='scale(2) translateY(-40px)';
+    burst.style.filter='blur(4px)';
+  });
+  setTimeout(()=>burst.remove(),1600);
 });
 
 // ===== ASCII DATA STRIP =====
