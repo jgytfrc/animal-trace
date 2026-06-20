@@ -5,14 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Animal Trace · 动物制品启示录</title>
 <style>
-:root{--bg:#f5f3ef;--text:#2a2520;--accent:#b8753e;--green:#5a7a4e;--cyan:#0ff;--card:#ffffff;--border:#e5e0d8}
+:root{--bg:#f5f3ef;--text:#2a2520;--accent:#b8753e;--green:#5a7a4e;--cyan:#0ff;--card:#ffffff;--border:#e5e0d8;--rust:#c8734a;--bark:#4a3728;--moss:#6b8a5e;--paper:#f0ebe0}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
 body{font-family:'Noto Serif SC','Source Han Serif SC','STSong','SimSun','FangSong',serif;background:var(--bg);color:var(--text);line-height:1.9;position:relative;-webkit-font-smoothing:antialiased;font-weight:350}
 /* Mouse-follow glow */
 .mouse-glow{position:fixed;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(200,150,100,.06) 0%,transparent 70%);pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:opacity .3s}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#333}
 /* Hex grid overlay */
-section::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.015;background-image:url(\"data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l26 15v30L30 60 4 45V15z' fill='none' stroke='%23d4a574' stroke-width='.5'/%3E%3C/svg%3E\");background-size:60px 60px}
+section::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.02;background-image:url(\"data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='8' fill='none' stroke='%23b8753e' stroke-width='.4'/%3E%3Ccircle cx='50' cy='50' r='22' fill='none' stroke='%23b8753e' stroke-width='.25'/%3E%3Ccircle cx='50' cy='50' r='38' fill='none' stroke='%23b8753e' stroke-width='.15'/%3E%3C/svg%3E\");background-size:100px 100px}
+/* ── Natural Ambiance: Tree ring + organic ── */
+.tree-rings{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.018;background-image:url(\"data:image/svg+xml,%3Csvg width='300' height='300' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='150' cy='150' r='140' fill='none' stroke='%234a3728' stroke-width='.4'/%3E%3Ccircle cx='148' cy='152' r='128' fill='none' stroke='%234a3728' stroke-width='.35'/%3E%3Ccircle cx='151' cy='149' r='115' fill='none' stroke='%234a3728' stroke-width='.3'/%3E%3Ccircle cx='147' cy='151' r='100' fill='none' stroke='%234a3728' stroke-width='.25'/%3E%3Ccircle cx='150' cy='150' r='82' fill='none' stroke='%234a3728' stroke-width='.2'/%3E%3Ccircle cx='149' cy='148' r='60' fill='none' stroke='%234a3728' stroke-width='.15'/%3E%3Ccircle cx='150' cy='150' r='35' fill='none' stroke='%234a3728' stroke-width='.1'/%3E%3C/svg%3E\");background-size:300px 300px}
+/* Leaf venation pattern */
+.leaf-vein{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.012;background-image:url(\"data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M100 20 Q100 100 100 180' fill='none' stroke='%236b8a5e' stroke-width='.6'/%3E%3Cpath d='M100 60 Q70 55 40 45' fill='none' stroke='%236b8a5e' stroke-width='.3'/%3E%3Cpath d='M100 60 Q130 55 160 45' fill='none' stroke='%236b8a5e' stroke-width='.3'/%3E%3Cpath d='M100 90 Q60 85 30 75' fill='none' stroke='%236b8a5e' stroke-width='.3'/%3E%3Cpath d='M100 90 Q140 85 170 75' fill='none' stroke='%236b8a5e' stroke-width='.3'/%3E%3Cpath d='M100 120 Q65 115 35 108' fill='none' stroke='%236b8a5e' stroke-width='.3'/%3E%3Cpath d='M100 120 Q135 115 165 108' fill='none' stroke='%236b8a5e' stroke-width='.3'/%3E%3Cpath d='M100 150 Q70 145 45 140' fill='none' stroke='%236b8a5e' stroke-width='.25'/%3E%3Cpath d='M100 150 Q130 145 155 140' fill='none' stroke='%236b8a5e' stroke-width='.25'/%3E%3C/svg%3E\");background-size:200px 200px}
+/* Warm atmospheric light rays */
+.light-rays{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.025;background:radial-gradient(ellipse at 50% 30%,rgba(184,117,62,.15) 0%,transparent 60%),radial-gradient(ellipse at 80% 70%,rgba(200,180,140,.1) 0%,transparent 50%)}
+/* Paper grain overlay */
+.paper-grain{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.04;background-image:url(\"data:image/svg+xml,%3Csvg width='256' height='256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='.4'/%3E%3C/svg%3E\");background-size:256px 256px}
+/* Biomimetic curve divider */
+.organic-divider{width:100%;height:60px;position:relative;overflow:hidden;opacity:.12;pointer-events:none}
+.organic-divider::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:linear-gradient(90deg,transparent,var(--accent) 20%,var(--accent) 80%,transparent);transform:scaleY(1)}
+.organic-divider::after{content:'';position:absolute;left:50%;top:0;transform:translateX(-50%);width:200px;height:100%;background:radial-gradient(ellipse at center,rgba(184,117,62,.2) 0%,transparent 70%)}
 /* 3D card tilt */
 .gcard,.timeline-item,.wcard,.flying-poster{transform-style:preserve-3d;perspective:800px}
 /* ===== POST-HUMAN: Scanlines + Glitch ===== */
@@ -254,7 +266,32 @@ nav a:first-child::before{content:'> ';color:var(--accent)}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* ASCII Divider */
-.ascii-divider{font-family:'Courier New',monospace;text-align:center;font-size:10px;letter-spacing:.15em;padding:20px 0;pointer-events:none;opacity:.4;color:var(--cyan)}
+/* ===== ASCII DESIGN: Terminal panels & box-drawing ===== */
+.ascii-panel{border:1px solid rgba(184,117,62,.2);position:relative;padding:28px 24px 20px;background:rgba(255,255,255,.25);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:2px}
+.ascii-panel::before{content:'┌' attr(data-label) '┬──────────────────────────────┐';white-space:pre;position:absolute;top:-10px;left:8px;font-family:'Courier New',monospace;font-size:9px;color:var(--accent);opacity:.4;letter-spacing:-.02em;background:var(--bg);padding:0 8px}
+.ascii-panel::after{content:'└──────────────────────────────────────────────┘';white-space:pre;position:absolute;bottom:-9px;left:8px;font-family:'Courier New',monospace;font-size:9px;color:var(--accent);opacity:.25;letter-spacing:-.02em;background:var(--bg);padding:0 8px}
+/* Terminal block */
+.terminal-block{background:rgba(0,0,0,.02);border-left:2px solid var(--green);padding:16px 20px;margin:16px 0;font-family:'Courier New',monospace;font-size:11px;line-height:1.7;color:rgba(42,37,32,.7);position:relative;overflow:hidden}
+.terminal-block::before{content:'> _';position:absolute;top:8px;left:12px;font-family:'Courier New',monospace;font-size:10px;color:var(--accent);opacity:.3}
+.terminal-block .prompt{color:var(--green);opacity:.6;margin-right:8px}
+/* ASCII box-drawing borders */
+.ascii-frame{position:relative;border:none;padding:0}
+.ascii-frame::before,.ascii-frame::after{font-family:'Courier New',monospace;font-size:9px;color:var(--accent);opacity:.3;pointer-events:none;display:block;white-space:pre;line-height:1.2;letter-spacing:-.05em}
+.ascii-frame::before{content:'╔══════════════════════════╗'}
+.ascii-frame::after{content:'╚══════════════════════════╝'}
+/* ASCII art watermark - elephant */
+.ascii-watermark{position:absolute;font-family:'Courier New',monospace;font-size:5px;line-height:1.15;color:var(--accent);opacity:.04;pointer-events:none;white-space:pre;z-index:0;transform:scale(.8);filter:blur(.3px)}
+/* Typewriter style */
+.typewriter{font-family:'Courier New',monospace;letter-spacing:.05em}
+.typewriter p{text-indent:2em;margin-bottom:8px;line-height:1.8}
+.typewriter p::first-letter{font-weight:bold;color:var(--accent)}
+/* ASCII cursor blink */
+.ascii-cursor{display:inline-block;width:7px;height:13px;background:var(--accent);animation:blink 1s step-end infinite;vertical-align:middle;margin-left:2px}
+/* Monospace data strip */
+.data-strip{overflow:hidden;font-family:'Courier New',monospace;font-size:8px;letter-spacing:.04em;opacity:.15;color:var(--accent);white-space:nowrap;pointer-events:none;user-select:none;padding:8px 0}
+/* Enhanced ASCII divider variants */
+.ascii-divider-lg{font-family:'Courier New',monospace;font-size:9px;letter-spacing:.12em;padding:16px 0;pointer-events:none;opacity:.35;color:var(--accent);text-align:center;white-space:pre}
+.ascii-divider-bracket{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.08em;padding:12px 0;pointer-events:none;opacity:.28;color:var(--accent);text-align:center;white-space:pre}
 
 
 /* Synthetic wireframe animals on section bg */
@@ -279,7 +316,7 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
   <div class="nav-links"><a href="#about">关于</a><a href="#timeline">历史</a><a href="#works">物种</a><a href="#research">研究</a></div>
 </nav>
 
-<section class="hero" id="home">
+<section class="hero" id="home" style="position:relative">
   <canvas id="heroCanvas"></canvas>
   <div class="hud-corner hud-tl"></div><div class="hud-corner hud-tr"></div>
   <div class="hud-corner hud-bl"></div><div class="hud-corner hud-br"></div>
@@ -287,6 +324,29 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
   <div class="hud-data top-right">LAT: --&#8239;LNG: --</div>
   <div class="hud-data bottom-left">SPECIES_INDEX::16_ENTRIES</div>
   <div class="hud-data bottom-right">[ONLINE]</div>
+  <!-- ASCII art watermark: elephant silhouette -->
+  <pre class="ascii-watermark" style="bottom:40px;left:50%;transform:translateX(-50%) scale(.7);font-size:4px;opacity:.03">                              .---.        .-----------
+                             /     \  __  /    ------
+                            / /     \(..)/    -----
+                           //////   ' \/ `   ---
+                          //// / // :    : ---
+                         // /   /  /`    '--
+                        //  ...    //....|\\
+                       /  /    \  | \  / | \\
+                      /  /      \/ . \/   | \\
+                     /  /        \  /  \  |  \\
+                    /  /          \/    \/    \\
+                    \  \          /\    /\    /
+                     \  \        /  \  /  \  /
+                      \  \      /  . \/    \/
+                       \  \..../  | /  \   /
+                        \        |/    \  /
+                         \       /\    / /
+                          \     /  \  / /
+                           \   /    \/ /
+                            \ /      \/
+                             '        '
+</pre>
   <div class="hero-content"><h1 class="glitch-text" data-text="Animal Trace">Animal Trace</h1><div class="sub">ANIMAL_TRACE.exe</div></div>
   <div class="hero-scroll" onclick="document.getElementById('statement').scrollIntoView({behavior:'smooth'})"><div class="hero-scroll-arrow"></div><div class="hero-scroll-arrow"></div><div class="hero-scroll-arrow"></div></div>
 </section>
@@ -296,6 +356,8 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 
 <!-- EDITORIAL STATEMENT (alche+j-type) -->
 <section id="statement" style="min-height:60vh;display:flex;align-items:center;padding:80px 60px;max-width:900px;margin:0 auto;position:relative">
+  <div class="leaf-vein" style="opacity:.015"></div>
+  <div class="light-rays"></div>
   <div style="position:absolute;left:0;top:40px;font-family:'Courier New',monospace;font-size:9px;writing-mode:vertical-rl;opacity:.2;letter-spacing:.3em">STATEMENT OF PURPOSE</div>
   <div>
     <p style="font-size:clamp(18px,2.5vw,28px);font-weight:200;line-height:1.6;opacity:.55;max-width:680px;letter-spacing:.02em">十万年前，人类用兽皮御寒、用兽骨制作工具——<span style="color:var(--accent);opacity:.8">那是生存。</span></p>
@@ -306,6 +368,9 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 
 <section class="content-section" id="about" style="position:relative">
   <div class="synth-watermark"></div>
+  <div class="tree-rings"></div>
+  <div class="paper-grain"></div>
+  <div class="light-rays"></div>
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.025;font-family:'Courier New',monospace;line-height:1;pointer-events:none">01</div>
   <div class="section-header"><div class="num"><span class="status-dot"></span>01 / ABOUT</div><h2>以动物制品为镜</h2><p>十万年前，人类用兽皮御寒、用兽骨制作工具——那是生存。今天，象牙被雕刻成奢侈品、犀角被研磨成"药材"。这个项目以数字媒体为媒介，重新审视人与动物的关系。</p></div>
   <div class="side-block left"><div class="side-content"><h3>历史维度</h3><p>从旧石器时代以兽皮御寒、以兽骨制作工具的生存驱动，到商周时期象牙雕刻和甲骨占卜的礼仪化，再到丝绸之路上的象牙犀角贸易——动物制品的使用史，就是一部人类文明的欲望编年史。阳原侯家窑遗址的石器切割痕迹和虎头梁遗址的骨针骨锥，是中国最早的动物制品考古证据。</p><div class="cite">贾兰坡《中国旧石器时代》1957 · 袁靖《中国动物考古学》2015 · Frankopan《The Silk Roads》2015</div></div></div>
@@ -314,8 +379,21 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
   <div class="side-block right"><div class="side-content"><h3>对话而非说教</h3><p>彼得·辛格在《动物解放》（1975）中首次系统论证了物种歧视（speciesism）的概念。伊丽莎白·科尔伯特的《第六次大灭绝》（2014）记录了人类世背景下正在发生的物种消亡。这个项目不提供标准答案，不进行道德审判——用沉浸体验制造认知冲突，让观者自己走向结论。最好的教育，是让人以为是自己想到的。</p><div class="cite">Singer《Animal Liberation》1975 · Kolbert《The Sixth Extinction》2014</div></div></div>
 </section>
 
-<div class="ascii-divider">/* ---- TIMELINE: 100000 BCE → 2024 CE ---- */</div>
-<section class="content-section" id="timeline">
+<div class="organic-divider"></div>
+<div class="ascii-divider-lg">┌──────────────────────────────────────────────────────────┐
+│  TIMELINE: 100,000 BCE ──────────────────────── 2026 CE  │
+└──────────────────────────────────────────────────────────┘</div>
+<section class="content-section" id="timeline" style="position:relative">
+  <div class="tree-rings" style="opacity:.012"></div>
+  <pre class="ascii-watermark" style="bottom:40px;right:30px;font-size:5px;opacity:.025">      ___     ___
+     / _ \\___/ _ \\
+    | | | | | | | |
+    | |_| | | |_| |
+     \\___/   \\___/
+    /  _  \\ /  _  \\
+   |  |_|  V  |_|  |
+    \\_______________/
+</pre>
   <div style="position:absolute;left:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.025;font-family:'Courier New',monospace;line-height:1;pointer-events:none">02</div>
   <div class="section-header"><div class="num">02 / HISTORY</div><h2>人与动物制品的千年谱系</h2></div>
   <div class="timeline">
@@ -327,14 +405,19 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
   </div>
 </section>
 
-<div class="ascii-divider">/* ---- WORKS: 16_SPECIES / 6_RELATIONSHIPS ---- */</div>
+<div class="data-strip" id="dataStrip1" style="margin:0 20px"></div>
+<div class="ascii-divider-lg">┌──────────────────────────────────────────────────────────┐
+│  WORKS: 16_SPECIES / 6_RELATIONSHIPS                     │
+└──────────────────────────────────────────────────────────┘</div>
 <section id="works" style="min-height:100vh;padding:100px 0 80px">
   <div class="section-header"><div class="num">03 / SPECIES</div><h2>受威胁物种</h2><p>悬停查看详情</p></div>
   <div class="flying-posters" id="flyingPosters"></div>
 </section>
 
 
-<section class="content-section" id="research">
+<section class="content-section" id="research" style="position:relative">
+  <div class="tree-rings"></div>
+  <div class="light-rays"></div>
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.025;font-family:'Courier New',monospace;line-height:1;pointer-events:none">04</div>
   <div class="section-header"><div class="num">04 / RESEARCH</div><h2>研究基础与数据来源</h2><p>点击卡片进入作品集查看完整数据</p></div>
   <div class="grid-2" id="researchGrid">
@@ -384,6 +467,21 @@ window.addEventListener('load',()=>{
 
 // ===== PROGRESS =====
 window.addEventListener('scroll',()=>{document.getElementById('progress').style.width=(scrollY/(document.documentElement.scrollHeight-innerHeight)*100)+'%'});
+
+// ===== ASCII DATA STRIP =====
+(function(){
+  const strip=document.getElementById('dataStrip1');
+  if(!strip)return;
+  const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.:;-_#*│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼';
+  let txt='';
+  for(let i=0;i<200;i++)txt+=chars[Math.floor(Math.random()*chars.length)];
+  strip.textContent=txt;
+  setInterval(()=>{
+    const i=Math.floor(Math.random()*txt.length);
+    txt=txt.slice(0,i)+chars[Math.floor(Math.random()*chars.length)]+txt.slice(i+1);
+    strip.textContent=txt;
+  },80);
+})();
 
 // ===== ANIMALS (16 species) =====
 const animals=[
