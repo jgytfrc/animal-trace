@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Animal Trace · 动物制品启示录</title>
+<title>Animal Trace · 动物制��启示录</title>
 <style>
 :root{--bg:#f5f3ef;--text:#2a2520;--accent:#b8753e;--green:#5a7a4e;--cyan:#0ff;--card:#ffffff;--border:#e5e0d8}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
@@ -83,19 +83,24 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
 .hud-data.bottom-right{bottom:28px;right:28px;text-align:right}
 
 /* Modal */
-.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s}
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
 .modal-overlay.show{opacity:1;pointer-events:auto}
-.modal-card{background:#fff;border:1px solid var(--accent);border-radius:12px;padding:40px;max-width:440px;width:90%;text-align:center;position:relative;color:#2a2520}
-.modal-card .close{position:absolute;top:12px;right:16px;background:none;border:none;color:#999;font-size:20px;cursor:pointer}
-.modal-card .close:hover{color:#333}
-.modal-card .big-emoji{font-size:80px;margin-bottom:12px}
-.modal-card h3{font-size:22px;font-weight:400;color:var(--accent)}
-.modal-card .prod{font-size:13px;opacity:.5;margin:4px 0 16px}
-.modal-card .desc{font-size:13px;opacity:.55;line-height:1.9;margin-bottom:20px}
-.modal-card .stat{display:flex;justify-content:center;gap:32px}
+.modal-card{background:#f5f3ef;max-width:480px;width:92%;position:relative;color:#2a2520;overflow:hidden;box-shadow:0 8px 60px rgba(0,0,0,.15)}
+.modal-card .close{position:absolute;top:10px;right:12px;z-index:10;background:rgba(0,0,0,.3);border:none;color:#fff;font-size:18px;cursor:pointer;width:28px;height:28px;border-radius:50%;transition:background .3s}
+.modal-card .close:hover{background:var(--accent)}
+.modal-card h3{font-size:22px;font-weight:300;color:var(--accent);margin:0}
+.modal-card .prod{font-size:11px;opacity:.35;margin:2px 0 0;font-family:Courier New,monospace;letter-spacing:.05em}
+.modal-card .desc{font-size:12px;opacity:.45;line-height:2;padding:20px}
+.modal-card .stat{display:flex;justify-content:center;gap:36px;padding:0 20px 16px}
 .modal-card .stat-item{text-align:center}
-.modal-card .stat-val{font-size:24px;color:var(--accent)}
-.modal-card .stat-label{font-size:10px;opacity:.4}
+.modal-card .stat-val{font-size:20px;font-weight:300;color:var(--accent)}
+.modal-card .stat-label{font-size:8px;opacity:.3;font-family:Courier New,monospace;letter-spacing:.05em}
+.modal-img-wrap{width:100%;aspect-ratio:3/2;background:#f0ece6;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.modal-img-wrap canvas{max-width:100%;max-height:100%;width:auto!important;height:auto!important}
+.modal-sources{text-align:left;padding:12px 20px 16px;border-top:1px solid rgba(0,0,0,.04)}
+.modal-sources h4{font-size:9px;opacity:.25;margin-bottom:4px;font-family:Courier New,monospace;letter-spacing:.1em}
+.modal-sources ul{list-style:none;padding:0}
+.modal-sources li{font-size:9px;opacity:.25;line-height:1.6}
 .portfolio-overlay{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s}
 .portfolio-overlay.show{opacity:1;pointer-events:auto}
 .portfolio-frame{width:92vw;height:92vh;background:#fff;border-radius:4px;overflow:hidden;position:relative;box-shadow:0 20px 80px rgba(0,0,0,.5)}
@@ -275,7 +280,7 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 <div class="digirail" id="digirail"></div>
 <div class="data-line"></div>
 <div class="progress" id="progress"></div>
-<div class="modal-overlay" id="modal"><div class="modal-card"><button class="close" onclick="document.getElementById('modal').classList.remove('show')">&times;</button><canvas class="modal-img-wrap" id="mdCanvas" width="600" height="340"></canvas><h3 id="mdName"></h3><div class="prod" id="mdProduct"></div><div class="desc" id="mdDesc"></div><div class="stat"><div class="stat-item"><div class="stat-val" id="mdStat1">—</div><div class="stat-label">IUCN濒危等级</div></div><div class="stat-item"><div class="stat-val" id="mdStat2">—</div><div class="stat-label">CITES附录</div></div><div class="modal-sources"><h4>数据来源</h4><ul id="mdSources"></ul></div></div></div></div>
+<div class="modal-overlay" id="modal"><div class="modal-card"><button class="close" onclick="document.getElementById('modal').classList.remove('show')">✕</button><div class="modal-img-wrap"><canvas id="mdCanvas" width="600" height="400"></canvas></div><div style="padding:12px 20px 0"><h3 id="mdName"></h3><div class="prod" id="mdProduct"></div></div><div class="stat"><div class="stat-item"><div class="stat-val" id="mdStat1">—</div><div class="stat-label">IUCN</div></div><div class="stat-item"><div class="stat-val" id="mdStat2">—</div><div class="stat-label">CITES</div></div></div><div class="desc" id="mdDesc"></div><div class="modal-sources"><h4>DATA</h4><ul id="mdSources"></ul></div></div></div></div>
 
 <nav>
   <a href="#home">Animal Trace</a>
@@ -311,8 +316,8 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.06;font-family:'Courier New',monospace;line-height:1;pointer-events:none">01</div>
   <div class="section-header"><div class="num"><span class="status-dot"></span>01 / ABOUT</div><h2>以动物制品为镜</h2><p>十万年前，人类用兽皮御寒、用兽骨制作工具——那是生存。今天，象牙被雕刻成奢侈品、犀角被研磨成"药材"。这个项目以数字媒体为媒介，重新审视人与动物的关系。</p></div>
   <div class="side-block left"><div class="side-content"><h3>历史维度</h3><p>从旧石器时代以兽皮御寒、以兽骨制作工具的生存驱动，到商周时期象牙雕刻和甲骨占卜的礼仪化，再到丝绸之路上的象牙犀角贸易——动物制品的使用史，就是一部人类文明的欲望编年史。阳原侯家窑遗址的石器切割痕迹和虎头梁遗址的骨针骨锥，是中国最早的动物制品考古证据。</p><div class="cite">贾兰坡《中国旧石器时代》1957 · 袁靖《中国动物考古学》2015 · Frankopan《The Silk Roads》2015</div></div></div>
-  <div class="side-block right"><div class="side-content"><h3>全球数据</h3><p>1973年《濒危野生动植物种国际贸易公约》（CITES）签署，覆盖超过35,000个物种。IUCN红色名录自1964年建立以来已评估超过150,000个物种。国际野生物贸易研究组织（TRAFFIC）成立于1976年，监测全球非法野生动物贸易网络。数据不是冰冷的数字——每一个统计数字背后，都是一个正在消失的物种。</p><div class="cite">CITES Trade Database · IUCN Red List 2024 · TRAFFIC 2023</div></div></div>
-  <div class="side-block left"><div class="side-content"><h3>数字媒介</h3><p>以数据可视化、交互装置、生成艺术为方法。列夫·马诺维���在《新媒体的语言》（2001）中提出，数字媒介的本质是可编程性与模块化。情報デザイン的任务不是让信息更漂亮——而是通过视觉编码让抽象的数据产生情感重量，让观者从被动的信息接收者转变为主动的意义建构者。</p><div class="cite">Manovich《The Language of New Media》2001 · Tufte《The Visual Display of Quantitative Information》1990</div></div></div>
+  <div class="side-block right"><div class="side-content"><h3>全球数据</h3><p>1973年《濒危野生动植物种国际贸易公约》（CITES）签署，覆盖超过35,000个物种。IUCN红色名录自1964年建立以来已评估超过150,000个物种。国际野生物贸易研究组织（TRAFFIC）成立于1976年，监测全球非法野生动物贸易网络���数据不是冰冷的数字——每一个统计数字背后，都是一个正在消失的物种。</p><div class="cite">CITES Trade Database · IUCN Red List 2024 · TRAFFIC 2023</div></div></div>
+  <div class="side-block left"><div class="side-content"><h3>数字媒介</h3><p>以数据可视化、交互装置、生成艺术为方法。列夫·马诺维���在《新媒体的语言���（2001）中提出，数字媒介的本质是可编程性与模块化。情報デザイン的任务不是让信息更漂亮——而是通过视觉编码让抽象的数据产生情感重量，让观者从被动的信息接收者转变为主动的意义建构者。</p><div class="cite">Manovich《The Language of New Media》2001 · Tufte《The Visual Display of Quantitative Information》1990</div></div></div>
   <div class="side-block right"><div class="side-content"><h3>对话而非说教</h3><p>彼得·辛格在《动物解放》（1975）中首次系统论证了物种歧视（speciesism）的概念。伊丽莎白·科尔伯特的《第六次大灭绝》（2014）记录了人类世背景下正在发生的物种消亡。这个项目不提供标准答案，不进行道德审判——用沉浸体验制造认知冲突，让观者自己走向结论。最好的教育，是让人以为是自己想到的。</p><div class="cite">Singer《Animal Liberation》1975 · Kolbert《The Sixth Extinction》2014</div></div></div>
 </section>
 
@@ -390,19 +395,19 @@ function openPortfolio(hash){const f=document.getElementById("portfolioFrame");f
 // ===== ANIMALS (16 species) =====
 const animals=[
   {name:'非洲象',en:'Elephant',file:'elephant',product:'象牙',emoji:'🐘',color:'#d4a574',radius:3.2,speed:.14,tilt:.25,yOff:.35,desc:'现存最大的陆地哺乳动物。由于象牙贸易，非洲象种群从1979年约130万头锐减至2023年约41.5万头。每15分钟就有一头大象因象牙被猎杀。',iucn:'濒危(EN)',cites:'附录I（除部分国家种群）',sources:['IUCN Red List 2024: Loxodonta africana','CITES Trade Database: Elephantidae spp.','WWF African Elephant Report 2023']},
-  {name:'白犀牛',en:'White Rhino',file:'rhinoceros',product:'犀角',emoji:'🦏',color:'#8a9a7e',radius:2.8,speed:.18,tilt:-.35,yOff:-.3,desc:'现存体型第二大的陆地哺乳动物，分为南白犀和北白犀两个亚种。北方白犀牛已功能性灭绝，全球仅存最后2头雌性个体（Najin和Fatu），均生活在肯尼亚Ol Pejeta保护区。南白犀约存1.6万头。',iucn:'近危(NT)',cites:'附录I/II（种群差异）',sources:['IUCN Red List 2024: Ceratotherium simum','CITES CoP19: Rhino trade data','Save The Rhino International 2024']},
+  {name:'白犀牛',en:'White Rhino',file:'rhinoceros',product:'犀角',emoji:'🦏',color:'#8a9a7e',radius:2.8,speed:.18,tilt:-.35,yOff:-.3,desc:'现存体型第��大的陆地哺乳动物，分为南白犀和北白犀两个亚种。北方白犀牛已功能性灭绝，全球仅存最后2头雌性个体（Najin和Fatu），均生活在肯尼亚Ol Pejeta保护区。南白犀约存1.6万头。',iucn:'近危(NT)',cites:'附录I/II（种群差异）',sources:['IUCN Red List 2024: Ceratotherium simum','CITES CoP19: Rhino trade data','Save The Rhino International 2024']},
   {name:'孟加拉虎',en:'Tiger',file:'tiger',product:'虎皮·虎骨',emoji:'🐯',color:'#c88050',radius:3.0,speed:.17,tilt:.45,yOff:.5,desc:'现存最大的猫科动物之一。全球野生虎种群从20世纪初约10万只锐减至约5574只（2023年IUCN评估）。虎皮、虎骨仍被用于奢侈品和传统药材，印度、中国、俄罗斯为主要分布国。',iucn:'濒危(EN)',cites:'附录I',sources:['IUCN Red List 2024: Panthera tigris','WWF Tiger Report 2023','TRAFFIC: Tiger trade monitoring']},
   {name:'玳瑁海龟',en:'Hawksbill',file:'seaturtle',product:'龟甲',emoji:'🐢',color:'#6a8a7a',radius:2.6,speed:.12,tilt:-.2,yOff:-.45,desc:'以其琥珀色半透明的美丽背甲闻名，被称为"龟甲"或"玳瑁"，用于制作珠宝、梳子、眼镜框等装饰品。过去三个世代全球种群数量下降了80%以上。现存成年雌龟仅约2.5万只。',iucn:'极危(CR)',cites:'附录I',sources:['IUCN Red List 2024: Eretmochelys imbricata','CITES Hawksbill Turtle Status Report','NOAA Fisheries: Hawksbill Turtle']},
   {name:'梅花鹿',en:'Sika Deer',file:'deer',product:'鹿角·兽皮',emoji:'🦌',color:'#b8956c',radius:3.1,speed:.2,tilt:.3,yOff:.1,desc:'鹿茸和鹿皮从旧石器时代沿用至今。鹿茸（未骨化的幼角）被东亚传统医学视为珍贵药材。中国、新西兰为全球最大鹿茸产地。野生梅花鹿在中国属国家一级保护动物。',iucn:'无危(LC)',cites:'—（部分亚种限制）',sources:['IUCN Red List 2024: Cervus nippon','中国传统药材药典 2020版','中国野生动物保护法 2022']},
   {name:'蓝黄金刚鹦鹉',en:'Macaw',file:'parrot',product:'羽毛',emoji:'🦜',color:'#c84040',radius:2.5,speed:.24,tilt:-.4,yOff:.6,desc:'南美洲热带雨林的特有鸟种，以其蓝黄相间的绚丽羽毛闻名。因宠物贸易被大量捕捉。多种金刚鹦鹉已被列入CITES附录I，禁止国际贸易。栖息地破坏是另一大威胁。',iucn:'无危(LC)',cites:'附录I/II（物种差异）',sources:['IUCN Red List 2024: Ara ararauna','CITES Appendices: Psittaciformes','BirdLife International 2023']},
-  {name:'湾鳄',en:'Crocodile',file:'crocodile',product:'皮革',emoji:'🐊',color:'#5a7a4a',radius:3.3,speed:.13,tilt:.15,yOff:-.5,desc:'现存最大的爬行动物，体长可达6米以上。其腹部皮肤被用于制作手袋、鞋履等高端皮革制品。合法的养殖和贸易在CITES监管下进行，但也存在非法猎捕。澳大利亚、东南亚为主要养殖区。',iucn:'无危(LC)',cites:'附录I/II（种群差异）',sources:['IUCN Red List 2024: Crocodylus porosus','CITES Crocodile trade data','FAO Crocodile farming report']},
+  {name:'湾鳄',en:'Crocodile',file:'crocodile',product:'皮革',emoji:'🐊',color:'#5a7a4a',radius:3.3,speed:.13,tilt:.15,yOff:-.5,desc:'现存最大的爬行动物，体长可达6米以上。其腹部���肤被用于制作手袋、鞋履等高端皮革制品。合法的养殖和贸易在CITES监管下进行，但也存在非法猎捕。澳大利亚、东南亚为主要养殖区。',iucn:'无危(LC)',cites:'附录I/II（种群差异）',sources:['IUCN Red List 2024: Crocodylus porosus','CITES Crocodile trade data','FAO Crocodile farming report']},
   {name:'中华穿山甲',en:'Pangolin',file:'pangolin',product:'鳞片',emoji:'🦎',color:'#9a8a6a',radius:2.4,speed:.22,tilt:-.1,yOff:.2,desc:'全球非法贸易量最大的哺乳动物。2014-2024十年间约有超过100万只穿山甲被盗猎，其鳞片被误认为具有药用价值。2020年，中国将穿山甲属所有种提升为国家一级保护动物，并移除了鳞片的药用标准。',iucn:'极危(CR)',cites:'附录I',sources:['IUCN Red List 2024: Manis pentadactyla','TRAFFIC: Pangolin trade report 2023','中国药典2020版：穿山甲鳞片剔除']},
   {name:'藏羚羊',en:'Chiru',file:'antelope',product:'羊绒',emoji:'🐐',color:'#c8b090',radius:2.9,speed:.16,tilt:.5,yOff:-.2,desc:'青藏高原特有物种。其底绒被称为"沙图什"（Shahtoosh），意为"羊毛之王"，极细极轻。一条沙图什披肩需猎杀3-5只藏羚羊。1990年代种群因盗猎锐减至约7.5万只。经中国政府和国际社会保护，现已恢复到约30万只。',iucn:'近危(NT)',cites:'附录I',sources:['IUCN Red List 2024: Pantholops hodgsonii','中国青藏高原野生动物保护报告','WWF Tibet Project 2023']},
   {name:'雪豹',en:'Snow Leopard',file:'snowleopard',product:'皮毛',emoji:'🐆',color:'#9ab8c0',radius:3.5,speed:.11,tilt:-.5,yOff:.4,desc:'中亚高山地区的标志性物种，分布范围跨越12个��家。其厚密美丽的银灰色皮毛是非法贸易的主要目标。全球现存4000-6500只。2017年IUCN将其从"濒危"降为"易危"，但保护工作仍不可松懈。',iucn:'易危(VU)',cites:'附录I',sources:['IUCN Red List 2024: Panthera uncia','Snow Leopard Trust 2023','CITES Snow Leopard Resolution Conf. 12.5']},
   {name:'河马',en:'Hippo',file:'hippo',product:'牙齿',emoji:'🦛',color:'#8a7a9e',radius:2.7,speed:.19,tilt:.55,yOff:-.6,desc:'现存第三大陆地哺乳动物。象牙贸易禁令（1989年）后，河马的长犬齿成为"象牙替代品"，在国际市场上需求激增。全球现存约11.5-13万头。2022年CITES缔约方大会将其列入附录II进行贸易管制。',iucn:'易危(VU)',cites:'附录II（2022年新增）',sources:['IUCN Red List 2024: Hippopotamus amphibius','CITES CoP19: Hippo listing proposal','TRAFFIC: Hippo ivory trade report']},
   {name:'蛇',en:'Snake',file:'snake',product:'蛇皮',emoji:'🐍',color:'#6a9a5a',radius:3.4,speed:.15,tilt:-.3,yOff:.55,desc:'蛇皮（尤其是蟒蛇、蚺蛇和眼镜蛇）是全球皮革工业的重要原料。每年数百万张蛇皮进入合法的国际贸易渠道，用于手袋、鞋履等奢侈品。印尼、马来西亚、越南为主要出口国。',iucn:'物种差异',cites:'附录II（蟒科所有种）',sources:['CITES Snake trade database 2023','IUCN: Pythonidae assessment','FAO: Reptile skin trade report']},
   {name:'棕熊',en:'Brown Bear',file:'brownbear',product:'熊胆·皮毛',emoji:'🐻',color:'#8a6a4a',radius:3.6,speed:.1,tilt:.2,yOff:-.35,desc:'北半球分布最广的熊科动物。熊胆在东亚传统医学中被用于治疗肝病等，活熊取胆（Bile Farming）引发严重动物福利争议，中国、越南、韩国为主要"养殖"国家。部分种群受CITES管制。',iucn:'无危(LC)',cites:'附录I/II（种群差异）',sources:['IUCN Red List 2024: Ursus arctos','World Animal Protection 2023','CITES Bear trade resolution']},
-  {name:'狐狸',en:'Fox',file:'fox',product:'皮毛',emoji:'🦊',color:'#c87040',radius:2.3,speed:.23,tilt:.35,yOff:.15,desc:'狐狸是全球皮毛养殖业的核心物种之一。芬兰、中国、波兰为最大狐皮生产国。养殖狐狸（主要为银狐和蓝狐）年产量约8000万张。动物福利组织长期批评养殖场的圈养条件和处死方式。',iucn:'无危(LC)',cites:'—（养殖毛皮不列入）',sources:['FAO Fur Trade Statistics 2023','Fur Free Alliance Report','IUCN: Vulpes vulpes']},
+  {name:'狐狸',en:'Fox',file:'fox',product:'皮毛',emoji:'🦊',color:'#c87040',radius:2.3,speed:.23,tilt:.35,yOff:.15,desc:'狐狸是全球皮毛养殖业的核心物种之一。芬兰、中国、波兰为最大狐皮生产国。养殖狐狸（主要为银狐和蓝狐）年产量约8000万张。动物福利组织长期批评养殖场的圈养条件和处死方式。',iucn:'无危(LC)',cites:'—（养殖���皮不列入）',sources:['FAO Fur Trade Statistics 2023','Fur Free Alliance Report','IUCN: Vulpes vulpes']},
   {name:'鲸鱼',en:'Whale',file:'whale',product:'鲸脂·龙涎香',emoji:'🐋',color:'#6a8aaa',radius:3.8,speed:.08,tilt:-.15,yOff:.7,desc:'商业捕鲸于1986年被国际捕鲸委员会（IWC）禁止，但日本、挪威、冰��以"科研捕鲸"或"异议权"为由持续进行。日本于2019年退出IWC并重启商业捕鲸。座头鲸、蓝鲸等大型鲸类仍面临船只碰撞、渔具缠绕等威胁。',iucn:'物种差异',cites:'附录I（多数大型鲸类）',sources:['IWC: International Whaling Commission','IUCN Red List: Cetacea','WWF: Whaling report 2023']},
   {name:'鸵鸟',en:'Ostrich',file:'ostrich',product:'羽毛·皮革',emoji:'🐦',color:'#4a4a4a',radius:2.2,speed:.26,tilt:.6,yOff:-.1,desc:'现存最大的鸟类。19世纪末至20世纪初鸵鸟羽毛风靡欧美时尚界。现代鸵鸟养殖遍布南非、澳大利亚、中国等地，年产羽革约9万吨。鸵鸟皮革以独特的毛囊纹理（"羽根孔"）为特征。',iucn:'无危(LC)',cites:'—（养殖个体不列入）',sources:['IUCN Red List: Struthio camelus','FAO Ostrich farming statistics','南非鸵鸟产业协会年报 2023']},
 ];
