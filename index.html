@@ -96,6 +96,12 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
 .modal-card .stat-item{text-align:center}
 .modal-card .stat-val{font-size:24px;color:var(--accent)}
 .modal-card .stat-label{font-size:10px;opacity:.4}
+.portfolio-overlay{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s}
+.portfolio-overlay.show{opacity:1;pointer-events:auto}
+.portfolio-frame{width:92vw;height:92vh;background:#fff;border-radius:4px;overflow:hidden;position:relative;box-shadow:0 20px 80px rgba(0,0,0,.5)}
+.portfolio-frame iframe{width:100%;height:100%;border:none}
+.portfolio-close{position:absolute;top:14px;right:18px;z-index:10;background:rgba(0,0,0,.6);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:18px;cursor:pointer;transition:all .3s;font-family:"Courier New",monospace}
+.portfolio-close:hover{background:var(--accent);transform:rotate(90deg)}
 .modal-img-wrap{width:100%;height:200px;border-radius:8px;overflow:hidden;margin:0 auto 16px;border:1px solid #333}
 .modal-img{width:100%;height:100%;object-fit:cover}
 .modal-sources{text-align:left;margin-top:16px;padding-top:12px;border-top:1px solid #222}
@@ -111,9 +117,11 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
 .spotlight-section .spotlight-img::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(180deg,transparent 70%,rgba(245,243,239,.5) 100%),linear-gradient(0deg,transparent 70%,rgba(245,243,239,.3) 100%),linear-gradient(90deg,transparent 70%,rgba(245,243,239,.3) 100%),linear-gradient(270deg,transparent 70%,rgba(245,243,239,.3) 100%)}
 .spotlight-section .spotlight-text{flex:1;padding:80px 60px;display:flex;flex-direction:column;justify-content:center;max-width:540px}
 /* ===== SECTION NAV DOTS ===== */
-.section-nav{position:fixed;right:20px;left:auto;top:50%;transform:translateY(-50%);z-index:999;display:flex;flex-direction:column;gap:14px;padding:12px 8px;background:rgba(245,243,239,.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:20px}
-.section-nav a{width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.25;transition:all .4s;display:block;flex-shrink:0}
-.section-nav a.active,.section-nav a:hover{opacity:.8;transform:scale(2);box-shadow:0 0 8px rgba(184,117,62,.3)}
+.section-nav{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:999;display:flex;flex-direction:column;gap:20px;padding:14px 8px;background:rgba(245,243,239,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:22px;border:1px solid rgba(184,117,62,.12)}
+.section-nav a{width:9px;height:9px;border-radius:50%;background:var(--accent);opacity:.3;transition:all .4s;display:block;flex-shrink:0;position:relative}
+.section-nav a.active,.section-nav a:hover{opacity:.9;transform:scale(1.7);box-shadow:0 0 14px rgba(184,117,62,.5)}
+.section-nav a::after{content:attr(data-label);position:absolute;right:18px;top:50%;transform:translateY(-50%);font-family:"Courier New",monospace;font-size:8px;white-space:nowrap;color:var(--accent);opacity:0;transition:opacity .3s;pointer-events:none;letter-spacing:.06em}
+.section-nav a:hover::after,.section-nav a.active::after{opacity:.75}
 .spotlight-section .spotlight-img canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .spotlight-section .spotlight-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .spotlight-section .spotlight-text{flex:1;padding:100px 60px;display:flex;flex-direction:column;justify-content:center;max-width:600px}
@@ -338,34 +346,34 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.025;font-family:'Courier New',monospace;line-height:1;pointer-events:none">04</div>
   <div class="section-header"><div class="num">04 / RESEARCH</div><h2>研究基础与数据来源</h2><p>点击卡片进入作品集查看完整数据</p></div>
   <div class="grid-2" id="researchGrid">
-    <a href="https://jgytfrc.github.io/portfolio/#status" target="_blank" class="gcard research-card" style="text-decoration:none;color:inherit">
+    <div onclick="openPortfolio('#status')" class="gcard research-card" style="text-decoration:none;color:inherit;cursor:pointer">
       <div class="num">[ A ]</div>
       <h3>CITES 贸易数据库</h3>
       <p>《濒危野生动植物种国际贸易公约》全球合法贸易记录，覆盖超过35,000个物种的跨境交易数据。1973年签署，183个缔约方。</p>
       <div class="cite">trade.cites.org · 2024</div>
       <span class="card-arrow">→</span>
-    </a>
-    <a href="https://jgytfrc.github.io/portfolio/#status" target="_blank" class="gcard research-card" style="text-decoration:none;color:inherit">
+    </div>
+    <div onclick="openPortfolio('#status')" class="gcard research-card" style="text-decoration:none;color:inherit;cursor:pointer">
       <div class="num">[ B ]</div>
       <h3>IUCN 红色名录</h3>
       <p>世界自然保护联盟的全球物种濒危状况评估。1964年建立，至今评估超过150,000个物种，是生物多样性保护最权威的数据来源。</p>
       <div class="cite">iucnredlist.org · 2024</div>
       <span class="card-arrow">→</span>
-    </a>
-    <a href="https://jgytfrc.github.io/portfolio/#status" target="_blank" class="gcard research-card" style="text-decoration:none;color:inherit">
+    </div>
+    <div onclick="openPortfolio('#status')" class="gcard research-card" style="text-decoration:none;color:inherit;cursor:pointer">
       <div class="num">[ C ]</div>
       <h3>TRAFFIC 监测报告</h3>
       <p>国际野生物贸易研究组织，成立于1976年。监测全球野生动物非法贸易网络，为CITES执法提供关键情报。</p>
       <div class="cite">traffic.org · 2023</div>
       <span class="card-arrow">→</span>
-    </a>
-    <a href="https://jgytfrc.github.io/portfolio/#sources" target="_blank" class="gcard research-card" style="text-decoration:none;color:inherit">
+    </div>
+    <div onclick="openPortfolio('#sources')" class="gcard research-card" style="text-decoration:none;color:inherit;cursor:pointer">
       <div class="num">[ D ]</div>
       <h3>考古与文献</h3>
       <p>侯家窑遗址的石器切割痕迹、虎头梁的骨针骨锥、殷墟的象牙雕刻——中国考古为动物制品史提供了最古老的连续证据链。</p>
       <div class="cite">卫奇 2012 · 盖培 1977 · 张光直 2002</div>
       <span class="card-arrow">→</span>
-    </a>
+    </div>
   </div>
 </section>
 
@@ -381,6 +389,11 @@ window.addEventListener('load',()=>{
   const pl=document.getElementById('preloader');
   setTimeout(()=>{pl.style.opacity='0';pl.style.visibility='hidden';setTimeout(()=>pl.remove(),600)},1500);
 });
+
+// Portfolio overlay
+function openPortfolio(hash){const f=document.getElementById("portfolioFrame");f.src="https://jgytfrc.github.io/portfolio/"+(hash||"");document.getElementById("portfolioOverlay").classList.add("show");document.body.style.overflow="hidden"}
+function closePortfolio(){document.getElementById("portfolioOverlay").classList.remove("show");document.getElementById("portfolioFrame").src="";document.body.style.overflow=""}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closePortfolio()});
 
 // ===== PROGRESS =====
 window.addEventListener('scroll',()=>{document.getElementById('progress').style.width=(scrollY/(document.documentElement.scrollHeight-innerHeight)*100)+'%'});
@@ -658,7 +671,7 @@ function showModal(i){
   mt.font='100px serif';mt.textAlign='center';mt.textBaseline='middle';mt.fillText(a.emoji,300,160);
   mt.fillStyle=a.color;mt.font='bold 34px "Inter","PingFang SC",sans-serif';mt.fillText(a.name+' · '+a.product,300,300);
   const img=new Image();img.src='assets/animals/'+a.file+'.jpg';
-  img.onload=()=>{mt.clearRect(0,0,600,340);mt.drawImage(img,0,0,600,340);mt.fillStyle='rgba(0,0,0,.25)';mt.fillRect(0,0,600,340);mt.fillStyle='#fff';mt.font='bold 26px "Inter","PingFang SC",sans-serif';mt.textAlign='center';mt.fillText(a.name+' · '+a.product,300,320)};
+  img.onload=()=>{mt.clearRect(0,0,600,340);const W=600,H=340;let iw=img.width,ih=img.height;const s=Math.min(W/iw,H/ih);const sw=iw*s,sh=ih*s;mt.fillStyle="#080808";mt.fillRect(0,0,W,H);mt.drawImage(img,(W-sw)/2,(H-sh)/2,sw,sh);mt.fillStyle='rgba(0,0,0,.25)';mt.fillRect(0,0,600,340);mt.fillStyle='#fff';mt.font='bold 26px "Inter","PingFang SC",sans-serif';mt.textAlign='center';mt.fillText(a.name+' · '+a.product,300,320)};
 
   document.getElementById('mdName').textContent=a.name+'（'+a.en+'）';
   document.getElementById('mdProduct').textContent='制品：'+a.product;
@@ -757,14 +770,10 @@ const altObs=new IntersectionObserver(entries=>{
 allContent.forEach(el=>altObs.observe(el));
 
 // ===== SECTION NAV DOTS =====
+const navLabels={home:"HOME",statement:"生存与掠夺",about:"课题阐述",timeline:"千年谱系",works:"物种档案",research:"研究数据"};
 const navTargets=[];
-document.querySelectorAll('section[id], section.content-section[id], section.spotlight-section, #statement, #about, #timeline, #research').forEach(el=>{if(el.id||el.classList.contains('spotlight-section')||el.classList.contains('content-section'))navTargets.push(el)});
-const navDots=document.getElementById('sectionNav');
-navTargets.forEach((el,i)=>{
-  const a=document.createElement('a');
-  a.addEventListener('click',e=>{e.preventDefault();el.scrollIntoView({behavior:'smooth'})});
-  navDots.appendChild(a);
-});
+document.querySelectorAll("section[id]").forEach(el=>{if(el.id)navTargets.push(el)});
+navTargets.forEach((el)=>{const a=document.createElement("a");a.setAttribute("data-label",navLabels[el.id]||el.id.toUpperCase());a.addEventListener("click",e=>{e.preventDefault();el.scrollIntoView({behavior:"smooth"})});navDots.appendChild(a);});
 window.addEventListener('scroll',()=>{
   let active=0;
   navTargets.forEach((el,i)=>{if(el.getBoundingClientRect().top<innerHeight*.5)active=i});
@@ -944,5 +953,6 @@ setInterval(()=>{
   rail.innerHTML=html;
 },150);
 </script>
+<div class="portfolio-overlay" id="portfolioOverlay" onclick="if(event.target===this)closePortfolio()"><div class="portfolio-frame"><button class="portfolio-close" onclick="closePortfolio()">✕</button><iframe id="portfolioFrame" src="" loading="lazy"></iframe></div></div>
 </body>
 </html>
