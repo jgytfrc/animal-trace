@@ -108,8 +108,9 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
 .modal-card .stat-item{text-align:center}
 .modal-card .stat-val{font-size:24px;color:var(--accent)}
 .modal-card .stat-label{font-size:10px;opacity:.4}
-.modal-img-wrap{width:100%;height:200px;border-radius:8px;overflow:hidden;margin:0 auto 16px;border:1px solid #333}
-.modal-img{width:100%;height:100%;object-fit:cover}
+.modal-img-wrap{width:100%;min-height:200px;max-height:340px;border-radius:8px;overflow:hidden;margin:0 auto 16px;border:1px solid #333;display:flex;align-items:center;justify-content:center;background:#0f0f0f}
+.modal-img-wrap canvas{max-width:100%;max-height:320px;width:auto!important;height:auto!important;object-fit:contain}
+.modal-img-wrap img{max-width:100%;max-height:320px;width:auto;height:auto;object-fit:contain;display:block}
 .modal-sources{text-align:left;margin-top:16px;padding-top:12px;border-top:1px solid #222}
 .modal-sources h4{font-size:11px;opacity:.4;margin-bottom:6px;letter-spacing:.1em}
 .modal-sources ul{list-style:none;padding:0}
@@ -253,6 +254,26 @@ footer{text-align:center;padding:60px 20px;opacity:.25;font-size:11px;letter-spa
 /* Hover glow line on top */
 .research-card::after{content:'';position:absolute;top:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
 .research-card:hover::after{opacity:.6}
+.research-card.open .card-arrow{transform:rotate(90deg)}
+.research-panels{margin-top:20px}
+.research-expand{padding:0;margin-bottom:8px;animation:fadeSlide .3s ease-out}
+.research-outlink{display:inline-block;margin-top:12px;font-family:'Courier New',monospace;font-size:10px;color:var(--accent);text-decoration:none;letter-spacing:.05em;opacity:.5;transition:all .3s}
+.research-outlink:hover{opacity:1;letter-spacing:.1em}
+.research-outlink::after{content:' →';transition:all .3s}
+.research-outlink:hover::after{content:' →→'}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Enhanced Natural Ambiance ── */
+#about .tree-rings{opacity:.03!important}
+#about .paper-grain{opacity:.06!important}
+#about .light-rays{opacity:.04!important}
+#statement .leaf-vein{opacity:.025!important}
+#timeline .tree-rings{opacity:.022!important}
+#research .tree-rings{opacity:.028!important}
+#research .light-rays{opacity:.035!important}
+
+/* ── Enhanced ASCII ── */
+.ascii-watermark{opacity:.05!important}
 
 /* Terminal nav */
 nav a{font-family:'Courier New',monospace!important;font-size:12px!important;letter-spacing:.1em!important}
@@ -421,34 +442,80 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.025;font-family:'Courier New',monospace;line-height:1;pointer-events:none">04</div>
   <div class="section-header"><div class="num">04 / RESEARCH</div><h2>研究基础与数据来源</h2><p>点击卡片进入作品集查看完整数据</p></div>
   <div class="grid-2" id="researchGrid">
-    <a href="https://jgytfrc.github.io/portfolio/#status" target="_blank" class="gcard research-card" style="text-decoration:none;color:inherit">
+    <div class="gcard research-card" onclick="toggleResearch(this)" data-panel="panel-cites">
       <div class="num">[ A ]</div>
       <h3>CITES 贸易数据库</h3>
       <p>《濒危野生动植物种国际贸易公约》全球合法贸易记录，覆盖超过35,000个物种的跨境交易数据。1973年签署，183个缔约方。</p>
       <div class="cite">trade.cites.org · 2024</div>
-      <span class="card-arrow">→</span>
-    </a>
-    <a href="https://jgytfrc.github.io/portfolio/#status" target="_blank" class="gcard research-card" style="text-decoration:none;color:inherit">
+      <span class="card-arrow">▶</span>
+    </div>
+    <div class="gcard research-card" onclick="toggleResearch(this)" data-panel="panel-iucn">
       <div class="num">[ B ]</div>
       <h3>IUCN 红色名录</h3>
       <p>世界自然保护联盟的全球物种濒危状况评估。1964年建立，至今评估超过150,000个物种，是生物多样性保护最权威的数据来源。</p>
       <div class="cite">iucnredlist.org · 2024</div>
-      <span class="card-arrow">→</span>
-    </a>
-    <a href="https://jgytfrc.github.io/portfolio/#status" target="_blank" class="gcard research-card" style="text-decoration:none;color:inherit">
+      <span class="card-arrow">▶</span>
+    </div>
+    <div class="gcard research-card" onclick="toggleResearch(this)" data-panel="panel-traffic">
       <div class="num">[ C ]</div>
       <h3>TRAFFIC 监测报告</h3>
       <p>国际野生物贸易研究组织，成立于1976年。监测全球野生动物非法贸易网络，为CITES执法提供关键情报。</p>
       <div class="cite">traffic.org · 2023</div>
-      <span class="card-arrow">→</span>
-    </a>
-    <a href="https://jgytfrc.github.io/portfolio/#sources" target="_blank" class="gcard research-card" style="text-decoration:none;color:inherit">
+      <span class="card-arrow">▶</span>
+    </div>
+    <div class="gcard research-card" onclick="toggleResearch(this)" data-panel="panel-archaeo">
       <div class="num">[ D ]</div>
       <h3>考古与文献</h3>
       <p>侯家窑遗址的石器切割痕迹、虎头梁的骨针骨锥、殷墟的象牙雕刻——中国考古为动物制品史提供了最古老的连续证据链。</p>
       <div class="cite">卫奇 2012 · 盖培 1977 · 张光直 2002</div>
-      <span class="card-arrow">→</span>
-    </a>
+      <span class="card-arrow">▶</span>
+    </div>
+  </div>
+  <!-- Expanded research panels -->
+  <div class="research-panels" id="researchPanels">
+    <div class="research-expand" id="panel-cites" style="display:none">
+      <div class="terminal-block" style="margin:0">
+        <span class="prompt">$ cat /data/cites_trade.md</span><br>
+        CITES（濒危野生动植物种国际贸易公约）于1973年签署，1975年生效，目前有183个缔约方。<br>
+        公约将受威胁物种列入三个附录：<br>
+        · 附录I — 禁止商业贸易（约1,000种）<br>
+        · 附录II — 管制贸易，需出口许可证（约34,000种）<br>
+        · 附录III — 缔约国自行管制<br>
+        全球合法野生动物贸易年估值约<b>2,200亿美元</b>，非法贸易约<b>200亿美元</b>，是全球第四大非法贸易。
+      </div>
+      <a href="https://jgytfrc.github.io/portfolio/#status" target="_blank" class="research-outlink">在作品集中查看完整数据 →</a>
+    </div>
+    <div class="research-expand" id="panel-iucn" style="display:none">
+      <div class="terminal-block" style="margin:0">
+        <span class="prompt">$ cat /data/iucn_redlist.md</span><br>
+        IUCN红色名录由世界自然保护联盟于1964年建立，是全球最权威的物种濒危状况评估体系。<br>
+        已评估物种超过<b>150,000种</b>，其中逾<b>42,000种</b>受威胁。<br>
+        濒危等级：LC(无危) → NT(近危) → VU(易危) → EN(濒危) → CR(极危) → EW(野外灭绝) → EX(灭绝)<br>
+        本课题16种动物中：2种CR(极危)、2种EN(濒危)、2种VU(易危)、2种NT(近危)。
+      </div>
+      <a href="https://jgytfrc.github.io/portfolio/#status" target="_blank" class="research-outlink">在作品集中查看完整数据 →</a>
+    </div>
+    <div class="research-expand" id="panel-traffic" style="display:none">
+      <div class="terminal-block" style="margin:0">
+        <span class="prompt">$ cat /data/traffic.md</span><br>
+        TRAFFIC（国际野生物贸易研究组织）成立于1976年，是WWF与IUCN的联合项目。<br>
+        在全球<b>30+个国家</b>设有办事处，监测非法野生动物贸易网络。<br>
+        重点关注：象牙、犀角、虎骨、穿山甲鳞片、玳瑁龟甲。<br>
+        为CITES缔约国提供执法情报和贸易数据分析。
+      </div>
+      <a href="https://jgytfrc.github.io/portfolio/#status" target="_blank" class="research-outlink">在作品集中查看完整数据 →</a>
+    </div>
+    <div class="research-expand" id="panel-archaeo" style="display:none">
+      <div class="terminal-block" style="margin:0">
+        <span class="prompt">$ cat /data/archaeology.md</span><br>
+        中国考古为动物制品史提供了全球最古老的连续证据链：<br>
+        · 阳原侯家窑遗址 — 石器切割兽皮痕迹（约10万年前）<br>
+        · 虎头梁遗址 — 磨制骨针骨锥（约1.3万年前）<br>
+        · 殷墟遗址 — 象牙雕刻、龟甲占卜（商代）<br>
+        · 丝绸之路考古 — 象牙、犀角、虎皮贸易遗存
+      </div>
+      <a href="https://jgytfrc.github.io/portfolio/#sources" target="_blank" class="research-outlink">在作品集中查看完整文献 →</a>
+    </div>
   </div>
 </section>
 
@@ -467,6 +534,26 @@ window.addEventListener('load',()=>{
 
 // ===== PROGRESS =====
 window.addEventListener('scroll',()=>{document.getElementById('progress').style.width=(scrollY/(document.documentElement.scrollHeight-innerHeight)*100)+'%'});
+
+// ===== RESEARCH PANEL TOGGLE =====
+function toggleResearch(card){
+  const panelId=card.dataset.panel;
+  const panel=document.getElementById(panelId);
+  if(!panel)return;
+  const isOpen=panel.style.display!=='none';
+  // Close all
+  document.querySelectorAll('.research-expand').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.research-card').forEach(c=>c.classList.remove('open'));
+  // Toggle clicked
+  if(!isOpen){panel.style.display='block';card.classList.add('open');panel.scrollIntoView({behavior:'smooth',block:'nearest'})}
+}
+// Close research panels when clicking outside
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.research-card')&&!e.target.closest('.research-expand')){
+    document.querySelectorAll('.research-expand').forEach(p=>p.style.display='none');
+    document.querySelectorAll('.research-card').forEach(c=>c.classList.remove('open'));
+  }
+});
 
 // ===== ASCII DATA STRIP =====
 (function(){
