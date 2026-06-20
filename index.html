@@ -102,8 +102,8 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
 .portfolio-frame iframe{width:100%;height:100%;border:none}
 .portfolio-close{position:absolute;top:14px;right:18px;z-index:10;background:rgba(0,0,0,.6);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:18px;cursor:pointer;transition:all .3s;font-family:Courier New,monospace}
 .portfolio-close:hover{background:var(--accent);transform:rotate(90deg)}
-.modal-img-wrap{width:100%;height:200px;overflow:hidden;margin:0 auto 16px;background:var(--bg);display:flex;align-items:center;justify-content:center}
-.modal-img-wrap canvas{max-width:100%;max-height:200px;width:auto!important;height:auto!important}
+.modal-img-wrap{text-align:center;margin:0 auto 16px}
+.modal-img-wrap img{max-width:100%;max-height:280px;display:block;margin:0 auto}
 .modal-sources{text-align:left;margin-top:16px;padding-top:12px;border-top:1px solid #222}
 .modal-sources h4{font-size:11px;opacity:.4;margin-bottom:6px;letter-spacing:.1em}
 .modal-sources ul{list-style:none;padding:0}
@@ -275,7 +275,7 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 <div class="digirail" id="digirail"></div>
 <div class="data-line"></div>
 <div class="progress" id="progress"></div>
-<div class="modal-overlay" id="modal"><div class="modal-card"><button class="close" onclick="document.getElementById('modal').classList.remove('show')">&times;</button><canvas class="modal-img-wrap" id="mdCanvas" width="600" height="340"></canvas><h3 id="mdName"></h3><div class="prod" id="mdProduct"></div><div class="desc" id="mdDesc"></div><div class="stat"><div class="stat-item"><div class="stat-val" id="mdStat1">—</div><div class="stat-label">IUCN濒危等级</div></div><div class="stat-item"><div class="stat-val" id="mdStat2">—</div><div class="stat-label">CITES附录</div></div><div class="modal-sources"><h4>数据来源</h4><ul id="mdSources"></ul></div></div></div></div>
+<div class="modal-overlay" id="modal"><div class="modal-card"><button class="close" onclick="document.getElementById('modal').classList.remove('show')">&times;</button><div class="modal-img-wrap"><img id="mdImg" src="" alt="" style="display:none;max-width:100%;max-height:280px"><div id="mdPlaceholder" style="font-size:90px;padding:40px 0"></div></div><h3 id="mdName"></h3><div class="prod" id="mdProduct"></div><div class="desc" id="mdDesc"></div><div class="stat"><div class="stat-item"><div class="stat-val" id="mdStat1">—</div><div class="stat-label">IUCN濒危等级</div></div><div class="stat-item"><div class="stat-val" id="mdStat2">—</div><div class="stat-label">CITES附录</div></div><div class="modal-sources"><h4>数据来源</h4><ul id="mdSources"></ul></div></div></div></div>
 
 <nav>
   <a href="#home">Animal Trace</a>
@@ -310,21 +310,21 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
   <div class="synth-watermark"></div>
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.06;font-family:'Courier New',monospace;line-height:1;pointer-events:none">01</div>
   <div class="section-header"><div class="num"><span class="status-dot"></span>01 / ABOUT</div><h2>以动物制品为镜</h2><p>十万年前，人类用兽皮御寒、用兽骨制作工具——那是生存。今天，象牙被雕刻成奢侈品、犀角被研磨成"药材"。这个项目以数字媒体为媒介，重新审视人与动物的关系。</p></div>
-  <div class="side-block left"><div class="side-content"><h3>历史维度</h3><p>��旧石器时代以兽皮御寒、以兽骨制作工具的生存驱动，到商周时期象牙雕刻和甲骨占卜的礼仪化，再到丝绸之路上的象牙犀角贸易——动物制品的使用史，就是一部人类文明的欲望编年史。阳原侯家窑遗址的石器切割痕迹和虎头梁遗址的骨针骨锥，是中国最早的动物制品考古证据。</p><div class="cite">贾兰坡《中国旧石器时代》1957 · 袁靖《中国动物考古学》2015 · Frankopan《The Silk Roads》2015</div></div></div>
+  <div class="side-block left"><div class="side-content"><h3>历史维度</h3><p>从旧石器时代以兽皮御寒、以兽骨制作工具的生存驱动，到商周��期象牙雕刻和甲骨占卜的礼仪化，再到丝绸之路上的象牙犀角贸易——动物制品的使用史，就是一部人类文明的欲望编年史。阳原侯家窑遗址的石器切割痕迹和虎头梁遗址的骨针骨锥，是中国最早的动物制品考古证据。</p><div class="cite">贾兰坡《中国旧石器时代》1957 · 袁靖《中国动物考古学》2015 · Frankopan《The Silk Roads》2015</div></div></div>
   <div class="side-block right"><div class="side-content"><h3>全球数据</h3><p>1973年《濒危野生动植物种国际贸易公约》（CITES）签署，覆盖超过35,000个物种。IUCN红色名录自1964年建立以来已评估超过150,000个物种。国际野生物贸易研究组织（TRAFFIC）成立于1976年，监测全球非法野生动物贸易网络。数据不是冰冷的数字——每一个统计数字背后，都是一个正在消失的物种。</p><div class="cite">CITES Trade Database · IUCN Red List 2024 · TRAFFIC 2023</div></div></div>
-  <div class="side-block left"><div class="side-content"><h3>数字媒介</h3><p>以数据可视化、交互装置、生成艺术为方法。列夫·马诺维奇在《新媒体的语言》（2001）中提出，数字媒介的本质是可编程性与模块化。情報デ���イン的任务不是让信息更漂亮——而是通过视觉编码让抽象的数据产生情感重量，让观者从被动的信息接收者转变为主动的意义建构者。</p><div class="cite">Manovich《The Language of New Media》2001 · Tufte《The Visual Display of Quantitative Information》1990</div></div></div>
+  <div class="side-block left"><div class="side-content"><h3>数字媒介</h3><p>以数据可视化、交互装置、生成艺术为方法。列夫·马诺维奇在《新媒体的语言》（2001）中提出，数字媒介的本质是可编程性与模块化。情報デザイン的任务不是让信息更漂亮——而是通过视觉编码让抽象的���据产生情感重量，让观者从被动的信息接收者转变为主动的意义建构者。</p><div class="cite">Manovich《The Language of New Media》2001 · Tufte《The Visual Display of Quantitative Information》1990</div></div></div>
   <div class="side-block right"><div class="side-content"><h3>对话而非说教</h3><p>彼得·辛格在《动物解放》（1975）中首次系统论证了物种歧视（speciesism）的概念。伊丽莎白·科尔伯特的《第六次大灭绝》（2014）记录了人类世背景下正在发生的物种消亡。这个项目不提供标准答案，不进行道德审判——用沉浸体验制造认知冲突，让观者自己走向结论。最好的教育，是让人以为是自己想到的。</p><div class="cite">Singer《Animal Liberation》1975 · Kolbert《The Sixth Extinction》2014</div></div></div>
 </section>
 
 <div class="ascii-divider">/* ---- TIMELINE: 100000 BCE → 2024 CE ---- */</div>
 <section class="content-section" id="timeline">
   <div style="position:absolute;left:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.06;font-family:'Courier New',monospace;line-height:1;pointer-events:none">02</div>
-  <div class="section-header"><div class="num">02 / HISTORY</div><h2>人与动物制品��千年谱系</h2></div>
+  <div class="section-header"><div class="num">02 / HISTORY</div><h2>人与动物制品的千年谱系</h2></div>
   <div class="timeline">
     <div class="timeline-item"><div class="era">距今约10万年前</div><h3>旧石器时代 — 生存</h3><p>兽皮御寒：阳原侯家窑遗址出土石器切割兽皮痕迹；虎头梁遗址出土磨制骨针、骨锥用于缝制皮衣。骨骼与鹿角制作骨锥、鱼叉、标枪头和早期装饰品。这是人类与动物制品关系的最早考古证据。</p><div class="cite">贾兰坡 1957 · 卫奇 2012 · 盖培 1977</div></div>
     <div class="timeline-item"><div class="era">距今约1万年–4000年前</div><h3>新石器时代 — 驯化</h3><p>动物驯化使骨器、角器产量大增。牛、羊、猪成为稳定原料来源。兽骨广泛用于农具、武器和宗教仪式。Jared Diamond在《枪炮、病菌与钢铁》中将动物驯化视为文明演进的关键因素。</p><div class="cite">袁靖 2015 · Diamond 1997 · 刘莉,陈星灿 2017</div></div>
     <div class="timeline-item"><div class="era">公元前1600年–前256年</div><h3>商周时期 — 礼仪</h3><p>殷墟出土大量象牙雕刻品、甲骨文占卜用龟甲兽骨。张光直指出，商代青铜器上的动物纹饰（饕餮纹）是沟通人神世界的媒介。动物制品从实用走向礼仪化和权力象征。</p><div class="cite">张光直 2002 · 王宇信 2015 · 李学勤 1997</div></div>
-    <div class="timeline-item"><div class="era">公元前221年–19世纪</div><h3>帝国时代 — 贸易</h3><p>丝绸之路上的象牙、犀角、虎皮、麝香成为国际贸易商品。Peter Frankopan在《丝绸之路》中记录了动物材料如何连接欧亚大陆。Edward Schafer的《撒马尔罕的金桃》详述了唐代珍稀动物制品的国际贸易。</p><div class="cite">Frankopan 2015 · Schafer 1963 · Allsen 1997</div></div>
+    <div class="timeline-item"><div class="era">公元前221年–19世纪</div><h3>���国时代 — 贸易</h3><p>丝绸之路上的象牙、犀角、虎皮、麝香成为国际贸易商品。Peter Frankopan在《丝绸之路》中记录了动物材料如何连接欧亚大陆。Edward Schafer的《撒马尔罕的金桃》详述了唐代珍稀动物制品的国际贸易。</p><div class="cite">Frankopan 2015 · Schafer 1963 · Allsen 1997</div></div>
     <div class="timeline-item"><div class="era">20世纪至今</div><h3>现代 — 危机与觉醒</h3><p>1973年CITES公约签署。1989年象牙国际贸易禁令生效。非洲象从1979年130万头锐减至2023年约41.5万头。全球每年非法野生动物贸易估值高达200亿美元，是全球第四大非法贸易。同时，全球保护意识正在觉醒。</p><div class="cite">CITES · IUCN Red List 2024 · Kolbert 2014 · Singer 1975</div></div>
   </div>
 </section>
@@ -637,7 +637,7 @@ function draw(){
   if(scrollOff<.3){
     ctx.fillStyle='#fff';ctx.globalAlpha=.15;
     ctx.font=`11px 'Inter',sans-serif`;ctx.textAlign='center';
-    ctx.fillText('拖动���转 · 点击查看详情',W/2,H-24*dpr);ctx.globalAlpha=1;
+    ctx.fillText('拖动旋转 · 点击查看详情',W/2,H-24*dpr);ctx.globalAlpha=1;
   }
 
   // Track mouse for hit testing
@@ -650,17 +650,12 @@ function draw(){
 // ===== MODAL =====
 function showModal(i){
   const a=animals[i];
-  // Render modal canvas
-  const mc=document.getElementById('mdCanvas');
-  const mt=mc.getContext('2d');mt.clearRect(0,0,600,340);
-  mt.fillStyle="#f5f3ef";mt.fillRect(0,0,600,340);
-  if(patterns[a.file]){mt.save();mt.globalAlpha=.06;mt.scale(1.17,.67);patterns[a.file](mt);mt.restore();mt.globalAlpha=1;}
-  
-  mt.font='100px serif';mt.textAlign='center';mt.textBaseline='middle';mt.fillText(a.emoji,300,160);
-  mt.fillStyle=a.color;mt.font='bold 34px "Inter","PingFang SC",sans-serif';mt.fillText(a.name+' · '+a.product,300,300);
-  const img=new Image();img.src='assets/animals/'+a.file+'.jpg';
-  img.onload=()=>{mt.clearRect(0,0,600,340);const W=600,H=340;let iw=img.width,ih=img.height;const s=Math.min(W/iw,H/ih);mt.fillStyle="#f0ece6";mt.fillRect(0,0,W,H);mt.drawImage(img,(W-iw*s)/2,(H-ih*s)/2,iw*s,ih*s);mt.fillStyle='rgba(0,0,0,.08)';mt.fillRect(0,0,600,340);mt.fillStyle='#fff';mt.font='bold 26px "Inter","PingFang SC",sans-serif';mt.textAlign='center';mt.fillText(a.name+' · '+a.product,300,320)};
-
+  const ph=document.getElementById('mdPlaceholder');
+  const img=document.getElementById('mdImg');
+  ph.textContent=a.emoji;ph.style.display='block';img.style.display='none';
+  img.src='assets/animals/'+a.file+'.jpg';
+  img.onload=()=>{ph.style.display='none';img.style.display='block'};
+  img.onerror=()=>{ph.style.display='block';img.style.display='none'};
   document.getElementById('mdName').textContent=a.name+'（'+a.en+'）';
   document.getElementById('mdProduct').textContent='制品：'+a.product;
   document.getElementById('mdDesc').textContent=a.desc;
