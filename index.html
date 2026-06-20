@@ -48,8 +48,8 @@ section::before{content:'';position:absolute;inset:0;pointer-events:none;z-index
 .progress{position:fixed;top:0;left:0;height:1px;background:var(--cyan);z-index:1000;transition:width .1s;box-shadow:0 0 8px var(--cyan)}
 .data-line{position:fixed;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.15;z-index:1001;pointer-events:none}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;pointer-events:none;background:rgba(245,243,239,.6);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.03)}
-nav a{color:var(--text);text-decoration:none;font-size:12px;letter-spacing:.12em;pointer-events:auto;transition:all .5s;font-family:Courier New,monospace;opacity:.6}
-nav a:hover{opacity:1;color:var(--accent)}.nav-links{display:flex;gap:24px}
+nav a{color:var(--text);text-decoration:none;font-size:13px;letter-spacing:.12em;pointer-events:auto;transition:all .4s;font-family:Courier New,monospace;opacity:.7}
+nav a:hover,nav a.active{opacity:1;color:var(--accent);font-size:15px;font-weight:bold}.nav-links{display:flex;gap:24px}
 section{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative}
 #works{display:block!important;overflow:visible!important}
 #works .section-header{max-width:none}
@@ -384,6 +384,15 @@ window.addEventListener('load',()=>{
 });
 
 function openPortfolio(hash){const f=document.getElementById("portfolioFrame");f.src="https://jgytfrc.github.io/portfolio/"+(hash||"");document.getElementById("portfolioOverlay").classList.add("show");document.body.style.overflow="hidden"}function closePortfolio(){document.getElementById("portfolioOverlay").classList.remove("show");document.getElementById("portfolioFrame").src="";document.body.style.overflow=""}document.addEventListener("keydown",e=>{if(e.key==="Escape")closePortfolio()});
+
+// ===== NAV ACTIVE HIGHLIGHT =====
+const navLinks=document.querySelectorAll('.nav-links a');
+const navSections=['home','about','timeline','works','research'].map(id=>document.getElementById(id)).filter(Boolean);
+window.addEventListener('scroll',()=>{
+  let current='';
+  navSections.forEach(s=>{if(s.getBoundingClientRect().top<innerHeight*.4)current=s.id});
+  navLinks.forEach(a=>{const href=a.getAttribute('href').replace('#','');a.classList.toggle('active',href===current)});
+});
 
 // ===== PROGRESS =====
 
