@@ -653,14 +653,14 @@ function showModal(i){
   // Render modal canvas
   const mc=document.getElementById('mdCanvas');
   const mt=mc.getContext('2d');mt.clearRect(0,0,600,340);
-  const g=mt.createRadialGradient(300,100,30,300,200,380);g.addColorStop(0,'#1c1c1c');g.addColorStop(1,'#080808');
+  const g=mt.createRadialGradient(300,100,30,300,200,380);g.addColorStop(0,'#f0ece6');g.addColorStop(1,'#e8e4dd');
   mt.fillStyle=g;mt.fillRect(0,0,600,340);
   if(patterns[a.file]){mt.save();mt.scale(1.17,.67);patterns[a.file](mt);mt.restore();}
-  mt.strokeStyle=a.color;mt.lineWidth=2;mt.globalAlpha=.5;mt.strokeRect(4,4,592,332);mt.globalAlpha=1;
+  mt.strokeStyle=a.color;mt.lineWidth=1;mt.globalAlpha=.25;mt.strokeRect(4,4,592,332);mt.globalAlpha=1;
   mt.font='100px serif';mt.textAlign='center';mt.textBaseline='middle';mt.fillText(a.emoji,300,160);
   mt.fillStyle=a.color;mt.font='bold 34px "Inter","PingFang SC",sans-serif';mt.fillText(a.name+' · '+a.product,300,300);
   const img=new Image();img.src='assets/animals/'+a.file+'.jpg';
-  img.onload=()=>{mt.clearRect(0,0,600,340);const W=600,H=340;let iw=img.width,ih=img.height;const s=Math.min(W/iw,H/ih);mt.fillStyle="#080808";mt.fillRect(0,0,W,H);mt.drawImage(img,(W-iw*s)/2,(H-ih*s)/2,iw*s,ih*s);mt.fillStyle='rgba(0,0,0,.25)';mt.fillRect(0,0,600,340);mt.fillStyle='#fff';mt.font='bold 26px "Inter","PingFang SC",sans-serif';mt.textAlign='center';mt.fillText(a.name+' · '+a.product,300,320)};
+  img.onload=()=>{mt.clearRect(0,0,600,340);const W=600,H=340;let iw=img.width,ih=img.height;const s=Math.min(W/iw,H/ih);mt.fillStyle='#f5f3ef';mt.fillRect(0,0,W,H);mt.drawImage(img,(W-iw*s)/2,(H-ih*s)/2,iw*s,ih*s);mt.fillStyle='rgba(0,0,0,.08)';mt.fillRect(0,0,600,340);mt.fillStyle='#fff';mt.font='bold 26px "Inter","PingFang SC",sans-serif';mt.textAlign='center';mt.fillText(a.name+' · '+a.product,W/2,H-16)};
 
   document.getElementById('mdName').textContent=a.name+'（'+a.en+'）';
   document.getElementById('mdProduct').textContent='制品：'+a.product;
