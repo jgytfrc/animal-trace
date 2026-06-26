@@ -382,137 +382,160 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 </section>
 
 
-<div class="ascii-divider">/* ---- VISUALIZATION ---- */</div>
-<section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:120px 60px 100px">
+<div class="ascii-divider">/* ---- PIPELINE ---- */</div>
+<section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:100px 48px 80px">
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.06;font-family:'Courier New',monospace;line-height:1;pointer-events:none">03</div>
-  <div class="section-header"><div class="num">03 / FLOW</div><h2>原料 → 动物 → 成品</h2><p>悬停每个时代查看细节 · 一条十万年的产业链</p></div>
-  <canvas id="vizCanvas" style="width:100%;max-width:1100px;height:520px;cursor:pointer;border-radius:2px"></canvas>
+  <div class="section-header"><div class="num">03 / PIPELINE</div><h2>原料 → 动物 → 成品</h2><p>每一行是一个时代。粒子从原料出发，穿越动物，变成产品。</p></div>
+  <canvas id="pipeCanvas" style="width:100%;max-width:1140px;height:540px;cursor:pointer;border-radius:2px"></canvas>
 </section>
 
 <script>
 (function(){
-const canvas=document.getElementById('vizCanvas');
-if(!canvas)return;
-const ctx=canvas.getContext('2d');
-const dpr=Math.min(window.devicePixelRatio,2);
-const W=1100,H=520;
-canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.width=W+'px';canvas.style.height=H+'px';
+const cv=document.getElementById('pipeCanvas');
+if(!cv)return;
+const ctx=cv.getContext('2d');
+const dpr=Math.min(devicePixelRatio,2);
+const W=1140,H=540;
+cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
 ctx.scale(dpr,dpr);
 
 const eras=[
-  {name:'旧石器',time:'250万年前—1万年前',mat:'骨骼·鹿角·兽皮·牙齿',ani:'鹿·野马·野牛·猛犸象',prd:'投矛器·骨针·骨锥·饰品',color:'#b8753e'},
-  {name:'新石器',time:'1万年前—公元前2000年',mat:'骨骼·蚌壳·兽毛·兽骨',ani:'猪·狗·牛·羊·鱼类',prd:'骨角器·陶器·皮革·骨镯',color:'#c8954e'},
-  {name:'青铜器',time:'公元前2000年—公元500年',mat:'骨骼·兽皮·骨甲·象牙',ani:'豹·犀·虎·象·马·牛·羊',prd:'青铜纹饰·甲胄·甲骨文',color:'#d4a564'},
-  {name:'铁器至近代',time:'公元前1200年—18世纪',mat:'羽毛·象牙·牛角·玳瑁',ani:'哺乳类·鸟类·海龟',prd:'弓·皮具·皮鞍·奢侈品',color:'#5a7a4e'},
-  {name:'近现代',time:'18世纪—2026年',mat:'象牙·犀角·虎皮·鳞片',ani:'象·犀·虎·穿山甲·鲸',prd:'工业原料·药材·奢侈品',color:'#c8734a'}
+  {name:'旧石器',time:'250万年前—1万年前',mat:'骨骼·鹿角·兽皮',ani:'鹿·野马·猛犸象',prd:'骨针·投矛器·饰品',color:'#b8753e',emoji:'🦴'},
+  {name:'新石器',time:'1万年前—公元前2000年',mat:'骨骼·蚌壳·兽毛',ani:'猪·狗·牛·羊',prd:'骨角器·陶器·皮革',color:'#c8954e',emoji:'🐂'},
+  {name:'青铜器',time:'公元前2000年—公元500年',mat:'骨骼·兽皮·象牙',ani:'豹·犀·虎·象',prd:'青铜纹饰·甲骨文',color:'#d4a564',emoji:'🐢'},
+  {name:'铁器至近代',time:'公元前1200年—18世纪',mat:'羽毛·象牙·玳瑁',ani:'哺乳类·鸟类·海龟',prd:'弓·皮具·奢侈品',color:'#5a7a4e',emoji:'🐘'},
+  {name:'近现代',time:'18世纪—2026年',mat:'象牙·犀角·鳞片',ani:'象·犀·虎·穿山甲',prd:'工业原料·奢侈品',color:'#c8734a',emoji:'🦏'},
 ];
 
-let hovered=-1,animT=0,reveal=0,targetX=0,smoothX=0;
+const LH=90,TOP=60,rowW=W-120,marginL=80;
+let hovered=-1,hoverX=-1;
+
+// Particle system - each era has a flow of particles
 const particles=[];
-for(let i=0;i<50;i++)particles.push({x:Math.random()*W,y:Math.random()*H,r:.4+Math.random()*1.2,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,a:.1+Math.random()*.3});
+eras.forEach((e,row)=>{
+  const y=TOP+row*LH;
+  for(let i=0;i<25;i++){
+    particles.push({
+      row,y,eraIdx:row,
+      x:marginL+Math.random()*rowW, // spread across the row
+      targetX:marginL+Math.random()*rowW,
+      r:1+Math.random()*2.5,
+      speed:.3+Math.random()*.8,
+      alpha:.2+Math.random()*.5,
+      phase:Math.random()*Math.PI*2,
+      color:e.color
+    });
+  }
+});
 
-function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath()}
-
-canvas.addEventListener('mousemove',e=>{
-  const rect=canvas.getBoundingClientRect();
-  const mx=(e.clientX-rect.left)*(W/rect.width),my=(e.clientY-rect.top)*(H/rect.height);
-  const cw=W/5;let found=-1;
-  for(let i=0;i<5;i++){const cx=40+i*cw;if(mx>cx-40&&mx<cx+cw-40&&my>100&&my<H-30)found=i}
-  if(found!==hovered){hovered=found;reveal=0}
-  if(found>=0)reveal=Math.min(1,reveal+.05);else reveal=Math.max(0,reveal-.05);
+cv.addEventListener('mousemove',e=>{
+  const r=cv.getBoundingClientRect();
+  const mx=(e.clientX-r.left)*(W/r.width),my=(e.clientY-r.top)*(H/r.height);
+  let found=-1;
+  for(let i=0;i<5;i++){const y=TOP+i*LH;if(my>y-10&&my<y+LH-10){found=i;break}}
+  hovered=found;hoverX=mx;
 });
 
 function draw(){
   ctx.clearRect(0,0,W,H);
-  const t=animT*.001;animT++;
+  const t=performance.now()*.001;
 
-  // Warm paper bg
-  ctx.fillStyle='#faf7f3';ctx.fillRect(0,0,W,H);
+  // Warm bg
+  ctx.fillStyle='#faf7f2';ctx.fillRect(0,0,W,H);
 
-  // Hex grid overlay
-  ctx.strokeStyle='#d4a574';ctx.lineWidth=.3;ctx.globalAlpha=.015;
-  for(let x=0;x<W;x+=36)for(let y=0;y<H;y+=32){const ox=(y%64)?18:0;ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.lineTo(x+ox+9*Math.cos(a),y+9*Math.sin(a))}ctx.closePath();ctx.stroke()}
+  // Subtle hex grid
+  ctx.strokeStyle='#d4a574';ctx.lineWidth=.25;ctx.globalAlpha=.01;
+  for(let x=0;x<W;x+=40)for(let y=0;y<H;y+=35){const ox=(y%70)?20:0;ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.lineTo(x+ox+10*Math.cos(a),y+10*Math.sin(a))}ctx.closePath();ctx.stroke()}
   ctx.globalAlpha=1;
 
-  // Floating particles
-  particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.fillStyle='rgba(184,117,62,'+p.a*.4+')';ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill()});
+  // Era rows
+  eras.forEach((e,row)=>{
+    const y=TOP+row*LH,isHov=row===hovered;
+    const alpha=isHov?1:.35;
 
-  // Header
-  ctx.font='10px Courier New,monospace';ctx.textAlign='center';
-  ctx.fillStyle='rgba(42,37,32,.06)';ctx.fillText('MATERIAL ──── ANIMAL ──── PRODUCT',W/2,50);
-
-  // 5 eras
-  const cw=W/5;
-  eras.forEach((e,i)=>{
-    const cx=40+i*cw,cy=H/2,isHov=i===hovered;
-    const s=isHov?1.1:1;
-    ctx.save();ctx.translate(cx,cy);ctx.scale(s,s);
-
-    // Glow aura
+    // Row bg on hover
     if(isHov){
-      const g=ctx.createRadialGradient(0,-15,5,0,0,150);
-      g.addColorStop(0,'rgba(184,117,62,.1)');g.addColorStop(1,'transparent');
-      ctx.fillStyle=g;ctx.fillRect(-120,-250,240,500);
+      ctx.fillStyle='rgba(184,117,62,.04)';ctx.fillRect(0,y-5,W,LH-10);
     }
 
-    // Vertical spine line
-    ctx.strokeStyle='rgba(184,117,62,'+(isHov?.25:.06)+')';ctx.lineWidth=.5;
-    ctx.beginPath();ctx.moveTo(0,-130);ctx.lineTo(0,170);ctx.stroke();
+    // Era label (left)
+    ctx.font=(isHov?'12':'10')+'px Noto Serif SC,serif';ctx.textAlign='right';
+    ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.9:.3;
+    ctx.fillText(e.name,marginL-12,y+LH/2+5);
+    ctx.globalAlpha=1;
 
-    // Era dot at top
-    ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.9:.25;
-    ctx.beginPath();ctx.arc(0,-140,4,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+    // Row divider line
+    ctx.strokeStyle='rgba(184,117,62,'+(isHov?.12:.04)+')';ctx.lineWidth=.5;
+    ctx.beginPath();ctx.moveTo(marginL,y+LH-5);ctx.lineTo(W-40,y+LH-5);ctx.stroke();
 
-    // Era name + time
-    ctx.font=(isHov?'13':'11')+'px Noto Serif SC,serif';ctx.textAlign='center';
-    ctx.fillStyle=isHov?e.color:'rgba(42,37,32,.45)';ctx.fillText(e.name,0,-130);
-    ctx.font='8px Courier New,monospace';ctx.fillStyle='rgba(42,37,32,.2)';ctx.fillText(e.time,0,-115);
-
-    // 3 nodes: MAT / ANI / PRD
-    const nodes=[
-      {y:-70,label:'原料',text:e.mat,bg:'rgba(184,117,62,.07)'},
-      {y:30,label:'动物',text:e.ani,bg:'rgba(90,122,78,.07)'},
-      {y:130,label:'成品',text:e.prd,bg:'rgba(42,37,32,.04)'}
+    // Zone markers
+    const zones=[
+      {x:marginL+rowW*.15,label:'原料'},
+      {x:marginL+rowW*.5,label:'动物'},
+      {x:marginL+rowW*.85,label:'成品'},
     ];
-
-    // Connector dashed lines
-    ctx.strokeStyle='rgba(184,117,62,.1)';ctx.lineWidth=.8;ctx.setLineDash([3,6]);
-    ctx.beginPath();ctx.moveTo(0,nodes[0].y+22);ctx.lineTo(0,nodes[1].y-22);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(0,nodes[1].y+22);ctx.lineTo(0,nodes[2].y-22);ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Arrow dots on connectors
-    [nodes[0].y+22+nodes[1].y-22>>1,nodes[1].y+22+nodes[2].y-22>>1].forEach(my=>{
-      ctx.fillStyle='rgba(184,117,62,.25)';ctx.beginPath();ctx.arc(0,my,2,0,Math.PI*2);ctx.fill();
+    zones.forEach(z=>{
+      ctx.font='7px Courier New,monospace';ctx.textAlign='center';
+      ctx.fillStyle='rgba(42,37,32,'+(isHov?.2:.05)+')';
+      ctx.fillText(z.label,z.x,y+12);
+      // Small dot marker
+      ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.4:.08;
+      ctx.beginPath();ctx.arc(z.x,y+LH/2,2,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
     });
 
-    nodes.forEach(n=>{
-      // Card bg
-      ctx.fillStyle=isHov?n.bg.replace('.07','.12').replace('.04','.08'):n.bg;
-      roundRect(-68,n.y-21,136,38,4);ctx.fill();
-
-      // Label
-      ctx.font='7px Courier New,monospace';ctx.fillStyle='rgba(42,37,32,.2)';
-      ctx.textAlign='center';ctx.fillText(n.label.toUpperCase(),0,n.y-6);
-
-      // Content
-      ctx.font=(isHov?'10':'9')+'px Noto Serif SC,serif';
-      ctx.fillStyle=isHov?'rgba(42,37,32,.7)':'rgba(42,37,32,.4)';
-      ctx.fillText(n.text.slice(0,18),0,n.y+12);
-    });
-
-    ctx.restore();
+    // Pipeline visual: thin horizontal line with gradient
+    const grad=ctx.createLinearGradient(marginL,0,marginL+rowW,0);
+    grad.addColorStop(0,'rgba(184,117,62,.0)');grad.addColorStop(.5,'rgba(184,117,62,'+(isHov?.15:.04)+')');grad.addColorStop(1,'rgba(184,117,62,.0)');
+    ctx.strokeStyle=grad;ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(marginL,y+LH/2);ctx.lineTo(marginL+rowW,y+LH/2);ctx.stroke();
   });
 
-  // Bottom timeline rail
-  ctx.strokeStyle='rgba(184,117,62,.05)';ctx.lineWidth=.5;
-  ctx.beginPath();ctx.moveTo(40,H-25);ctx.lineTo(W-40,H-25);ctx.stroke();
-  eras.forEach((e,i)=>{
-    const cx=40+i*cw;
-    ctx.fillStyle=e.color;ctx.globalAlpha=i===hovered?.8:.2;
-    ctx.beginPath();ctx.arc(cx,H-25,3,0,Math.PI*2);ctx.fill();
+  // Particles
+  particles.forEach(p=>{
+    const y=TOP+p.row*LH,isHov=p.row===hovered;
+
+    // Move particles left→right along the pipeline
+    p.x+=(.3+Math.sin(t+p.phase)*.5)*p.speed;
+    if(p.x>marginL+rowW+20){p.x=marginL-20;p.phase=Math.random()*Math.PI*2}
+
+    // Vertical oscillation
+    const osc=Math.sin(t*1.5+p.phase)*15;
+    const py=y+LH/2+osc;
+
+    // Size/alpha pulse based on position (peak at center = animal zone)
+    const progress=(p.x-marginL)/rowW;
+    const pulse=.6+.4*Math.sin(Math.PI*progress*2); // peak at center
+
+    const r=p.r*((isHov?1.6:1))*pulse;
+    const a=(isHov?.7:.25)*p.alpha*pulse;
+
+    if(a>.02){
+      ctx.fillStyle=p.color;ctx.globalAlpha=a;
+      ctx.beginPath();ctx.arc(p.x,py,r,0,Math.PI*2);ctx.fill();
+    }
+
+    // Hover: show particle trail
+    if(isHov&&a>.1){
+      ctx.strokeStyle=p.color;ctx.globalAlpha=a*.3;ctx.lineWidth=.5;
+      ctx.beginPath();ctx.moveTo(p.x,py);ctx.lineTo(p.x-8,py-osc*.3);ctx.stroke();
+    }
   });
   ctx.globalAlpha=1;
+
+  // Hover: highlight row text
+  if(hovered>=0){
+    const e=eras[hovered],y=TOP+hovered*LH;
+    // Show material text on hover
+    ctx.font='11px Noto Serif SC,serif';ctx.textAlign='center';
+    const zoneTexts=[
+      {x:marginL+rowW*.15,t:e.mat},
+      {x:marginL+rowW*.5+8,t:e.ani},
+      {x:marginL+rowW*.85,t:e.prd},
+    ];
+    zoneTexts.forEach(z=>{
+      ctx.fillStyle='rgba(42,37,32,.7)';ctx.fillText(z.t,z.x,y+LH-8);
+    });
+  }
 
   requestAnimationFrame(draw);
 }draw();
