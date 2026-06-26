@@ -20,6 +20,22 @@ section::before{content:'';position:absolute;inset:0;pointer-events:none;z-index
 .flow-tag.prd{background:rgba(42,37,32,.04);color:var(--text)}
 .flow-arrow{opacity:.25;font-family:'Courier New',monospace;font-size:10px}
 /* 3D card tilt */
+/* Visual flow grid */
+.viz-grid{display:flex;gap:16px;max-width:1200px;width:100%;overflow-x:auto;padding:20px 0}
+.viz-era{flex:1;min-width:175px;background:rgba(255,255,255,.3);border:1px solid rgba(0,0,0,.04);border-radius:2px;overflow:hidden;transition:all .3s}
+.viz-era:hover{background:rgba(255,255,255,.5);border-color:rgba(0,0,0,.08);transform:translateY(-2px)}
+.viz-era-head{padding:12px 14px;text-align:center;background:rgba(184,117,62,.08)}
+.viz-era-head span{display:block;font-size:14px;font-weight:400;letter-spacing:.06em;color:var(--text)}
+.viz-era-head small{font-size:9px;opacity:.4;font-family:'Courier New',monospace;letter-spacing:.03em}
+.viz-era-body{padding:10px 12px}
+.viz-node{padding:8px 10px;border-radius:4px;font-size:10px;line-height:1.6;letter-spacing:.02em}
+.viz-node em{display:block;font-size:8px;opacity:.4;font-family:'Courier New',monospace;letter-spacing:.08em;margin-bottom:2px;font-style:normal}
+.viz-node.mat{background:rgba(184,117,62,.06)}
+.viz-node.ani{background:rgba(90,122,78,.06)}
+.viz-node.prd{background:rgba(42,37,32,.03)}
+.viz-connector{text-align:center;font-size:10px;opacity:.15;font-family:'Courier New',monospace;padding:2px 0;color:var(--accent)}
+@media(max-width:768px){.viz-grid{flex-direction:column}.viz-era{min-width:100%}}
+
 .gcard,.timeline-item,.wcard,.flying-poster{transform-style:preserve-3d;perspective:800px}
 /* ===== POST-HUMAN: Scanlines + Glitch ===== */
 .scanlines{position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.06;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.6) 2px,rgba(0,0,0,.6) 4px)}
@@ -363,8 +379,66 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
       <div class="cite">CITES · IUCN Red List 2024 · Kolbert 2014 · Singer 1975</div>
     </div>
   </div>
-</section></section>
+</section>
 
+
+<div class="ascii-divider">/* ---- FLOW: MATERIAL -> ANIMAL -> PRODUCT ---- */</div>
+<section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:120px 60px 100px">
+  <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.06;font-family:'Courier New',monospace;line-height:1;pointer-events:none">03</div>
+  <div class="section-header"><div class="num">03 / FLOW</div><h2>原料 → 动物 → 成品</h2><p>从五个历史时期看人类如何利用动物资源</p></div>
+  <div class="viz-grid">
+    <div class="viz-era">
+      <div class="viz-era-head"><span>旧石器</span><small>250万年前—1万年前</small></div>
+      <div class="viz-era-body">
+        <div class="viz-node mat"><em>原料</em>骨骼 · 鹿角 · 兽皮 · 牙齿</div>
+        <div class="viz-connector">↓</div>
+        <div class="viz-node ani"><em>动物</em>鹿 · 野马 · 野牛 · 猛犸象</div>
+        <div class="viz-connector">↓</div>
+        <div class="viz-node prd"><em>成品</em>投矛器 · 骨针 · 骨锥 · 饰品</div>
+      </div>
+    </div>
+    <div class="viz-era">
+      <div class="viz-era-head"><span>新石器</span><small>1万年前—公元前2000年</small></div>
+      <div class="viz-era-body">
+        <div class="viz-node mat"><em>原料</em>骨骼 · 蚌壳 · 兽毛 · 兽骨</div>
+        <div class="viz-connector">↓</div>
+        <div class="viz-node ani"><em>动物</em>猪 · 狗 · 牛 · 羊 · 鱼类</div>
+        <div class="viz-connector">↓</div>
+        <div class="viz-node prd"><em>成品</em>骨角器 · 陶器 · 皮革 · 骨镯</div>
+      </div>
+    </div>
+    <div class="viz-era">
+      <div class="viz-era-head"><span>青铜器</span><small>公元前2000年—公元500年</small></div>
+      <div class="viz-era-body">
+        <div class="viz-node mat"><em>原料</em>骨骼 · 兽皮 · 骨甲 · 象牙</div>
+        <div class="viz-connector">↓</div>
+        <div class="viz-node ani"><em>动物</em>豹 · 犀 · 虎 · 象 · 马 · 牛</div>
+        <div class="viz-connector">↓</div>
+        <div class="viz-node prd"><em>成品</em>青铜纹饰 · 甲胄 · 甲骨文</div>
+      </div>
+    </div>
+    <div class="viz-era">
+      <div class="viz-era-head"><span>铁器至近代</span><small>公元前1200年—18世纪</small></div>
+      <div class="viz-era-body">
+        <div class="viz-node mat"><em>原料</em>羽毛 · 象牙 · 牛角 · 玳瑁</div>
+        <div class="viz-connector">↓</div>
+        <div class="viz-node ani"><em>动物</em>哺乳动物 · 鸟类 · 海龟</div>
+        <div class="viz-connector">↓</div>
+        <div class="viz-node prd"><em>成品</em>弓 · 皮具 · 皮鞍 · 奢侈品</div>
+      </div>
+    </div>
+    <div class="viz-era">
+      <div class="viz-era-head"><span>近现代</span><small>18世纪中期—2026年</small></div>
+      <div class="viz-era-body">
+        <div class="viz-node mat"><em>原料</em>象牙 · 犀角 · 虎皮 · 鳞片</div>
+        <div class="viz-connector">↓</div>
+        <div class="viz-node ani"><em>动物</em>象 · 犀 · 虎 · 穿山甲 · 鲸</div>
+        <div class="viz-connector">↓</div>
+        <div class="viz-node prd"><em>成品</em>工业原料 · 药材 · 奢侈品</div>
+      </div>
+    </div>
+  </div>
+</section>
 <div class="ascii-divider">/* ---- WORKS: 16_SPECIES / 6_RELATIONSHIPS ---- */</div>
 <section id="works" style="min-height:100vh;padding:100px 0 80px">
   <div class="section-header"><div class="num">03 / SPECIES</div><h2>受威胁物种</h2><p>悬停查看详情</p></div>
