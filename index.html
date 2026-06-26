@@ -387,167 +387,89 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 /* ---- CINEMA ---- */
 /* ---- FLOW ---- */
 /* ---- FLOW ---- */
+/* ---- FLOW ---- */
 <div class="ascii-divider">/* ---- FLOW ---- */</div>
-<section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:80px 40px 60px">
-  <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.045;font-family:'Courier New',monospace;line-height:1;pointer-events:none">03</div>
-  <div class="section-header"><div class="num">03 / FLOW</div><h2>原料 → 动物 → 成品</h2><p>⬥ 原料 &nbsp; ● 动物 &nbsp; ■ 成品 &nbsp;——&nbsp; 三种形状，缓慢漂移</p></div>
-  <canvas id="flowCanvas" style="width:100%;max-width:1200px;height:600px;cursor:pointer;border-radius:2px"></canvas>
+<section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:100px 48px 80px;background:#1a1816">
+  <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.04;font-family:'Courier New',monospace;line-height:1;pointer-events:none;color:#fff">03</div>
+  <div class="section-header"><div class="num" style="color:rgba(255,255,255,.3)">03 / FLOW</div><h2 style="color:#c8b898">原料 → 动物 → 成品</h2><p style="color:rgba(255,255,255,.35)">⬥ 原料 &nbsp;·&nbsp; ● 动物 &nbsp;·&nbsp; ■ 成品 &nbsp;—&nbsp; 悬停看细节</p></div>
+  <div class="vf-track">
+    <div class="vf-row">
+      <div class="vf-era"><span>旧石器</span><small>250万年前—1万年前</small></div>
+      <div class="vf-flow">
+        <div class="vf-node mat"><em>⬥ 原料</em>骨骼 · 鹿角 · 兽皮 · 牙齿</div>
+        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
+        <div class="vf-node ani"><em>● 动物</em>猛犸象 · 野马 · 鹿 · 熊</div>
+        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
+        <div class="vf-node prd"><em>■ 成品</em>投矛器 · 骨针 · 骨锥 · 饰品</div>
+      </div>
+    </div>
+    <div class="vf-row">
+      <div class="vf-era"><span>新石器</span><small>1万年前—公元前2000年</small></div>
+      <div class="vf-flow">
+        <div class="vf-node mat"><em>⬥ 原料</em>骨骼 · 蚌壳 · 兽毛 · 兽骨</div>
+        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
+        <div class="vf-node ani"><em>● 动物</em>猪 · 狗 · 牛 · 羊 · 鱼类</div>
+        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
+        <div class="vf-node prd"><em>■ 成品</em>骨角器 · 陶器 · 皮革 · 骨镯</div>
+      </div>
+    </div>
+    <div class="vf-row">
+      <div class="vf-era"><span>青铜器</span><small>公元前2000年—公元500年</small></div>
+      <div class="vf-flow">
+        <div class="vf-node mat"><em>⬥ 原料</em>骨骼 · 兽皮 · 骨甲 · 象牙</div>
+        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
+        <div class="vf-node ani"><em>● 动物</em>豹 · 犀 · 虎 · 象 · 马 · 牛</div>
+        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
+        <div class="vf-node prd"><em>■ 成品</em>青铜纹饰 · 甲胄 · 甲骨文</div>
+      </div>
+    </div>
+    <div class="vf-row">
+      <div class="vf-era"><span>铁器至近代</span><small>公元前1200年—18世纪中期</small></div>
+      <div class="vf-flow">
+        <div class="vf-node mat"><em>⬥ 原料</em>羽毛 · 象牙 · 牛角 · 玳瑁</div>
+        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
+        <div class="vf-node ani"><em>● 动物</em>哺乳类 · 鸟类 · 海龟</div>
+        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
+        <div class="vf-node prd"><em>■ 成品</em>弓 · 皮具 · 皮鞍 · 奢侈品</div>
+      </div>
+    </div>
+    <div class="vf-row">
+      <div class="vf-era"><span>近现代</span><small>18世纪中期—2026年</small></div>
+      <div class="vf-flow">
+        <div class="vf-node mat"><em>⬥ 原料</em>象牙 · 犀角 · 虎皮 · 鳞片</div>
+        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
+        <div class="vf-node ani"><em>● 动物</em>象 · 犀 · 虎 · 穿山甲 · 鲸</div>
+        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
+        <div class="vf-node prd"><em>■ 成品</em>工业原料 · 药材 · 奢侈品</div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<script>
-(function(){
-const cv=document.getElementById('flowCanvas');
-if(!cv)return;
-const ctx=cv.getContext('2d');
-const dpr=Math.min(devicePixelRatio,2);
-const W=1200,H=600;
-cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
-ctx.scale(dpr,dpr);
-
-const eras=[
-  {name:'旧石器',mat:'骨骼·鹿角·兽皮',ani:'猛犸象',prd:'骨针·投矛器·饰品',color:'#b8753e'},
-  {name:'新石器',mat:'骨骼·蚌壳·兽毛',ani:'猪·狗·牛·羊',prd:'骨角器·陶器·皮革',color:'#c8954e'},
-  {name:'青铜器',mat:'骨骼·兽皮·象牙',ani:'豹·犀·虎·象',prd:'青铜纹饰·甲骨文',color:'#d4a564'},
-  {name:'铁器至近代',mat:'羽毛·象牙·玳瑁',ani:'鹿·马·海龟',prd:'弓·皮具·奢侈品',color:'#5a7a4e'},
-  {name:'近现代',mat:'象牙·犀角·鳞片',ani:'象·犀·虎·穿山甲',prd:'工业原料·奢侈品',color:'#c8734a'},
-];
-
-const BH=100,TOP=80,M=90,RW=W-170;
-let hovered=-1;
-
-// Three shapes: diamond (material), circle (animal), square (product)
-function drawShape(ctx,x,y,r,type,color,alpha){ctx.globalAlpha=1;
-  ctx.fillStyle=color;ctx.globalAlpha=alpha;
-  ctx.beginPath();
-  if(type===0){ // diamond = raw material
-    ctx.moveTo(x,y-r);ctx.lineTo(x+r*.6,y);ctx.lineTo(x,y+r);ctx.lineTo(x-r*.6,y);ctx.closePath();
-  }else if(type===1){ // circle = animal
-    ctx.arc(x,y,r,0,Math.PI*2);
-  }else{ // square = product
-    ctx.rect(x-r*.7,y-r*.7,r*1.4,r*1.4);
-  }
-  ctx.fill();
-}
-
-// Generate particles: type 0=material(left), 1=animal(center), 2=product(right)
-const particles=[];
-eras.forEach((e,ri)=>{
-  const y=TOP+ri*BH,cy=y+BH/2;
-  // Material particles (diamonds, left zone)
-  for(let i=0;i<20;i++)particles.push({era:ri,type:0,tx:M+Rh(20,RW*.3),ty:cy+Rh(-20,20),x:M+Rh(-30,RW*.3),y:cy+Rh(-30,30),r:8+Math.random()*14,spd:.0015+Math.random()*.003,color:e.color,ph:Math.random()*Math.PI*2});
-  // Animal particles (circles, center zone)
-  for(let i=0;i<35;i++)particles.push({era:ri,type:1,tx:M+RW*.35+Rh(-40,RW*.3),ty:cy+Rh(-20,20),x:M+RW*.2+Rh(-40,RW*.4),y:cy+Rh(-35,35),r:9+Math.random()*16,spd:.001+Math.random()*.0025,color:e.color,ph:Math.random()*Math.PI*2});
-  // Product particles (squares, right zone)
-  for(let i=0;i<12;i++)particles.push({era:ri,type:2,tx:M+RW*.65+Rh(-30,RW*.25),ty:cy+Rh(-20,20),x:M+RW*.55+Rh(-30,RW*.25),y:cy+Rh(-30,30),r:7+Math.random()*12,spd:.002+Math.random()*.004,color:e.color,ph:Math.random()*Math.PI*2});
-});
-function Rh(mn,mx){return mn+Math.random()*(mx-mn)}
-
-cv.addEventListener('mousemove',e=>{
-  const rect=cv.getBoundingClientRect();
-  const my=(e.clientY-rect.top)*(H/rect.height);
-  let f=-1;for(let i=0;i<5;i++){const y=TOP+i*BH;if(my>y-10&&my<y+BH+10){f=i;break}}hovered=f;
-});
-
-// Wireframe animal shapes
-const shapes=[
-  [{x:0,y:-38},{x:42,y:-22},{x:58,y:2},{x:42,y:25},{x:0,y:38},{x:-42,y:25},{x:-58,y:2},{x:-42,y:-22}],
-  [{x:0,y:-28},{x:35,y:-10},{x:45,y:10},{x:30,y:28},{x:-5,y:32},{x:-32,y:18},{x:-44,y:2},{x:-28,y:-18}],
-  [{x:0,y:-34},{x:22,y:-24},{x:48,y:-8},{x:60,y:12},{x:42,y:30},{x:8,y:36},{x:-28,y:24},{x:-50,y:8},{x:-32,y:-20}],
-  [{x:0,y:-30},{x:32,y:-18},{x:52,y:-2},{x:48,y:20},{x:22,y:34},{x:-12,y:30},{x:-40,y:15},{x:-54,y:2},{x:-32,y:-20}],
-  [{x:0,y:-40},{x:30,y:-28},{x:55,y:-5},{x:60,y:20},{x:40,y:35},{x:2,y:40},{x:-35,y:28},{x:-52,y:8},{x:-58,y:-10},{x:-32,y:-30}],
-];
-
-function drawWireframe(ctx,shape,cx,cy,color,alpha,lw,s){
-  ctx.save();ctx.translate(cx,cy);ctx.scale(s,s);
-  ctx.strokeStyle=color;ctx.lineWidth=lw;ctx.globalAlpha=alpha;
-  ctx.beginPath();ctx.moveTo(shape[0].x,shape[0].y);for(let i=1;i<shape.length;i++)ctx.lineTo(shape[i].x,shape[i].y);ctx.closePath();ctx.stroke();
-  ctx.lineWidth=lw*.5;ctx.globalAlpha=alpha*.5;
-  if(shape.length>=8){ctx.beginPath();ctx.moveTo(shape[0].x,shape[0].y);ctx.lineTo(shape[4]?.x||0,shape[4]?.y||0);ctx.stroke();ctx.beginPath();ctx.moveTo(shape[2]?.x||0,shape[2]?.y||0);ctx.lineTo(shape[6]?.x||0,shape[6]?.y||0);ctx.stroke()}
-  ctx.restore();
-}
-
-function draw(){
-  ctx.clearRect(0,0,W,H);
-  const t=performance.now()*.001;
-
-  ctx.fillStyle='#f0e8da';ctx.fillRect(0,0,W,H);
-
-  // Hex grid
-  ctx.strokeStyle='#d4a574';ctx.lineWidth=.2;ctx.globalAlpha=.008;
-  for(let x=0;x<W;x+=40)for(let y=0;y<H;y+=36){const ox=(y%72)?20:0;ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.lineTo(x+ox+11*Math.cos(a),y+11*Math.sin(a))}ctx.closePath();ctx.stroke()}
-  ctx.globalAlpha=1;
-
-  // Column headers - ALWAYS visible
-  ctx.font='9px Courier New,monospace';ctx.textAlign='center';
-  ctx.fillStyle='rgba(120,60,20,.5)';ctx.fillText('⬥ 原料 MATERIAL',M+55,TOP-26);
-  ctx.fillStyle='rgba(50,80,40,.5)';ctx.fillText('● 动物 ANIMAL',M+RW*.45,TOP-26);
-  ctx.fillStyle='rgba(30,25,20,.5)';ctx.fillText('■ 成品 PRODUCT',M+RW*.8,TOP-26);
-
-  // Column divider lines
-  ctx.setLineDash([4,16]);ctx.strokeStyle='rgba(184,117,62,.04)';ctx.lineWidth=.4;
-  [M+RW*.28,M+RW*.7].forEach(dx=>{ctx.beginPath();ctx.moveTo(dx,TOP-14);ctx.lineTo(dx,TOP+5*BH);ctx.stroke()});
-  ctx.setLineDash([]);
-
-  // Zone legend boxes
-  [[M+5,TOP-14,'⬥'], [M+RW*.45-14,TOP-14,'●'], [M+RW*.8-14,TOP-14,'■']].forEach(([lx,ly,icon])=>{
-    ctx.font='11px serif';ctx.fillStyle='rgba(42,37,32,.06)';ctx.fillText(icon,lx,ly+4);
-  });
-
-  eras.forEach((e,ri)=>{
-    const y=TOP+ri*BH,cy=y+BH/2,isHov=ri===hovered;
-    const a=isHov?1:.28;
-
-    // Row bg
-    ctx.fillStyle='rgba(255,255,255,'+(isHov?.7:.2)+')';ctx.fillRect(0,y-3,W,BH+6);
-
-    // Pipeline line
-    const g=ctx.createLinearGradient(M,0,M+RW,0);
-    g.addColorStop(0,'rgba(184,117,62,0)');g.addColorStop(.15,'rgba(184,117,62,'+(isHov?.22:.04)+')');
-    g.addColorStop(.5,'rgba(184,117,62,'+(isHov?.35:.06)+')');g.addColorStop(.85,'rgba(184,117,62,'+(isHov?.22:.04)+')');
-    g.addColorStop(1,'rgba(184,117,62,0)');
-    ctx.strokeStyle=g;ctx.lineWidth=isHov?1.8:.5;
-    ctx.beginPath();ctx.moveTo(M,cy);ctx.lineTo(M+RW,cy);ctx.stroke();
-
-    // Zone anchor dots
-    [M+55,M+RW*.45,M+RW*.8].forEach(zx=>{ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.5:.06;ctx.beginPath();ctx.arc(zx,cy,isHov?3.5:2,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1});
-
-    // WIREFRAME ANIMAL - large, center
-    drawWireframe(ctx,shapes[ri],M+RW*.45,cy,e.color,isHov?.7:.2,isHov?1.8:1,isHov?3.5:2.2);
-
-    // Hover glow
-    if(isHov){const ga=ctx.createRadialGradient(M+RW*.45,cy,5,M+RW*.45,cy,65);ga.addColorStop(0,'rgba(184,117,62,.1)');ga.addColorStop(1,'transparent');ctx.fillStyle=ga;ctx.fillRect(M+RW*.45-90,cy-90,180,180)}
-
-    // Draw particles - SLOW drift
-    particles.filter(p=>p.era===ri).forEach(p=>{
-      p.x+=(p.tx-p.x)*p.spd;p.y+=(p.ty-p.y)*p.spd*.6;
-      if(Math.random()<.001){const zx=[M+55,M+RW*.45,M+RW*.8][p.type];p.tx=zx+Rh(-35,35);p.ty=cy+Rh(-15,15)}
-      const osc=Math.sin(t*1.2+p.ph)*3;
-      const R=p.r*(isHov?2:1),A=p.type===0?.9:p.type===1?1:.85;
-      const a2=A*(isHov?1:.6);
-      if(a2>.02){drawShape(ctx,p.x,p.y+p.osc*p.r*.3||osc*.5||0,R,p.type,p.color,a2)}
-    });
-
-    // Era label
-    ctx.font=(isHov?'20':'14')+'px Noto Serif SC,serif';ctx.textAlign='right';
-    ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.9:.22;
-    ctx.fillText(e.name,M-12,cy+6);
-
-    // Zone text - always visible on hover, faint otherwise
-    ctx.font='9px Noto Serif SC,serif';ctx.textAlign='center';
-    [{x:M+55,t:e.mat},{x:M+RW*.45,t:e.ani},{x:M+RW*.8,t:e.prd}].forEach(z=>{
-      ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.55:.08;
-      ctx.fillText(z.t,z.x,cy+(isHov?-28:-22));
-    });
-  });
-  ctx.globalAlpha=1;
-
-  // CRT
-  ctx.fillStyle='rgba(0,0,0,.01)';for(let y2=0;y2<H;y2+=3)ctx.fillRect(0,y2,W,1);
-
-  requestAnimationFrame(draw);
-}draw();
-})();
-</script><div class="ascii-divider">/* ---- WORKS: 16_SPECIES / 6_RELATIONSHIPS ---- */</div>
+<style>
+.vf-track{display:flex;flex-direction:column;gap:0;max-width:1100px;width:100%}
+.vf-row{display:flex;align-items:center;gap:0;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.04);transition:all .5s cubic-bezier(.16,1,.3,1)}
+.vf-row:hover{background:rgba(255,255,255,.03);padding:20px 0}
+.vf-era{width:100px;flex-shrink:0;text-align:right;padding-right:20px}
+.vf-era span{display:block;font-size:16px;font-weight:300;color:#c8b898;letter-spacing:.04em}
+.vf-era small{font-size:7px;color:rgba(255,255,255,.2);font-family:'Courier New',monospace;letter-spacing:.04em}
+.vf-flow{flex:1;display:flex;align-items:center;gap:0}
+.vf-node{flex:1;padding:10px 14px;font-size:10px;letter-spacing:.02em;line-height:1.6;border-radius:2px;transition:all .4s}
+.vf-node em{display:block;font-size:7px;opacity:.5;font-family:'Courier New',monospace;letter-spacing:.06em;font-style:normal;margin-bottom:3px}
+.vf-node.mat{background:rgba(184,117,62,.08);color:#d4a574}
+.vf-node.ani{background:rgba(90,122,78,.08);color:#a0c090}
+.vf-node.prd{background:rgba(255,255,255,.03);color:rgba(255,255,255,.5)}
+.vf-row:hover .vf-node.mat{background:rgba(184,117,62,.15);color:#e8c898}
+.vf-row:hover .vf-node.ani{background:rgba(90,122,78,.15);color:#c0e0b0}
+.vf-row:hover .vf-node.prd{background:rgba(255,255,255,.06);color:rgba(255,255,255,.7)}
+.vf-arrow{width:40px;flex-shrink:0;text-align:center;font-size:10px;color:rgba(255,255,255,.1);display:flex;flex-direction:column;gap:1px}
+.vf-row:hover .vf-arrow{color:rgba(184,117,62,.3)}
+.vf-arrow span{display:block;animation:vfPulse 2s ease-in-out infinite}
+.vf-arrow span:nth-child(2){animation-delay:.4s}
+.vf-arrow span:nth-child(3){animation-delay:.8s}
+@keyframes vfPulse{0%,100%{opacity:.3}50%{opacity:1}}
+@media(max-width:768px){.vf-era{width:60px}.vf-era span{font-size:12px}.vf-node{font-size:8px}}
+</style><div class="ascii-divider">/* ---- WORKS: 16_SPECIES / 6_RELATIONSHIPS ---- */</div>
 <section id="works" style="min-height:100vh;padding:100px 0 80px">
   <div class="section-header"><div class="num">04 / SPECIES</div><h2>受威胁物种</h2><p>悬停查看详情</p></div>
   <div class="flying-posters" id="flyingPosters"></div>
