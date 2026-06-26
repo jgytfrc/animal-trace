@@ -382,175 +382,161 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 </section>
 
 
-<div class="ascii-divider">/* ---- SCULPTURE ---- */</div>
+/* ---- PIPELINE ---- */
+<div class="ascii-divider">/* ---- PIPELINE ---- */</div>
 <section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:80px 40px 80px">
-  <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.06;font-family:'Courier New',monospace;line-height:1;pointer-events:none">03</div>
-  <div class="section-header"><div class="num">03 / SCULPTURE</div><h2>原料 → 动物 → 成品</h2><p>悬停一个时代，看粒子如何变成动物，再变成产品。</p></div>
-  <canvas id="sculptCanvas" style="width:100%;max-width:1200px;height:680px;cursor:pointer"></canvas>
+  <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.045;font-family:'Courier New',monospace;line-height:1;pointer-events:none">03</div>
+  <div class="section-header"><div class="num">03 / FLOW</div><h2>原料 → 动物 → 成品</h2><p>粒子从原材料出发，在动物体内汇聚成形，再化为产品。悬停看细节。</p></div>
+  <canvas id="flowCanvas" style="width:100%;max-width:1200px;height:640px;cursor:pointer;border-radius:2px"></canvas>
 </section>
 
 <script>
 (function(){
-const cv=document.getElementById('sculptCanvas');
+const cv=document.getElementById('flowCanvas');
 if(!cv)return;
 const ctx=cv.getContext('2d');
 const dpr=Math.min(devicePixelRatio,2);
-const W=1200,H=680;
+const W=1200,H=640;
 cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
 ctx.scale(dpr,dpr);
 
 const eras=[
-  {name:'旧石器',time:'250万年前—1万年前',mat:'骨骼·鹿角·兽皮',ani:'猛犸象·野马·洞熊',prd:'骨针·投矛器·饰品',color:'#b8753e'},
-  {name:'新石器',time:'1万年前—公元前2000年',mat:'骨骼·蚌壳·兽毛',ani:'猪·狗·牛·羊',prd:'骨角器·陶器·皮革',color:'#c8954e'},
-  {name:'青铜器',time:'公元前2000年—公元500年',mat:'骨骼·兽皮·象牙',ani:'豹·犀·虎·象',prd:'青铜纹饰·甲骨文',color:'#d4a564'},
-  {name:'铁器至近代',time:'公元前1200年—18世纪',mat:'羽毛·象牙·玳瑁',ani:'鹿·马·牛·海龟',prd:'弓·皮具·奢侈品',color:'#5a7a4e'},
-  {name:'近现代',time:'18世纪—2026年',mat:'象牙·犀角·鳞片',ani:'象·犀·虎·穿山甲',prd:'工业原料·奢侈品',color:'#c8734a'},
+  {name:'旧石器',mat:'骨骼·鹿角·兽皮',ani:'猛犸象·野马·熊',prd:'骨针·投矛器·饰品',color:'#b8753e'},
+  {name:'新石器',mat:'骨骼·蚌壳·兽毛',ani:'猪·狗·牛·羊',prd:'骨角器·陶器·皮革',color:'#c8954e'},
+  {name:'青铜器',mat:'骨骼·兽皮·象牙',ani:'豹·犀·虎·象',prd:'青铜纹饰·甲骨文',color:'#d4a564'},
+  {name:'铁器至近代',mat:'羽毛·象牙·玳瑁',ani:'鹿·马·海龟',prd:'弓·皮具·奢侈品',color:'#5a7a4e'},
+  {name:'近现代',mat:'象牙·犀角·鳞片',ani:'象·犀·虎·穿山甲',prd:'工业原料·奢侈品',color:'#c8734a'},
 ];
 
-const animShapes=[
-  [{x:0,y:-20},{x:30,y:-15},{x:40,y:0},{x:30,y:15},{x:0,y:20},{x:-30,y:15},{x:-40,y:0},{x:-30,y:-15}],
-  [{x:0,y:-18},{x:25,y:-12},{x:35,y:5},{x:25,y:18},{x:0,y:22},{x:-20,y:15},{x:-30,y:0},{x:-20,y:-15}],
-  [{x:0,y:-25},{x:15,y:-20},{x:35,y:-10},{x:45,y:5},{x:35,y:20},{x:10,y:25},{x:-20,y:20},{x:-35,y:5},{x:-25,y:-15}],
-  [{x:0,y:-22},{x:20,y:-18},{x:38,y:-8},{x:42,y:5},{x:30,y:18},{x:10,y:25},{x:-15,y:18},{x:-38,y:5},{x:-20,y:-15}],
-  [{x:0,y:-30},{x:25,y:-22},{x:45,y:-8},{x:50,y:10},{x:35,y:22},{x:10,y:28},{x:-20,y:20},{x:-40,y:8},{x:-45,y:-10},{x:-25,y:-22}],
+const BH=104,TOP=70,M=80,RW=W-160; // M=margin left, RW=row width
+// Three zone x-positions
+const ZL=M+30, ZC=M+RW*.5, ZR=M+RW-30;
+let hovered=-1,clicked=-1;
+
+// Big dramatic particle shapes for each era's animal
+const shapes=[
+  [{x:0,y:-35},{x:40,y:-20},{x:55,y:0},{x:40,y:20},{x:0,y:35},{x:-40,y:20},{x:-55,y:0},{x:-40,y:-20}],
+  [{x:0,y:-28},{x:35,y:-12},{x:45,y:8},{x:30,y:25},{x:-5,y:30},{x:-30,y:18},{x:-42,y:0},{x:-25,y:-18}],
+  [{x:0,y:-32},{x:20,y:-22},{x:45,y:-8},{x:58,y:10},{x:40,y:28},{x:10,y:34},{x:-25,y:22},{x:-48,y:5},{x:-30,y:-18}],
+  [{x:0,y:-30},{x:30,y:-18},{x:50,y:-2},{x:48,y:18},{x:25,y:32},{x:-10,y:30},{x:-38,y:15},{x:-52,y:0},{x:-30,y:-20}],
+  [{x:0,y:-38},{x:28,y:-25},{x:52,y:-5},{x:58,y:18},{x:40,y:32},{x:5,y:38},{x:-30,y:25},{x:-50,y:8},{x:-55,y:-12},{x:-30,y:-28}],
 ];
 
-const BW=W-160,BL=120, BT=90, BH=95, BGAP=10;
-let hovered=-1, targetHover=-1, animT=0;
+// Generate directional particles (fewer, more purposeful)
 const particles=[];
-
-// Generate particles per era
 eras.forEach((e,ri)=>{
-  const y=BT+ri*(BH+BGAP);
-  for(let i=0;i<80;i++){
-    const lane=Math.random();
-    let tx;if(lane<.33)tx=BL+Math.random()*BW*.25;else if(lane<.66)tx=BL+BW*.35+Math.random()*BW*.3;else tx=BL+BW*.7+Math.random()*BW*.25;
-    particles.push({
-      era:ri,baseY:y,tx,ty:y+BH/2,
-      x:BL+Math.random()*BW,y:y+BH/2,
-      r:.6+Math.random()*2.5,spd:.015+Math.random()*.04,
-      ph:Math.random()*Math.PI*2,alpha:.15+Math.random()*.5,
-      color:eras[ri].color
-    });
-  }
+  const y=TOP+ri*BH;
+  // Material particles (left zone)
+  for(let i=0;i<15;i++)particles.push({era:ri,zone:0,tx:ZL+Rh(-30,30),ty:y+BH/2+Rh(-20,20),x:Rh(-60,40)+ZL,y:y+BH/2+Rh(-30,30),r:1.2+Math.random()*3,speed:.02+Math.random()*.03,alpha:.25+Math.random()*.5,color:e.color,ph:Math.random()*Math.PI*2});
+  // Animal zone particles
+  for(let i=0;i<30;i++)particles.push({era:ri,zone:1,tx:ZC+Rh(-40,40),ty:y+BH/2+Rh(-25,25),x:ZC+Rh(-80,80),y:y+BH/2+Rh(-40,40),r:1.5+Math.random()*3.5,speed:.015+Math.random()*.035,alpha:.3+Math.random()*.5,color:e.color,ph:Math.random()*Math.PI*2});
+  // Product particles (right zone)
+  for(let i=0;i<15;i++)particles.push({era:ri,zone:2,tx:ZR+Rh(-30,30),ty:y+BH/2+Rh(-20,20),x:ZR+Rh(-40,60),y:y+BH/2+Rh(-30,30),r:1+Math.random()*2.5,speed:.02+Math.random()*.04,alpha:.2+Math.random()*.45,color:e.color,ph:Math.random()*Math.PI*2});
 });
+function Rh(min,max){return min+Math.random()*(max-min)}
 
 cv.addEventListener('mousemove',e=>{
-  const r=cv.getBoundingClientRect();
-  const my=(e.clientY-r.top)*(H/r.height);
-  let f=-1;
-  for(let i=0;i<5;i++){const y=BT+i*(BH+BGAP);if(my>y-15&&my<y+BH+15){f=i;break}}
-  targetHover=f;
+  const rect=cv.getBoundingClientRect();
+  const my=(e.clientY-rect.top)*(H/rect.height);
+  let f=-1;for(let i=0;i<5;i++){const y=TOP+i*BH;if(my>y-10&&my<y+BH+10){f=i;break}}hovered=f;
 });
+cv.addEventListener('click',e=>{clicked=clicked===hovered?-1:hovered});
+
+function drawWireframe(shape,cx,cy,color,alpha,lw,scale){
+  ctx.save();ctx.translate(cx,cy);ctx.scale(scale,scale);
+  ctx.strokeStyle=color;ctx.lineWidth=lw;ctx.globalAlpha=alpha;
+  ctx.beginPath();ctx.moveTo(shape[0].x,shape[0].y);
+  for(let i=1;i<shape.length;i++)ctx.lineTo(shape[i].x,shape[i].y);
+  ctx.closePath();ctx.stroke();
+  // Cross lines for structure
+  ctx.lineWidth=lw*.5;ctx.globalAlpha=alpha*.6;
+  if(shape.length>=8){ctx.beginPath();ctx.moveTo(shape[0].x,shape[0].y);ctx.lineTo(shape[4]?.x||0,shape[4]?.y||0);ctx.stroke();ctx.beginPath();ctx.moveTo(shape[2]?.x||0,shape[2]?.y||0);ctx.lineTo(shape[6]?.x||0,shape[6]?.y||0);ctx.stroke()}
+  ctx.restore();
+}
 
 function draw(){
   ctx.clearRect(0,0,W,H);
-  const t=animT*.001;animT++;
-  // Smooth hover
-  if(targetHover!==hovered){hovered+=(targetHover-hovered)*.15;if(Math.abs(targetHover-hovered)<.01)hovered=targetHover}
+  const t=performance.now()*.001,at=(t%1);
 
-  // Background: dark gradient for drama
-  const bg=ctx.createLinearGradient(0,0,0,H);
-  bg.addColorStop(0,'#f5f3ef');bg.addColorStop(.5,'#f0ece6');bg.addColorStop(1,'#f5f3ef');
+  // Background
+  const bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#faf6f0');bg.addColorStop(1,'#f0ebe4');
   ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
 
-  // Hex grid - barely visible
-  ctx.strokeStyle='#d4a574';ctx.lineWidth=.2;ctx.globalAlpha=.012;
-  for(let x=0;x<W;x+=34)for(let y=0;y<H;y+=30){const ox=(y%60)?17:0;ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.lineTo(x+ox+9*Math.cos(a),y+9*Math.sin(a))}ctx.closePath();ctx.stroke()}
+  // Hex grid
+  ctx.strokeStyle='#d4a574';ctx.lineWidth=.2;ctx.globalAlpha=.01;
+  for(let x=0;x<W;x+=38)for(let y=0;y<H;y+=34){const ox=(y%68)?19:0;ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.lineTo(x+ox+10*Math.cos(a),y+10*Math.sin(a))}ctx.closePath();ctx.stroke()}
   ctx.globalAlpha=1;
 
-  // Left and right labels
-  ctx.font='9px Courier New,monospace';ctx.textAlign='center';
-  ctx.fillStyle='rgba(184,117,62,.15)';ctx.fillText('← 原料 INPUT',BL-30,40);
-  ctx.fillText('成品 OUTPUT →',BL+BW+30,40);
+  // Column headers
+  ctx.font='8px Courier New,monospace';ctx.textAlign='center';
+  [{x:ZL,t:'MATERIAL'},{x:ZC,t:'ANIMAL'},{x:ZR,t:'PRODUCT'}].forEach(z=>{ctx.fillStyle='rgba(184,117,62,.12)';ctx.fillText(z.t,z.x,TOP-18)});
 
-  // Era bands
+  // Vertical dashed zone dividers
+  ctx.setLineDash([6,12]);ctx.strokeStyle='rgba(184,117,62,.06)';ctx.lineWidth=.5;
+  [M+RW*.28,M+RW*.72].forEach(dx=>{ctx.beginPath();ctx.moveTo(dx,TOP-10);ctx.lineTo(dx,TOP+5*BH);ctx.stroke()});
+  ctx.setLineDash([]);
+
+  // Era rows
   eras.forEach((e,ri)=>{
-    const y=BT+ri*(BH+BGAP),cy=y+BH/2;
-    const isHov=ri===Math.round(hovered)||(hovered>ri-.4&&hovered<ri+.4);
-    const hovFac=ri===Math.round(hovered)?1-Math.abs(Math.round(hovered)-hovered):0;
-    const alpha=isHov?1:.25;
-    const scale=isHov?1.08:1;
+    const y=TOP+ri*BH,cy=y+BH/2,isHov=ri===hovered||ri===clicked;
+    const alpha=isHov?1:.3,scale=isHov?1.14:1;
 
-    ctx.save();ctx.translate(0,cy);ctx.scale(1,scale);ctx.translate(0,-cy);
+    // Row bg
+    ctx.fillStyle='rgba(255,255,255,'+(isHov?.7:.2)+')';ctx.fillRect(0,y-4,W,BH+8);
 
-    // Row background
-    ctx.fillStyle='rgba(255,255,255,'+(isHov?.6:.15)+')';ctx.fillRect(0,y-5,W,BH+10);
-
-    // Era name - left side
-    ctx.font=(isHov?'22':'14')+'px Noto Serif SC,serif';ctx.textAlign='right';
-    ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.9:.3;
-    ctx.fillText(e.name,BL-18,cy+8);
+    // Era name - left
+    ctx.font=(isHov?'18':'13')+'px Noto Serif SC,serif';ctx.textAlign='right';
+    ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.9:.25;
+    ctx.fillText(e.name,M-14,cy+6);
     ctx.globalAlpha=1;
 
-    // Pipeline track
-    const tlGrad=ctx.createLinearGradient(BL,0,BL+BW,0);
-    tlGrad.addColorStop(0,'rgba(184,117,62,.0)');tlGrad.addColorStop(.3,'rgba(184,117,62,'+(isHov?.2:.04)+')');
-    tlGrad.addColorStop(.5,'rgba(184,117,62,'+(isHov?.35:.06)+')');tlGrad.addColorStop(.7,'rgba(184,117,62,'+(isHov?.2:.04)+')');tlGrad.addColorStop(1,'rgba(184,117,62,.0)');
-    ctx.strokeStyle=tlGrad;ctx.lineWidth=isHov?2:.6;
-    ctx.beginPath();ctx.moveTo(BL,cy);ctx.lineTo(BL+BW,cy);ctx.stroke();
+    // Horizontal pipeline
+    const grad=ctx.createLinearGradient(M,0,M+RW,0);
+    grad.addColorStop(0,'rgba(184,117,62,0)');grad.addColorStop(.15,'rgba(184,117,62,'+(isHov?.25:.05)+')');
+    grad.addColorStop(.5,'rgba(184,117,62,'+(isHov?.4:.08)+')');grad.addColorStop(.85,'rgba(184,117,62,'+(isHov?.25:.05)+')');
+    grad.addColorStop(1,'rgba(184,117,62,0)');
+    ctx.strokeStyle=grad;ctx.lineWidth=isHov?1.8:.6;
+    ctx.beginPath();ctx.moveTo(M,cy);ctx.lineTo(M+RW,cy);ctx.stroke();
 
-    // Zone dots on track
-    const zones=[BL+BW*.2,BL+BW*.5,BL+BW*.8];
-    zones.forEach(zx=>{
-      ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.5:.1;
-      ctx.beginPath();ctx.arc(zx,cy,isHov?4:2.5,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
-    });
+    // Three zone anchor dots
+    [ZL,ZC,ZR].forEach(zx=>{ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.6:.08;ctx.beginPath();ctx.arc(zx,cy,isHov?4.5:2.5,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1});
 
-    // Wireframe animal in the center zone (BL+BW*.35 to BL+BW*.65)
-    if(animShapes[ri]){
-      const shape=animShapes[ri],cx2=BL+BW*.5,cy2=cy;
-      ctx.save();ctx.translate(cx2,cy2);ctx.scale(isHov?1.6:1,isHov?1.6:1);
-      ctx.strokeStyle=e.color;ctx.lineWidth=isHov?.8:.4;ctx.globalAlpha=isHov?.25:.06;
-      ctx.beginPath();ctx.moveTo(shape[0].x,shape[0].y);
-      for(let i=1;i<shape.length;i++)ctx.lineTo(shape[i].x,shape[i].y);
-      ctx.closePath();ctx.stroke();
-      // Inner detail lines
-      ctx.lineWidth=isHov?.4:.2;ctx.globalAlpha=isHov?.15:.03;
-      ctx.beginPath();ctx.moveTo(shape[0].x,shape[0].y);ctx.lineTo(shape[4]?.x||0,shape[4]?.y||0);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(shape[2]?.x||0,shape[2]?.y||0);ctx.lineTo(shape[6]?.x||0,shape[6]?.y||0);ctx.stroke();
-      ctx.restore();
-    }
+    // WIREFRAME ANIMAL - big and visible in center
+    drawWireframe(shapes[ri],ZC,cy,e.color,isHov?.35:.08,isHov?1.2:.5,isHov?1.8:1.2);
 
-    // Particles
+    // Glow aura around wireframe
+    if(isHov){const ga=ctx.createRadialGradient(ZC,cy,10,ZC,cy,60);ga.addColorStop(0,'rgba(184,117,62,.08)');ga.addColorStop(1,'transparent');ctx.fillStyle=ga;ctx.fillRect(ZC-80,cy-80,160,160)}
+
+    // Particles - directional flow
     particles.filter(p=>p.era===ri).forEach(p=>{
-      // Move toward target with spring
-      p.x+=(p.tx-p.x)*p.spd;p.y+=(p.ty-p.y)*p.spd;
-      // Randomly change target to keep flowing
-      if(Math.random()<.003)p.tx=BL+Math.random()*BW;
-      // Oscillate
-      const osc=Math.sin(t*2+p.ph)*4;
-      const py=p.y+osc;
-
-      const r2=p.r*(isHov?2:1);const a2=p.alpha*(isHov?.9:.35);
-      if(a2>.02){
-        ctx.fillStyle=p.color;ctx.globalAlpha=a2;
-        ctx.beginPath();ctx.arc(p.x,py,r2,0,Math.PI*2);ctx.fill();
-      }
+      // Flow toward zone target with spring
+      p.x+=(p.tx-p.x)*p.speed;p.y+=(p.ty-p.y)*p.speed*.7;
+      // Periodic retarget
+      if(Math.random()<.002){const zx=[ZL,ZC,ZR][p.zone];p.tx=zx+Rh(-35,35);p.ty=cy+Rh(-20,20)}
+      // Oscillation
+      const osc=Math.sin(t*1.8+p.ph)*5;
+      const py2=p.y+osc;
+      const r2=p.r*(isHov?2.2:1);const a2=p.alpha*(isHov?1:.4);
+      if(a2>.02){ctx.fillStyle=p.color;ctx.globalAlpha=a2;ctx.beginPath();ctx.arc(p.x,py2,r2,0,Math.PI*2);ctx.fill()}
+      // Glow trail for zone-1 particles
+      if(p.zone===1&&isHov&&a2>.15){ctx.strokeStyle=p.color;ctx.globalAlpha=a2*.25;ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(p.x,py2);ctx.lineTo(p.x-6,py2-osc*.3);ctx.stroke()}
     });
+    ctx.globalAlpha=1;
 
-    // Hover text overlay
-    if(isHov&&hovFac>.7){
+    // Zone labels on hover
+    if(isHov){
       ctx.font='10px Noto Serif SC,serif';ctx.textAlign='center';
-      ctx.fillStyle='rgba(42,37,32,.65)';
-      ctx.fillText(e.mat,BL+BW*.2,cy-18);
-      ctx.fillText(e.ani,BL+BW*.5+5,cy-18);
-      ctx.fillText(e.prd,BL+BW*.8,cy-18);
+      ctx.fillStyle='rgba(42,37,32,.55)';{ctx.fillText(e.mat,ZL,cy-36);ctx.fillText(e.ani,ZC,cy-36);ctx.fillText(e.prd,ZR,cy-36)}
     }
-
-    ctx.restore();
   });
-  ctx.globalAlpha=1;
 
-  // CRT scanline overlay
-  ctx.fillStyle='rgba(0,0,0,.015)';
-  for(let y2=0;y2<H;y2+=3)ctx.fillRect(0,y2,W,1);
+  // CRT scanline
+  ctx.fillStyle='rgba(0,0,0,.012)';for(let y2=0;y2<H;y2+=3)ctx.fillRect(0,y2,W,1);
 
   requestAnimationFrame(draw);
 }draw();
 })();
-</script>
-<div class="ascii-divider">/* ---- WORKS: 16_SPECIES / 6_RELATIONSHIPS ---- */</div>
+</script><div class="ascii-divider">/* ---- WORKS: 16_SPECIES / 6_RELATIONSHIPS ---- */</div>
 <section id="works" style="min-height:100vh;padding:100px 0 80px">
   <div class="section-header"><div class="num">04 / SPECIES</div><h2>受威胁物种</h2><p>悬停查看详情</p></div>
   <div class="flying-posters" id="flyingPosters"></div>
