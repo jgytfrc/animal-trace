@@ -388,88 +388,135 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 /* ---- FLOW ---- */
 /* ---- FLOW ---- */
 /* ---- FLOW ---- */
-<div class="ascii-divider">/* ---- FLOW ---- */</div>
-<section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:100px 48px 80px;background:#1a1816">
+/* ---- TREE ---- */
+<div class="ascii-divider">/* ---- TREE ---- */</div>
+<section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:80px 40px 60px;background:#1a1816">
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.04;font-family:'Courier New',monospace;line-height:1;pointer-events:none;color:#fff">03</div>
-  <div class="section-header"><div class="num" style="color:rgba(255,255,255,.3)">03 / FLOW</div><h2 style="color:#c8b898">原料 → 动物 → 成品</h2><p style="color:rgba(255,255,255,.35)">⬥ 原料 &nbsp;·&nbsp; ● 动物 &nbsp;·&nbsp; ■ 成品 &nbsp;—&nbsp; 悬停看细节</p></div>
-  <div class="vf-track">
-    <div class="vf-row">
-      <div class="vf-era"><span>旧石器</span><small>250万年前—1万年前</small></div>
-      <div class="vf-flow">
-        <div class="vf-node mat"><em>⬥ 原料</em>骨骼 · 鹿角 · 兽皮 · 牙齿</div>
-        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
-        <div class="vf-node ani"><em>● 动物</em>猛犸象 · 野马 · 鹿 · 熊</div>
-        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
-        <div class="vf-node prd"><em>■ 成品</em>投矛器 · 骨针 · 骨锥 · 饰品</div>
-      </div>
-    </div>
-    <div class="vf-row">
-      <div class="vf-era"><span>新石器</span><small>1万年前—公元前2000年</small></div>
-      <div class="vf-flow">
-        <div class="vf-node mat"><em>⬥ 原料</em>骨骼 · 蚌壳 · 兽毛 · 兽骨</div>
-        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
-        <div class="vf-node ani"><em>● 动物</em>猪 · 狗 · 牛 · 羊 · 鱼类</div>
-        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
-        <div class="vf-node prd"><em>■ 成品</em>骨角器 · 陶器 · 皮革 · 骨镯</div>
-      </div>
-    </div>
-    <div class="vf-row">
-      <div class="vf-era"><span>青铜器</span><small>公元前2000年—公元500年</small></div>
-      <div class="vf-flow">
-        <div class="vf-node mat"><em>⬥ 原料</em>骨骼 · 兽皮 · 骨甲 · 象牙</div>
-        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
-        <div class="vf-node ani"><em>● 动物</em>豹 · 犀 · 虎 · 象 · 马 · 牛</div>
-        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
-        <div class="vf-node prd"><em>■ 成品</em>青铜纹饰 · 甲胄 · 甲骨文</div>
-      </div>
-    </div>
-    <div class="vf-row">
-      <div class="vf-era"><span>铁器至近代</span><small>公元前1200年—18世纪中期</small></div>
-      <div class="vf-flow">
-        <div class="vf-node mat"><em>⬥ 原料</em>羽毛 · 象牙 · 牛角 · 玳瑁</div>
-        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
-        <div class="vf-node ani"><em>● 动物</em>哺乳类 · 鸟类 · 海龟</div>
-        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
-        <div class="vf-node prd"><em>■ 成品</em>弓 · 皮具 · 皮鞍 · 奢侈品</div>
-      </div>
-    </div>
-    <div class="vf-row">
-      <div class="vf-era"><span>近现代</span><small>18世纪中期—2026年</small></div>
-      <div class="vf-flow">
-        <div class="vf-node mat"><em>⬥ 原料</em>象牙 · 犀角 · 虎皮 · 鳞片</div>
-        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
-        <div class="vf-node ani"><em>● 动物</em>象 · 犀 · 虎 · 穿山甲 · 鲸</div>
-        <div class="vf-arrow"><span>⟶</span><span>⟶</span><span>⟶</span></div>
-        <div class="vf-node prd"><em>■ 成品</em>工业原料 · 药材 · 奢侈品</div>
-      </div>
-    </div>
-  </div>
+  <div class="section-header"><div class="num" style="color:rgba(255,255,255,.3)">03 / TREE</div><h2 style="color:#c8b898">原料 → 动物 → 成品</h2><p style="color:rgba(255,255,255,.3)">⬥ 原料 &nbsp; ● 动物 &nbsp; ■ 成品 &nbsp;—&nbsp; 穿越十万年的生产树</p></div>
+  <canvas id="treeCanvas" style="width:100%;max-width:1140px;height:620px;cursor:pointer"></canvas>
+  <div style="text-align:center;margin-top:8px;font-family:'Courier New',monospace;font-size:8px;color:rgba(255,255,255,.15);letter-spacing:.1em">HOVER EACH BRANCH &nbsp;·&nbsp; PARTICLES FLOW MATERIAL→ANIMAL→PRODUCT</div>
 </section>
 
-<style>
-.vf-track{display:flex;flex-direction:column;gap:0;max-width:1100px;width:100%}
-.vf-row{display:flex;align-items:center;gap:0;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.04);transition:all .5s cubic-bezier(.16,1,.3,1)}
-.vf-row:hover{background:rgba(255,255,255,.03);padding:20px 0}
-.vf-era{width:100px;flex-shrink:0;text-align:right;padding-right:20px}
-.vf-era span{display:block;font-size:16px;font-weight:300;color:#c8b898;letter-spacing:.04em}
-.vf-era small{font-size:7px;color:rgba(255,255,255,.2);font-family:'Courier New',monospace;letter-spacing:.04em}
-.vf-flow{flex:1;display:flex;align-items:center;gap:0}
-.vf-node{flex:1;padding:10px 14px;font-size:10px;letter-spacing:.02em;line-height:1.6;border-radius:2px;transition:all .4s}
-.vf-node em{display:block;font-size:7px;opacity:.5;font-family:'Courier New',monospace;letter-spacing:.06em;font-style:normal;margin-bottom:3px}
-.vf-node.mat{background:rgba(184,117,62,.08);color:#d4a574}
-.vf-node.ani{background:rgba(90,122,78,.08);color:#a0c090}
-.vf-node.prd{background:rgba(255,255,255,.03);color:rgba(255,255,255,.5)}
-.vf-row:hover .vf-node.mat{background:rgba(184,117,62,.15);color:#e8c898}
-.vf-row:hover .vf-node.ani{background:rgba(90,122,78,.15);color:#c0e0b0}
-.vf-row:hover .vf-node.prd{background:rgba(255,255,255,.06);color:rgba(255,255,255,.7)}
-.vf-arrow{width:40px;flex-shrink:0;text-align:center;font-size:10px;color:rgba(255,255,255,.1);display:flex;flex-direction:column;gap:1px}
-.vf-row:hover .vf-arrow{color:rgba(184,117,62,.3)}
-.vf-arrow span{display:block;animation:vfPulse 2s ease-in-out infinite}
-.vf-arrow span:nth-child(2){animation-delay:.4s}
-.vf-arrow span:nth-child(3){animation-delay:.8s}
-@keyframes vfPulse{0%,100%{opacity:.3}50%{opacity:1}}
-@media(max-width:768px){.vf-era{width:60px}.vf-era span{font-size:12px}.vf-node{font-size:8px}}
-</style><div class="ascii-divider">/* ---- WORKS: 16_SPECIES / 6_RELATIONSHIPS ---- */</div>
+<script>
+(function(){
+const cv=document.getElementById('treeCanvas');
+if(!cv)return;
+const ctx=cv.getContext('2d');
+const dpr=Math.min(devicePixelRatio,2);
+const W=1140,H=620;
+cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
+ctx.scale(dpr,dpr);
+
+const eras=[
+  {name:'旧石器',mat:'骨骼·鹿角·兽皮',ani:'猛犸象·野马·熊',prd:'骨针·投矛器·饰品',color:'#b8753e'},
+  {name:'新石器',mat:'骨骼·蚌壳·兽毛',ani:'猪·狗·牛·羊',prd:'骨角器·陶器·皮革',color:'#c8954e'},
+  {name:'青铜器',mat:'骨骼·兽皮·象牙',ani:'豹·犀·虎·象',prd:'青铜纹饰·甲骨文',color:'#d4a564'},
+  {name:'铁器至近代',mat:'羽毛·象牙·玳瑁',ani:'鹿·马·海龟',prd:'弓·皮具·奢侈品',color:'#5a7a4e'},
+  {name:'近现代',mat:'象牙·犀角·鳞片',ani:'象·犀·虎·穿山甲',prd:'工业原料·奢侈品',color:'#c8734a'},
+];
+const SPINE_X=W*.5, SPINE_TOP=60, SPINE_BOT=H-30, BRANCH_H=(SPINE_BOT-SPINE_TOP)/5;
+let hovered=-1, frame=0;
+
+// Generate particles: material(left) and product(right) for each era
+const particles=[];
+eras.forEach((e,ri)=>{
+  const y=SPINE_TOP+ri*BRANCH_H+BRANCH_H*.5, lx=SPINE_X-300, rx=SPINE_X+300;
+  for(let i=0;i<18;i++){
+    particles.push({era:ri,side:0,tx:lx+Math.random()*180,ty:y+rh(-20,20),x:lx+rh(-100,280),y:y+rh(-25,25),r:2+Math.random()*4,spd:.003+Math.random()*.005,color:e.color});
+    particles.push({era:ri,side:1,tx:rx-Math.random()*180,ty:y+rh(-20,20),x:rx+rh(-280,100),y:y+rh(-25,25),r:2+Math.random()*3.5,spd:.003+Math.random()*.005,color:e.color});
+  }
+});
+function rh(mn,mx){return mn+Math.random()*(mx-mn)}
+
+cv.addEventListener('mousemove',e=>{
+  const r=cv.getBoundingClientRect(),mx=(e.clientX-r.left)*(W/r.width),my=(e.clientY-r.top)*(H/r.height);
+  hovered=-1;
+  for(let i=0;i<5;i++){const y=SPINE_TOP+i*BRANCH_H;if(my>y&&my<y+BRANCH_H&&mx>SPINE_X-360&&mx<SPINE_X+360)hovered=i}
+});
+
+function drawShape(ctx,x,y,r,type,color){
+  ctx.fillStyle=color;ctx.beginPath();
+  if(type===0){ctx.moveTo(x,y-r);ctx.lineTo(x+r*.6,y);ctx.lineTo(x,y+r);ctx.lineTo(x-r*.6,y)}
+  else if(type===1){ctx.arc(x,y,r,0,Math.PI*2)}
+  else{ctx.rect(x-r*.7,y-r*.7,r*1.4,r*1.4)}
+  ctx.fill();
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  const t=frame*.001;frame++;
+
+  // Dark bg
+  ctx.fillStyle='#1a1816';ctx.fillRect(0,0,W,H);
+
+  // Subtle hex grid
+  ctx.strokeStyle='rgba(200,150,100,.03)';ctx.lineWidth=.3;
+  for(let x=0;x<W;x+=42)for(let y=0;y<H;y+=38){const ox=(y%76)?21:0;ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.lineTo(x+ox+12*Math.cos(a),y+12*Math.sin(a))}ctx.closePath();ctx.stroke()}
+
+  // Central spine
+  ctx.strokeStyle='rgba(200,160,120,.08)';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(SPINE_X,SPINE_TOP);ctx.lineTo(SPINE_X,SPINE_BOT);ctx.stroke();
+
+  // Era nodes on spine
+  eras.forEach((e,i)=>{
+    const y=SPINE_TOP+i*BRANCH_H+BRANCH_H*.5, isHov=i===hovered;
+    const alpha=isHov?1:.25, scale=isHov?1.25:1, lw=isHov?2:.5;
+
+    // Spine node
+    ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.9:.2;
+    ctx.beginPath();ctx.arc(SPINE_X,y,isHov?7:4,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+
+    // Branch line from spine
+    ctx.strokeStyle=e.color;ctx.lineWidth=lw;ctx.globalAlpha=isHov?.35:.06;
+    ctx.beginPath();ctx.moveTo(SPINE_X,y);ctx.lineTo(SPINE_X-40,y);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(SPINE_X,y);ctx.lineTo(SPINE_X+40,y);ctx.stroke();
+    ctx.globalAlpha=1;
+
+    // Left zone (material)
+    const lx=SPINE_X-280;ctx.save();ctx.translate(SPINE_X-160,y);ctx.scale(scale,scale);
+    ctx.fillStyle='rgba(184,117,62,'+(isHov?.15:.04)+')';roundRect(ctx,-130,-35,260,70,6);ctx.fill();
+    ctx.font='7px Courier New,monospace';ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.7:.15;ctx.textAlign='center';ctx.fillText('⬥ 原料',0,-18);
+    ctx.font=(isHov?'11':'9')+'px Noto Serif SC,serif';ctx.fillStyle='rgba(255,255,255,'+(isHov?.9:.35)+')';ctx.fillText(e.mat,0,8);
+    ctx.restore();
+
+    // Right zone (product)
+    ctx.save();ctx.translate(SPINE_X+160,y);ctx.scale(scale,scale);
+    ctx.fillStyle='rgba(255,255,255,'+(isHov?.08:.02)+')';roundRect(ctx,-130,-35,260,70,6);ctx.fill();
+    ctx.font='7px Courier New,monospace';ctx.fillStyle='rgba(255,255,255,.3)';ctx.globalAlpha=isHov?.7:.15;ctx.textAlign='center';ctx.fillText('■ 成品',0,-18);
+    ctx.font=(isHov?'11':'9')+'px Noto Serif SC,serif';ctx.fillStyle='rgba(255,255,255,'+(isHov?.8:.3)+')';ctx.fillText(e.prd,0,8);
+    ctx.restore();
+
+    // Center animal label
+    ctx.save();ctx.translate(SPINE_X,y);ctx.scale(scale,scale);
+    ctx.font=(isHov?'15':'12')+'px Noto Serif SC,serif';ctx.textAlign='center';ctx.fillStyle=e.color;
+    ctx.globalAlpha=isHov?.9:.3;ctx.fillText(e.name,-40,0);
+    if(isHov){
+      ctx.font='10px Noto Serif SC,serif';ctx.fillStyle='rgba(255,255,255,.7)';
+      ctx.fillText('● '+e.ani,0,24);
+    }
+    ctx.restore();
+    ctx.globalAlpha=1;
+  });
+
+  // Particles
+  particles.forEach(p=>{
+    p.x+=(p.tx-p.x)*p.spd;p.y+=(p.ty-p.y)*p.spd*.5;
+    if(Math.random()<.002){const px=p.side===0?SPINE_X-280+Math.random()*180:SPINE_X+100+Math.random()*180;p.tx=px;p.ty=SPINE_TOP+p.era*BRANCH_H+BRANCH_H*.5+rh(-20,20)}
+    const isHov=p.era===hovered, r2=p.r*(isHov?2.5:1), a2=(p.side===0?.7:.6)*(isHov?1:.35);
+    if(a2>.05){drawShape(ctx,p.x,p.y,r2,p.side===0?0:2,p.color);ctx.globalAlpha=a2}
+  });
+  ctx.globalAlpha=1;
+
+  // CRT scanlines
+  ctx.fillStyle='rgba(0,0,0,.02)';for(let y2=0;y2<H;y2+=3)ctx.fillRect(0,y2,W,1);
+
+  requestAnimationFrame(draw);
+}
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath()}
+draw();
+})();
+</script>
+<div class="ascii-divider">/* ---- WORKS: 16_SPECIES / 6_RELATIONSHIPS ---- */</div>
 <section id="works" style="min-height:100vh;padding:100px 0 80px">
   <div class="section-header"><div class="num">04 / SPECIES</div><h2>受威胁物种</h2><p>悬停查看详情</p></div>
   <div class="flying-posters" id="flyingPosters"></div>
