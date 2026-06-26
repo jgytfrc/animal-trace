@@ -13,6 +13,12 @@ body{font-family:'Noto Serif SC','Source Han Serif SC','STSong','SimSun','FangSo
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#333}
 /* Hex grid overlay */
 section::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.015;background-image:url(\"data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l26 15v30L30 60 4 45V15z' fill='none' stroke='%23d4a574' stroke-width='.5'/%3E%3C/svg%3E\");background-size:60px 60px}
+.flow-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:8px 0 6px;font-size:11px;line-height:1.6}
+.flow-tag{padding:2px 10px;border-radius:12px;white-space:nowrap}
+.flow-tag.mat{background:rgba(184,117,62,.08);color:var(--accent)}
+.flow-tag.ani{background:rgba(90,122,78,.08);color:var(--green)}
+.flow-tag.prd{background:rgba(42,37,32,.04);color:var(--text)}
+.flow-arrow{opacity:.25;font-family:'Courier New',monospace;font-size:10px}
 /* 3D card tilt */
 .gcard,.timeline-item,.wcard,.flying-poster{transform-style:preserve-3d;perspective:800px}
 /* ===== POST-HUMAN: Scanlines + Glitch ===== */
@@ -319,15 +325,45 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 <div class="ascii-divider">/* ---- TIMELINE: 100000 BCE → 2024 CE ---- */</div>
 <section class="content-section" id="timeline">
   <div style="position:absolute;left:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.06;font-family:'Courier New',monospace;line-height:1;pointer-events:none">02</div>
-  <div class="section-header"><div class="num">02 / HISTORY</div><h2>人与动物制品的千年谱系</h2></div>
+  <div class="section-header"><div class="num">02 / HISTORY</div><h2>不同历史时期</h2><p>原料 → 动物 → 成品：人类如何在不同时代利用动物资源</p></div>
   <div class="timeline">
-    <div class="timeline-item"><div class="era">距今约10万年前</div><h3>旧石器时代 — 生存</h3><p>兽皮御寒：阳原侯家窑遗址出土石器切割兽皮痕迹；虎头梁遗址出土磨制骨针、骨锥用于缝制皮衣。骨骼与鹿角制作骨锥、鱼叉、标枪头和早期装饰品。这是人类与动物制品关系的最早考古证据。</p><div class="cite">贾兰坡 1957 · 卫奇 2012 · 盖培 1977</div></div>
-    <div class="timeline-item"><div class="era">距今约1万年–4000年前</div><h3>新石器时代 — 驯化</h3><p>动物驯化使骨器、角器产量大增。牛、羊、猪成为稳定原料来源。兽骨广泛用于农具、武器和宗教仪式。Jared Diamond在《枪炮、病菌与钢铁》中将动物驯化视为文明演进的关键因素。</p><div class="cite">袁靖 2015 · Diamond 1997 · 刘莉,陈星灿 2017</div></div>
-    <div class="timeline-item"><div class="era">公元前1600年–前256年</div><h3>商周时期 — 礼仪</h3><p>殷墟出土大量象牙雕刻品、甲骨文占卜用龟甲兽骨。张光直指出，商代青铜器上的动物纹饰（饕餮纹）是沟通人神世界的媒介。动物制品从实用走向礼仪化和权力象征。</p><div class="cite">张光直 2002 · 王宇信 2015 · 李学勤 1997</div></div>
-    <div class="timeline-item"><div class="era">公元前221年–19世纪</div><h3>���国时代 — 贸易</h3><p>丝绸之路上的象牙、犀角、虎皮、麝香成为国际贸易商品。Peter Frankopan在《丝绸之路》中记录了动物材料如何连接欧亚大陆。Edward Schafer的《撒马尔罕的金桃》详述了唐代珍稀动物制品的国际贸易。</p><div class="cite">Frankopan 2015 · Schafer 1963 · Allsen 1997</div></div>
-    <div class="timeline-item"><div class="era">20世纪至今</div><h3>现代 — 危机与觉醒</h3><p>1973年CITES公约签署。1989年象牙国际贸易禁令生效。非洲象从1979年130万头锐减至2023年约41.5万头。全球每年非法野生动物贸易估值高达200亿美元，是全球第四大非法贸易。同时，全球保护意识正在觉醒。</p><div class="cite">CITES · IUCN Red List 2024 · Kolbert 2014 · Singer 1975</div></div>
+    <div class="timeline-item">
+      <div class="era">250万年前 — 1万年前</div>
+      <h3>旧石器时代</h3>
+      <div class="flow-row"><span class="flow-tag mat">原料：骨骼 · 鹿角 · 兽皮 · 牙齿 · 贝壳</span><span class="flow-arrow">→</span><span class="flow-tag ani">动物：鹿 · 野马 · 野牛 · 猛犸象 · 狐 · 熊</span><span class="flow-arrow">→</span><span class="flow-tag prd">成品：投矛器 · 骨针 · 骨锥 · 穿孔饰品</span></div>
+      <p>人类完全依赖野生动物获取肉食、皮毛、骨骼工具。阳原侯家窑遗址出土石器切割兽皮痕迹，虎头梁遗址出土磨制骨针骨锥。穿孔兽牙项链和刻划骨片表明动物已成为原始信仰和身份标识。</p>
+      <div class="cite">贾兰坡 1957 · 卫奇 2012 · 盖培 1977</div>
+    </div>
+    <div class="timeline-item">
+      <div class="era">1万年前 — 公元前2000年</div>
+      <h3>新石器时代</h3>
+      <div class="flow-row"><span class="flow-tag mat">原料：骨骼 · 蚌壳 · 兽毛 · 兽骨</span><span class="flow-arrow">→</span><span class="flow-tag ani">动物：猪 · 狗 · 牛 · 羊（家畜化）· 鱼类</span><span class="flow-arrow">→</span><span class="flow-tag prd">成品：骨角器 · 陶器 · 皮革制品 · 骨镯</span></div>
+      <p>动物驯化使骨器、角器产量大增。人类从"狩猎者"转变为"管理者"。牛被用于耕地，动物从食物来源扩展为劳动力。次级产品开发——不杀死动物也能获取奶、毛、蛋。</p>
+      <div class="cite">袁靖 2015 · Diamond 1997 · 刘莉,陈星灿 2017</div>
+    </div>
+    <div class="timeline-item">
+      <div class="era">公元前2000年 — 公元500年</div>
+      <h3>青铜器时代</h3>
+      <div class="flow-row"><span class="flow-tag mat">原料：骨骼 · 兽皮 · 骨甲 · 象牙</span><span class="flow-arrow">→</span><span class="flow-tag ani">动物：豹 · 犀 · 虎 · 象 · 马 · 牛 · 羊 · 鹿</span><span class="flow-arrow">→</span><span class="flow-tag prd">成品：青铜动物纹饰 · 甲胄 · 甲骨文</span></div>
+      <p>殷墟出土大量象牙雕刻品、甲骨文占卜用龟甲兽骨。商代青铜器上的动物纹饰是沟通人神世界的媒介。动物制品从实用走向礼仪化和权力象征。动物骨骼成为记录文明的载体。</p>
+      <div class="cite">张光直 2002 · 王宇信 2015 · 李学勤 1997</div>
+    </div>
+    <div class="timeline-item">
+      <div class="era">公元前1200年 — 18世纪中期</div>
+      <h3>铁器时代至近代</h3>
+      <div class="flow-row"><span class="flow-tag mat">原料：羽毛 · 象牙 · 牛角 · 玳瑁 · 羊毛 · 兽皮</span><span class="flow-arrow">→</span><span class="flow-tag ani">动物：多种哺乳动物 · 鸟类 · 玳瑁海龟</span><span class="flow-arrow">→</span><span class="flow-tag prd">成品：弓 · 皮具 · 皮鞍 · 奢侈品</span></div>
+      <p>丝绸之路上的象牙、犀角、虎皮、麝香成为国际贸易商品。动物制品成为全球贸易的核心商品，珍稀材料跨区域流通。</p>
+      <div class="cite">Frankopan 2015 · Schafer 1963 · Allsen 1997</div>
+    </div>
+    <div class="timeline-item">
+      <div class="era">18世纪中期 — 2026年</div>
+      <h3>近现代</h3>
+      <div class="flow-row"><span class="flow-tag mat">原料：象牙 · 犀角 · 虎皮 · 鳞片 · 皮毛 · 鲸脂</span><span class="flow-arrow">→</span><span class="flow-tag ani">动物：象 · 犀 · 虎 · 穿山甲 · 鲸 · 毛皮动物</span><span class="flow-arrow">→</span><span class="flow-tag prd">成品：工业原料 · 药材 · 时尚奢侈品</span></div>
+      <p>1973年CITES公约签署。1989年象牙国际贸易禁令生效。非洲象从130万头锐减至41.5万头。全球非法野生动物贸易每年高达200亿美元，是全球第四大非法贸易。</p>
+      <div class="cite">CITES · IUCN Red List 2024 · Kolbert 2014 · Singer 1975</div>
+    </div>
   </div>
-</section>
+</section></section>
 
 <div class="ascii-divider">/* ---- WORKS: 16_SPECIES / 6_RELATIONSHIPS ---- */</div>
 <section id="works" style="min-height:100vh;padding:100px 0 80px">
