@@ -388,9 +388,9 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 /* ---- FLOW ---- */
 /* ---- FLOW ---- */
 <div class="ascii-divider">/* ---- FLOW ---- */</div>
-<section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:80px 40px 60px">
+<section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:80px 40px 60px;background:#1c1a18">
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.045;font-family:'Courier New',monospace;line-height:1;pointer-events:none">03</div>
-  <div class="section-header"><div class="num">03 / FLOW</div><h2>原料 → 动物 → 成品</h2><p>⬥ 原料 &nbsp; ● 动物 &nbsp; ■ 成品 &nbsp;——&nbsp; 三种形状，缓慢漂移</p></div>
+  <div class="section-header"><div class="num" style="color:rgba(255,255,255,.4)">03 / FLOW</div><h2 style="color:#c8b898">原料 → 动物 → 成品</h2><p>⬥ 原料 &nbsp; ● 动物 &nbsp; ■ 成品 &nbsp;——&nbsp; 三种形状，缓慢漂移</p></div>
   <canvas id="flowCanvas" style="width:100%;max-width:1200px;height:600px;cursor:pointer;border-radius:2px"></canvas>
 </section>
 
@@ -529,7 +529,7 @@ function draw(){
 
     // Era label
     ctx.font=(isHov?'20':'14')+'px Noto Serif SC,serif';ctx.textAlign='right';
-    ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.9:.22;
+    ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.95:.4;
     ctx.fillText(e.name,M-12,cy+6);
 
     // Zone text - always visible on hover, faint otherwise
