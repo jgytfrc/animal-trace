@@ -382,160 +382,169 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 </section>
 
 
-<div class="ascii-divider">/* ---- PIPELINE ---- */</div>
-<section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:100px 48px 80px">
+<div class="ascii-divider">/* ---- SCULPTURE ---- */</div>
+<section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:80px 40px 80px">
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.06;font-family:'Courier New',monospace;line-height:1;pointer-events:none">03</div>
-  <div class="section-header"><div class="num">03 / PIPELINE</div><h2>原料 → 动物 → 成品</h2><p>每一行是一个时代。粒子从原料出发，穿越动物，变成产品。</p></div>
-  <canvas id="pipeCanvas" style="width:100%;max-width:1140px;height:540px;cursor:pointer;border-radius:2px"></canvas>
+  <div class="section-header"><div class="num">03 / SCULPTURE</div><h2>原料 → 动物 → 成品</h2><p>悬停一个时代，看粒子如何变成动物，再变成产品。</p></div>
+  <canvas id="sculptCanvas" style="width:100%;max-width:1200px;height:680px;cursor:pointer"></canvas>
 </section>
 
 <script>
 (function(){
-const cv=document.getElementById('pipeCanvas');
+const cv=document.getElementById('sculptCanvas');
 if(!cv)return;
 const ctx=cv.getContext('2d');
 const dpr=Math.min(devicePixelRatio,2);
-const W=1140,H=540;
+const W=1200,H=680;
 cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
 ctx.scale(dpr,dpr);
 
 const eras=[
-  {name:'旧石器',time:'250万年前—1万年前',mat:'骨骼·鹿角·兽皮',ani:'鹿·野马·猛犸象',prd:'骨针·投矛器·饰品',color:'#b8753e',emoji:'🦴'},
-  {name:'新石器',time:'1万年前—公元前2000年',mat:'骨骼·蚌壳·兽毛',ani:'猪·狗·牛·羊',prd:'骨角器·陶器·皮革',color:'#c8954e',emoji:'🐂'},
-  {name:'青铜器',time:'公元前2000年—公元500年',mat:'骨骼·兽皮·象牙',ani:'豹·犀·虎·象',prd:'青铜纹饰·甲骨文',color:'#d4a564',emoji:'🐢'},
-  {name:'铁器至近代',time:'公元前1200年—18世纪',mat:'羽毛·象牙·玳瑁',ani:'哺乳类·鸟类·海龟',prd:'弓·皮具·奢侈品',color:'#5a7a4e',emoji:'🐘'},
-  {name:'近现代',time:'18世纪—2026年',mat:'象牙·犀角·鳞片',ani:'象·犀·虎·穿山甲',prd:'工业原料·奢侈品',color:'#c8734a',emoji:'🦏'},
+  {name:'旧石器',time:'250万年前—1万年前',mat:'骨骼·鹿角·兽皮',ani:'猛犸象·野马·洞熊',prd:'骨针·投矛器·饰品',color:'#b8753e'},
+  {name:'新石器',time:'1万年前—公元前2000年',mat:'骨骼·蚌壳·兽毛',ani:'猪·狗·牛·羊',prd:'骨角器·陶器·皮革',color:'#c8954e'},
+  {name:'青铜器',time:'公元前2000年—公元500年',mat:'骨骼·兽皮·象牙',ani:'豹·犀·虎·象',prd:'青铜纹饰·甲骨文',color:'#d4a564'},
+  {name:'铁器至近代',time:'公元前1200年—18世纪',mat:'羽毛·象牙·玳瑁',ani:'鹿·马·牛·海龟',prd:'弓·皮具·奢侈品',color:'#5a7a4e'},
+  {name:'近现代',time:'18世纪—2026年',mat:'象牙·犀角·鳞片',ani:'象·犀·虎·穿山甲',prd:'工业原料·奢侈品',color:'#c8734a'},
 ];
 
-const LH=90,TOP=60,rowW=W-120,marginL=80;
-let hovered=-1,hoverX=-1;
+const animShapes=[
+  [{x:0,y:-20},{x:30,y:-15},{x:40,y:0},{x:30,y:15},{x:0,y:20},{x:-30,y:15},{x:-40,y:0},{x:-30,y:-15}],
+  [{x:0,y:-18},{x:25,y:-12},{x:35,y:5},{x:25,y:18},{x:0,y:22},{x:-20,y:15},{x:-30,y:0},{x:-20,y:-15}],
+  [{x:0,y:-25},{x:15,y:-20},{x:35,y:-10},{x:45,y:5},{x:35,y:20},{x:10,y:25},{x:-20,y:20},{x:-35,y:5},{x:-25,y:-15}],
+  [{x:0,y:-22},{x:20,y:-18},{x:38,y:-8},{x:42,y:5},{x:30,y:18},{x:10,y:25},{x:-15,y:18},{x:-38,y:5},{x:-20,y:-15}],
+  [{x:0,y:-30},{x:25,y:-22},{x:45,y:-8},{x:50,y:10},{x:35,y:22},{x:10,y:28},{x:-20,y:20},{x:-40,y:8},{x:-45,y:-10},{x:-25,y:-22}],
+];
 
-// Particle system - each era has a flow of particles
+const BW=W-160,BL=120, BT=90, BH=95, BGAP=10;
+let hovered=-1, targetHover=-1, animT=0;
 const particles=[];
-eras.forEach((e,row)=>{
-  const y=TOP+row*LH;
-  for(let i=0;i<25;i++){
+
+// Generate particles per era
+eras.forEach((e,ri)=>{
+  const y=BT+ri*(BH+BGAP);
+  for(let i=0;i<80;i++){
+    const lane=Math.random();
+    let tx;if(lane<.33)tx=BL+Math.random()*BW*.25;else if(lane<.66)tx=BL+BW*.35+Math.random()*BW*.3;else tx=BL+BW*.7+Math.random()*BW*.25;
     particles.push({
-      row,y,eraIdx:row,
-      x:marginL+Math.random()*rowW, // spread across the row
-      targetX:marginL+Math.random()*rowW,
-      r:1+Math.random()*2.5,
-      speed:.3+Math.random()*.8,
-      alpha:.2+Math.random()*.5,
-      phase:Math.random()*Math.PI*2,
-      color:e.color
+      era:ri,baseY:y,tx,ty:y+BH/2,
+      x:BL+Math.random()*BW,y:y+BH/2,
+      r:.6+Math.random()*2.5,spd:.015+Math.random()*.04,
+      ph:Math.random()*Math.PI*2,alpha:.15+Math.random()*.5,
+      color:eras[ri].color
     });
   }
 });
 
 cv.addEventListener('mousemove',e=>{
   const r=cv.getBoundingClientRect();
-  const mx=(e.clientX-r.left)*(W/r.width),my=(e.clientY-r.top)*(H/r.height);
-  let found=-1;
-  for(let i=0;i<5;i++){const y=TOP+i*LH;if(my>y-10&&my<y+LH-10){found=i;break}}
-  hovered=found;hoverX=mx;
+  const my=(e.clientY-r.top)*(H/r.height);
+  let f=-1;
+  for(let i=0;i<5;i++){const y=BT+i*(BH+BGAP);if(my>y-15&&my<y+BH+15){f=i;break}}
+  targetHover=f;
 });
 
 function draw(){
   ctx.clearRect(0,0,W,H);
-  const t=performance.now()*.001;
+  const t=animT*.001;animT++;
+  // Smooth hover
+  if(targetHover!==hovered){hovered+=(targetHover-hovered)*.15;if(Math.abs(targetHover-hovered)<.01)hovered=targetHover}
 
-  // Warm bg
-  ctx.fillStyle='#faf7f2';ctx.fillRect(0,0,W,H);
+  // Background: dark gradient for drama
+  const bg=ctx.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,'#f5f3ef');bg.addColorStop(.5,'#f0ece6');bg.addColorStop(1,'#f5f3ef');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
 
-  // Subtle hex grid
-  ctx.strokeStyle='#d4a574';ctx.lineWidth=.25;ctx.globalAlpha=.01;
-  for(let x=0;x<W;x+=40)for(let y=0;y<H;y+=35){const ox=(y%70)?20:0;ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.lineTo(x+ox+10*Math.cos(a),y+10*Math.sin(a))}ctx.closePath();ctx.stroke()}
+  // Hex grid - barely visible
+  ctx.strokeStyle='#d4a574';ctx.lineWidth=.2;ctx.globalAlpha=.012;
+  for(let x=0;x<W;x+=34)for(let y=0;y<H;y+=30){const ox=(y%60)?17:0;ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.lineTo(x+ox+9*Math.cos(a),y+9*Math.sin(a))}ctx.closePath();ctx.stroke()}
   ctx.globalAlpha=1;
 
-  // Era rows
-  eras.forEach((e,row)=>{
-    const y=TOP+row*LH,isHov=row===hovered;
-    const alpha=isHov?1:.35;
+  // Left and right labels
+  ctx.font='9px Courier New,monospace';ctx.textAlign='center';
+  ctx.fillStyle='rgba(184,117,62,.15)';ctx.fillText('← 原料 INPUT',BL-30,40);
+  ctx.fillText('成品 OUTPUT →',BL+BW+30,40);
 
-    // Row bg on hover
-    if(isHov){
-      ctx.fillStyle='rgba(184,117,62,.04)';ctx.fillRect(0,y-5,W,LH-10);
-    }
+  // Era bands
+  eras.forEach((e,ri)=>{
+    const y=BT+ri*(BH+BGAP),cy=y+BH/2;
+    const isHov=ri===Math.round(hovered)||(hovered>ri-.4&&hovered<ri+.4);
+    const hovFac=ri===Math.round(hovered)?1-Math.abs(Math.round(hovered)-hovered):0;
+    const alpha=isHov?1:.25;
+    const scale=isHov?1.08:1;
 
-    // Era label (left)
-    ctx.font=(isHov?'12':'10')+'px Noto Serif SC,serif';ctx.textAlign='right';
+    ctx.save();ctx.translate(0,cy);ctx.scale(1,scale);ctx.translate(0,-cy);
+
+    // Row background
+    ctx.fillStyle='rgba(255,255,255,'+(isHov?.6:.15)+')';ctx.fillRect(0,y-5,W,BH+10);
+
+    // Era name - left side
+    ctx.font=(isHov?'22':'14')+'px Noto Serif SC,serif';ctx.textAlign='right';
     ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.9:.3;
-    ctx.fillText(e.name,marginL-12,y+LH/2+5);
+    ctx.fillText(e.name,BL-18,cy+8);
     ctx.globalAlpha=1;
 
-    // Row divider line
-    ctx.strokeStyle='rgba(184,117,62,'+(isHov?.12:.04)+')';ctx.lineWidth=.5;
-    ctx.beginPath();ctx.moveTo(marginL,y+LH-5);ctx.lineTo(W-40,y+LH-5);ctx.stroke();
+    // Pipeline track
+    const tlGrad=ctx.createLinearGradient(BL,0,BL+BW,0);
+    tlGrad.addColorStop(0,'rgba(184,117,62,.0)');tlGrad.addColorStop(.3,'rgba(184,117,62,'+(isHov?.2:.04)+')');
+    tlGrad.addColorStop(.5,'rgba(184,117,62,'+(isHov?.35:.06)+')');tlGrad.addColorStop(.7,'rgba(184,117,62,'+(isHov?.2:.04)+')');tlGrad.addColorStop(1,'rgba(184,117,62,.0)');
+    ctx.strokeStyle=tlGrad;ctx.lineWidth=isHov?2:.6;
+    ctx.beginPath();ctx.moveTo(BL,cy);ctx.lineTo(BL+BW,cy);ctx.stroke();
 
-    // Zone markers
-    const zones=[
-      {x:marginL+rowW*.15,label:'原料'},
-      {x:marginL+rowW*.5,label:'动物'},
-      {x:marginL+rowW*.85,label:'成品'},
-    ];
-    zones.forEach(z=>{
-      ctx.font='7px Courier New,monospace';ctx.textAlign='center';
-      ctx.fillStyle='rgba(42,37,32,'+(isHov?.2:.05)+')';
-      ctx.fillText(z.label,z.x,y+12);
-      // Small dot marker
-      ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.4:.08;
-      ctx.beginPath();ctx.arc(z.x,y+LH/2,2,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+    // Zone dots on track
+    const zones=[BL+BW*.2,BL+BW*.5,BL+BW*.8];
+    zones.forEach(zx=>{
+      ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.5:.1;
+      ctx.beginPath();ctx.arc(zx,cy,isHov?4:2.5,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
     });
 
-    // Pipeline visual: thin horizontal line with gradient
-    const grad=ctx.createLinearGradient(marginL,0,marginL+rowW,0);
-    grad.addColorStop(0,'rgba(184,117,62,.0)');grad.addColorStop(.5,'rgba(184,117,62,'+(isHov?.15:.04)+')');grad.addColorStop(1,'rgba(184,117,62,.0)');
-    ctx.strokeStyle=grad;ctx.lineWidth=1;
-    ctx.beginPath();ctx.moveTo(marginL,y+LH/2);ctx.lineTo(marginL+rowW,y+LH/2);ctx.stroke();
-  });
-
-  // Particles
-  particles.forEach(p=>{
-    const y=TOP+p.row*LH,isHov=p.row===hovered;
-
-    // Move particles left→right along the pipeline
-    p.x+=(.3+Math.sin(t+p.phase)*.5)*p.speed;
-    if(p.x>marginL+rowW+20){p.x=marginL-20;p.phase=Math.random()*Math.PI*2}
-
-    // Vertical oscillation
-    const osc=Math.sin(t*1.5+p.phase)*15;
-    const py=y+LH/2+osc;
-
-    // Size/alpha pulse based on position (peak at center = animal zone)
-    const progress=(p.x-marginL)/rowW;
-    const pulse=.6+.4*Math.sin(Math.PI*progress*2); // peak at center
-
-    const r=p.r*((isHov?1.6:1))*pulse;
-    const a=(isHov?.7:.25)*p.alpha*pulse;
-
-    if(a>.02){
-      ctx.fillStyle=p.color;ctx.globalAlpha=a;
-      ctx.beginPath();ctx.arc(p.x,py,r,0,Math.PI*2);ctx.fill();
+    // Wireframe animal in the center zone (BL+BW*.35 to BL+BW*.65)
+    if(animShapes[ri]){
+      const shape=animShapes[ri],cx2=BL+BW*.5,cy2=cy;
+      ctx.save();ctx.translate(cx2,cy2);ctx.scale(isHov?1.6:1,isHov?1.6:1);
+      ctx.strokeStyle=e.color;ctx.lineWidth=isHov?.8:.4;ctx.globalAlpha=isHov?.25:.06;
+      ctx.beginPath();ctx.moveTo(shape[0].x,shape[0].y);
+      for(let i=1;i<shape.length;i++)ctx.lineTo(shape[i].x,shape[i].y);
+      ctx.closePath();ctx.stroke();
+      // Inner detail lines
+      ctx.lineWidth=isHov?.4:.2;ctx.globalAlpha=isHov?.15:.03;
+      ctx.beginPath();ctx.moveTo(shape[0].x,shape[0].y);ctx.lineTo(shape[4]?.x||0,shape[4]?.y||0);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(shape[2]?.x||0,shape[2]?.y||0);ctx.lineTo(shape[6]?.x||0,shape[6]?.y||0);ctx.stroke();
+      ctx.restore();
     }
 
-    // Hover: show particle trail
-    if(isHov&&a>.1){
-      ctx.strokeStyle=p.color;ctx.globalAlpha=a*.3;ctx.lineWidth=.5;
-      ctx.beginPath();ctx.moveTo(p.x,py);ctx.lineTo(p.x-8,py-osc*.3);ctx.stroke();
+    // Particles
+    particles.filter(p=>p.era===ri).forEach(p=>{
+      // Move toward target with spring
+      p.x+=(p.tx-p.x)*p.spd;p.y+=(p.ty-p.y)*p.spd;
+      // Randomly change target to keep flowing
+      if(Math.random()<.003)p.tx=BL+Math.random()*BW;
+      // Oscillate
+      const osc=Math.sin(t*2+p.ph)*4;
+      const py=p.y+osc;
+
+      const r2=p.r*(isHov?2:1);const a2=p.alpha*(isHov?.9:.35);
+      if(a2>.02){
+        ctx.fillStyle=p.color;ctx.globalAlpha=a2;
+        ctx.beginPath();ctx.arc(p.x,py,r2,0,Math.PI*2);ctx.fill();
+      }
+    });
+
+    // Hover text overlay
+    if(isHov&&hovFac>.7){
+      ctx.font='10px Noto Serif SC,serif';ctx.textAlign='center';
+      ctx.fillStyle='rgba(42,37,32,.65)';
+      ctx.fillText(e.mat,BL+BW*.2,cy-18);
+      ctx.fillText(e.ani,BL+BW*.5+5,cy-18);
+      ctx.fillText(e.prd,BL+BW*.8,cy-18);
     }
+
+    ctx.restore();
   });
   ctx.globalAlpha=1;
 
-  // Hover: highlight row text
-  if(hovered>=0){
-    const e=eras[hovered],y=TOP+hovered*LH;
-    // Show material text on hover
-    ctx.font='11px Noto Serif SC,serif';ctx.textAlign='center';
-    const zoneTexts=[
-      {x:marginL+rowW*.15,t:e.mat},
-      {x:marginL+rowW*.5+8,t:e.ani},
-      {x:marginL+rowW*.85,t:e.prd},
-    ];
-    zoneTexts.forEach(z=>{
-      ctx.fillStyle='rgba(42,37,32,.7)';ctx.fillText(z.t,z.x,y+LH-8);
-    });
-  }
+  // CRT scanline overlay
+  ctx.fillStyle='rgba(0,0,0,.015)';
+  for(let y2=0;y2<H;y2+=3)ctx.fillRect(0,y2,W,1);
 
   requestAnimationFrame(draw);
 }draw();
