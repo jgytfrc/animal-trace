@@ -382,63 +382,142 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 </section>
 
 
-<div class="ascii-divider">/* ---- FLOW: MATERIAL -> ANIMAL -> PRODUCT ---- */</div>
+<div class="ascii-divider">/* ---- VISUALIZATION ---- */</div>
 <section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:120px 60px 100px">
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.06;font-family:'Courier New',monospace;line-height:1;pointer-events:none">03</div>
-  <div class="section-header"><div class="num">03 / FLOW</div><h2>原料 → 动物 → 成品</h2><p>从五个历史时期看人类如何利用动物资源</p></div>
-  <div class="viz-grid">
-    <div class="viz-era">
-      <div class="viz-era-head"><span>旧石器</span><small>250万年前—1万年前</small></div>
-      <div class="viz-era-body">
-        <div class="viz-node mat"><em>原料</em>骨骼 · 鹿角 · 兽皮 · 牙齿</div>
-        <div class="viz-connector">↓</div>
-        <div class="viz-node ani"><em>动物</em>鹿 · 野马 · 野牛 · 猛犸象</div>
-        <div class="viz-connector">↓</div>
-        <div class="viz-node prd"><em>成品</em>投矛器 · 骨针 · 骨锥 · 饰品</div>
-      </div>
-    </div>
-    <div class="viz-era">
-      <div class="viz-era-head"><span>新石器</span><small>1万年前—公元前2000年</small></div>
-      <div class="viz-era-body">
-        <div class="viz-node mat"><em>原料</em>骨骼 · 蚌壳 · 兽毛 · 兽骨</div>
-        <div class="viz-connector">↓</div>
-        <div class="viz-node ani"><em>动物</em>猪 · 狗 · 牛 · 羊 · 鱼类</div>
-        <div class="viz-connector">↓</div>
-        <div class="viz-node prd"><em>成品</em>骨角器 · 陶器 · 皮革 · 骨镯</div>
-      </div>
-    </div>
-    <div class="viz-era">
-      <div class="viz-era-head"><span>青铜器</span><small>公元前2000年—公元500年</small></div>
-      <div class="viz-era-body">
-        <div class="viz-node mat"><em>原料</em>骨骼 · 兽皮 · 骨甲 · 象牙</div>
-        <div class="viz-connector">↓</div>
-        <div class="viz-node ani"><em>动物</em>豹 · 犀 · 虎 · 象 · 马 · 牛</div>
-        <div class="viz-connector">↓</div>
-        <div class="viz-node prd"><em>成品</em>青铜纹饰 · 甲胄 · 甲骨文</div>
-      </div>
-    </div>
-    <div class="viz-era">
-      <div class="viz-era-head"><span>铁器至近代</span><small>公元前1200年—18世纪</small></div>
-      <div class="viz-era-body">
-        <div class="viz-node mat"><em>原料</em>羽毛 · 象牙 · 牛角 · 玳瑁</div>
-        <div class="viz-connector">↓</div>
-        <div class="viz-node ani"><em>动物</em>哺乳动物 · 鸟类 · 海龟</div>
-        <div class="viz-connector">↓</div>
-        <div class="viz-node prd"><em>成品</em>弓 · 皮具 · 皮鞍 · 奢侈品</div>
-      </div>
-    </div>
-    <div class="viz-era">
-      <div class="viz-era-head"><span>近现代</span><small>18世纪中期—2026年</small></div>
-      <div class="viz-era-body">
-        <div class="viz-node mat"><em>原料</em>象牙 · 犀角 · 虎皮 · 鳞片</div>
-        <div class="viz-connector">↓</div>
-        <div class="viz-node ani"><em>动物</em>象 · 犀 · 虎 · 穿山甲 · 鲸</div>
-        <div class="viz-connector">↓</div>
-        <div class="viz-node prd"><em>成品</em>工业原料 · 药材 · 奢侈品</div>
-      </div>
-    </div>
-  </div>
+  <div class="section-header"><div class="num">03 / FLOW</div><h2>原料 → 动物 → 成品</h2><p>悬停每个时代查看细节 · 一条十万年的产业链</p></div>
+  <canvas id="vizCanvas" style="width:100%;max-width:1100px;height:520px;cursor:pointer;border-radius:2px"></canvas>
 </section>
+
+<script>
+(function(){
+const canvas=document.getElementById('vizCanvas');
+if(!canvas)return;
+const ctx=canvas.getContext('2d');
+const dpr=Math.min(window.devicePixelRatio,2);
+const W=1100,H=520;
+canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.width=W+'px';canvas.style.height=H+'px';
+ctx.scale(dpr,dpr);
+
+const eras=[
+  {name:'旧石器',time:'250万年前—1万年前',mat:'骨骼·鹿角·兽皮·牙齿',ani:'鹿·野马·野牛·猛犸象',prd:'投矛器·骨针·骨锥·饰品',color:'#b8753e'},
+  {name:'新石器',time:'1万年前—公元前2000年',mat:'骨骼·蚌壳·兽毛·兽骨',ani:'猪·狗·牛·羊·鱼类',prd:'骨角器·陶器·皮革·骨镯',color:'#c8954e'},
+  {name:'青铜器',time:'公元前2000年—公元500年',mat:'骨骼·兽皮·骨甲·象牙',ani:'豹·犀·虎·象·马·牛·羊',prd:'青铜纹饰·甲胄·甲骨文',color:'#d4a564'},
+  {name:'铁器至近代',time:'公元前1200年—18世纪',mat:'羽毛·象牙·牛角·玳瑁',ani:'哺乳类·鸟类·海龟',prd:'弓·皮具·皮鞍·奢侈品',color:'#5a7a4e'},
+  {name:'近现代',time:'18世纪—2026年',mat:'象牙·犀角·虎皮·鳞片',ani:'象·犀·虎·穿山甲·鲸',prd:'工业原料·药材·奢侈品',color:'#c8734a'}
+];
+
+let hovered=-1,animT=0,reveal=0,targetX=0,smoothX=0;
+const particles=[];
+for(let i=0;i<50;i++)particles.push({x:Math.random()*W,y:Math.random()*H,r:.4+Math.random()*1.2,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,a:.1+Math.random()*.3});
+
+function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath()}
+
+canvas.addEventListener('mousemove',e=>{
+  const rect=canvas.getBoundingClientRect();
+  const mx=(e.clientX-rect.left)*(W/rect.width),my=(e.clientY-rect.top)*(H/rect.height);
+  const cw=W/5;let found=-1;
+  for(let i=0;i<5;i++){const cx=40+i*cw;if(mx>cx-40&&mx<cx+cw-40&&my>100&&my<H-30)found=i}
+  if(found!==hovered){hovered=found;reveal=0}
+  if(found>=0)reveal=Math.min(1,reveal+.05);else reveal=Math.max(0,reveal-.05);
+});
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  const t=animT*.001;animT++;
+
+  // Warm paper bg
+  ctx.fillStyle='#faf7f3';ctx.fillRect(0,0,W,H);
+
+  // Hex grid overlay
+  ctx.strokeStyle='#d4a574';ctx.lineWidth=.3;ctx.globalAlpha=.015;
+  for(let x=0;x<W;x+=36)for(let y=0;y<H;y+=32){const ox=(y%64)?18:0;ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.lineTo(x+ox+9*Math.cos(a),y+9*Math.sin(a))}ctx.closePath();ctx.stroke()}
+  ctx.globalAlpha=1;
+
+  // Floating particles
+  particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.fillStyle='rgba(184,117,62,'+p.a*.4+')';ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill()});
+
+  // Header
+  ctx.font='10px Courier New,monospace';ctx.textAlign='center';
+  ctx.fillStyle='rgba(42,37,32,.06)';ctx.fillText('MATERIAL ──── ANIMAL ──── PRODUCT',W/2,50);
+
+  // 5 eras
+  const cw=W/5;
+  eras.forEach((e,i)=>{
+    const cx=40+i*cw,cy=H/2,isHov=i===hovered;
+    const s=isHov?1.1:1;
+    ctx.save();ctx.translate(cx,cy);ctx.scale(s,s);
+
+    // Glow aura
+    if(isHov){
+      const g=ctx.createRadialGradient(0,-15,5,0,0,150);
+      g.addColorStop(0,'rgba(184,117,62,.1)');g.addColorStop(1,'transparent');
+      ctx.fillStyle=g;ctx.fillRect(-120,-250,240,500);
+    }
+
+    // Vertical spine line
+    ctx.strokeStyle='rgba(184,117,62,'+(isHov?.25:.06)+')';ctx.lineWidth=.5;
+    ctx.beginPath();ctx.moveTo(0,-130);ctx.lineTo(0,170);ctx.stroke();
+
+    // Era dot at top
+    ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.9:.25;
+    ctx.beginPath();ctx.arc(0,-140,4,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+
+    // Era name + time
+    ctx.font=(isHov?'13':'11')+'px Noto Serif SC,serif';ctx.textAlign='center';
+    ctx.fillStyle=isHov?e.color:'rgba(42,37,32,.45)';ctx.fillText(e.name,0,-130);
+    ctx.font='8px Courier New,monospace';ctx.fillStyle='rgba(42,37,32,.2)';ctx.fillText(e.time,0,-115);
+
+    // 3 nodes: MAT / ANI / PRD
+    const nodes=[
+      {y:-70,label:'原料',text:e.mat,bg:'rgba(184,117,62,.07)'},
+      {y:30,label:'动物',text:e.ani,bg:'rgba(90,122,78,.07)'},
+      {y:130,label:'成品',text:e.prd,bg:'rgba(42,37,32,.04)'}
+    ];
+
+    // Connector dashed lines
+    ctx.strokeStyle='rgba(184,117,62,.1)';ctx.lineWidth=.8;ctx.setLineDash([3,6]);
+    ctx.beginPath();ctx.moveTo(0,nodes[0].y+22);ctx.lineTo(0,nodes[1].y-22);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(0,nodes[1].y+22);ctx.lineTo(0,nodes[2].y-22);ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Arrow dots on connectors
+    [nodes[0].y+22+nodes[1].y-22>>1,nodes[1].y+22+nodes[2].y-22>>1].forEach(my=>{
+      ctx.fillStyle='rgba(184,117,62,.25)';ctx.beginPath();ctx.arc(0,my,2,0,Math.PI*2);ctx.fill();
+    });
+
+    nodes.forEach(n=>{
+      // Card bg
+      ctx.fillStyle=isHov?n.bg.replace('.07','.12').replace('.04','.08'):n.bg;
+      roundRect(-68,n.y-21,136,38,4);ctx.fill();
+
+      // Label
+      ctx.font='7px Courier New,monospace';ctx.fillStyle='rgba(42,37,32,.2)';
+      ctx.textAlign='center';ctx.fillText(n.label.toUpperCase(),0,n.y-6);
+
+      // Content
+      ctx.font=(isHov?'10':'9')+'px Noto Serif SC,serif';
+      ctx.fillStyle=isHov?'rgba(42,37,32,.7)':'rgba(42,37,32,.4)';
+      ctx.fillText(n.text.slice(0,18),0,n.y+12);
+    });
+
+    ctx.restore();
+  });
+
+  // Bottom timeline rail
+  ctx.strokeStyle='rgba(184,117,62,.05)';ctx.lineWidth=.5;
+  ctx.beginPath();ctx.moveTo(40,H-25);ctx.lineTo(W-40,H-25);ctx.stroke();
+  eras.forEach((e,i)=>{
+    const cx=40+i*cw;
+    ctx.fillStyle=e.color;ctx.globalAlpha=i===hovered?.8:.2;
+    ctx.beginPath();ctx.arc(cx,H-25,3,0,Math.PI*2);ctx.fill();
+  });
+  ctx.globalAlpha=1;
+
+  requestAnimationFrame(draw);
+}draw();
+})();
+</script>
 <div class="ascii-divider">/* ---- WORKS: 16_SPECIES / 6_RELATIONSHIPS ---- */</div>
 <section id="works" style="min-height:100vh;padding:100px 0 80px">
   <div class="section-header"><div class="num">04 / SPECIES</div><h2>受威胁物种</h2><p>悬停查看详情</p></div>
