@@ -383,11 +383,12 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 
 
 /* ---- PIPELINE ---- */
-<div class="ascii-divider">/* ---- PIPELINE ---- */</div>
-<section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:80px 40px 80px">
+/* ---- FLOW ---- */
+<div class="ascii-divider">/* ---- FLOW ---- */</div>
+<section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:80px 40px 60px">
   <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.045;font-family:'Courier New',monospace;line-height:1;pointer-events:none">03</div>
-  <div class="section-header"><div class="num">03 / FLOW</div><h2>原料 → 动物 → 成品</h2><p>粒子从原材料出发，在动物体内汇聚成形，再化为产品。悬停看细节。</p></div>
-  <canvas id="flowCanvas" style="width:100%;max-width:1200px;height:640px;cursor:pointer;border-radius:2px"></canvas>
+  <div class="section-header"><div class="num">03 / FLOW</div><h2>原料 → 动物 → 成品</h2><p>⬥ 原料 &nbsp; ● 动物 &nbsp; ■ 成品 &nbsp;——&nbsp; 三种形状，缓慢漂移</p></div>
+  <canvas id="flowCanvas" style="width:100%;max-width:1200px;height:600px;cursor:pointer;border-radius:2px"></canvas>
 </section>
 
 <script>
@@ -396,142 +397,149 @@ const cv=document.getElementById('flowCanvas');
 if(!cv)return;
 const ctx=cv.getContext('2d');
 const dpr=Math.min(devicePixelRatio,2);
-const W=1200,H=640;
+const W=1200,H=600;
 cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
 ctx.scale(dpr,dpr);
 
 const eras=[
-  {name:'旧石器',mat:'骨骼·鹿角·兽皮',ani:'猛犸象·野马·熊',prd:'骨针·投矛器·饰品',color:'#b8753e'},
+  {name:'旧石器',mat:'骨骼·鹿角·兽皮',ani:'猛犸象',prd:'骨针·投矛器·饰品',color:'#b8753e'},
   {name:'新石器',mat:'骨骼·蚌壳·兽毛',ani:'猪·狗·牛·羊',prd:'骨角器·陶器·皮革',color:'#c8954e'},
   {name:'青铜器',mat:'骨骼·兽皮·象牙',ani:'豹·犀·虎·象',prd:'青铜纹饰·甲骨文',color:'#d4a564'},
   {name:'铁器至近代',mat:'羽毛·象牙·玳瑁',ani:'鹿·马·海龟',prd:'弓·皮具·奢侈品',color:'#5a7a4e'},
   {name:'近现代',mat:'象牙·犀角·鳞片',ani:'象·犀·虎·穿山甲',prd:'工业原料·奢侈品',color:'#c8734a'},
 ];
 
-const BH=104,TOP=70,M=80,RW=W-160; // M=margin left, RW=row width
-// Three zone x-positions
-const ZL=M+30, ZC=M+RW*.5, ZR=M+RW-30;
-let hovered=-1,clicked=-1;
+const BH=100,TOP=80,M=90,RW=W-170;
+let hovered=-1;
 
-// Big dramatic particle shapes for each era's animal
-const shapes=[
-  [{x:0,y:-35},{x:40,y:-20},{x:55,y:0},{x:40,y:20},{x:0,y:35},{x:-40,y:20},{x:-55,y:0},{x:-40,y:-20}],
-  [{x:0,y:-28},{x:35,y:-12},{x:45,y:8},{x:30,y:25},{x:-5,y:30},{x:-30,y:18},{x:-42,y:0},{x:-25,y:-18}],
-  [{x:0,y:-32},{x:20,y:-22},{x:45,y:-8},{x:58,y:10},{x:40,y:28},{x:10,y:34},{x:-25,y:22},{x:-48,y:5},{x:-30,y:-18}],
-  [{x:0,y:-30},{x:30,y:-18},{x:50,y:-2},{x:48,y:18},{x:25,y:32},{x:-10,y:30},{x:-38,y:15},{x:-52,y:0},{x:-30,y:-20}],
-  [{x:0,y:-38},{x:28,y:-25},{x:52,y:-5},{x:58,y:18},{x:40,y:32},{x:5,y:38},{x:-30,y:25},{x:-50,y:8},{x:-55,y:-12},{x:-30,y:-28}],
-];
+// Three shapes: diamond (material), circle (animal), square (product)
+function drawShape(ctx,x,y,r,type,color,alpha){
+  ctx.fillStyle=color;ctx.globalAlpha=alpha;
+  ctx.beginPath();
+  if(type===0){ // diamond = raw material
+    ctx.moveTo(x,y-r);ctx.lineTo(x+r*.6,y);ctx.lineTo(x,y+r);ctx.lineTo(x-r*.6,y);ctx.closePath();
+  }else if(type===1){ // circle = animal
+    ctx.arc(x,y,r,0,Math.PI*2);
+  }else{ // square = product
+    ctx.rect(x-r*.7,y-r*.7,r*1.4,r*1.4);
+  }
+  ctx.fill();
+}
 
-// Generate directional particles (fewer, more purposeful)
+// Generate particles: type 0=material(left), 1=animal(center), 2=product(right)
 const particles=[];
 eras.forEach((e,ri)=>{
-  const y=TOP+ri*BH;
-  // Material particles (left zone)
-  for(let i=0;i<15;i++)particles.push({era:ri,zone:0,tx:ZL+Rh(-30,30),ty:y+BH/2+Rh(-20,20),x:Rh(-60,40)+ZL,y:y+BH/2+Rh(-30,30),r:1.2+Math.random()*3,speed:.02+Math.random()*.03,alpha:.25+Math.random()*.5,color:e.color,ph:Math.random()*Math.PI*2});
-  // Animal zone particles
-  for(let i=0;i<30;i++)particles.push({era:ri,zone:1,tx:ZC+Rh(-40,40),ty:y+BH/2+Rh(-25,25),x:ZC+Rh(-80,80),y:y+BH/2+Rh(-40,40),r:1.5+Math.random()*3.5,speed:.015+Math.random()*.035,alpha:.3+Math.random()*.5,color:e.color,ph:Math.random()*Math.PI*2});
-  // Product particles (right zone)
-  for(let i=0;i<15;i++)particles.push({era:ri,zone:2,tx:ZR+Rh(-30,30),ty:y+BH/2+Rh(-20,20),x:ZR+Rh(-40,60),y:y+BH/2+Rh(-30,30),r:1+Math.random()*2.5,speed:.02+Math.random()*.04,alpha:.2+Math.random()*.45,color:e.color,ph:Math.random()*Math.PI*2});
+  const y=TOP+ri*BH,cy=y+BH/2;
+  // Material particles (diamonds, left zone)
+  for(let i=0;i<8;i++)particles.push({era:ri,type:0,tx:M+Rh(60,140),ty:cy+Rh(-15,15),x:Rh(-40,60)+M+60,y:cy+Rh(-25,25),r:4+Math.random()*6,spd:.004+Math.random()*.008,color:e.color,ph:Math.random()*Math.PI*2});
+  // Animal particles (circles, center zone)
+  for(let i=0;i<15;i++)particles.push({era:ri,type:1,tx:M+RW*.45+Rh(-50,50),ty:cy+Rh(-18,18),x:M+RW*.3+Rh(-80,80),y:cy+Rh(-35,35),r:5+Math.random()*7,spd:.003+Math.random()*.006,color:e.color,ph:Math.random()*Math.PI*2});
+  // Product particles (squares, right zone)
+  for(let i=0;i<8;i++)particles.push({era:ri,type:2,tx:M+RW*.8+Rh(-50,50),ty:cy+Rh(-15,15),x:M+RW*.65+Rh(-40,60),y:cy+Rh(-25,25),r:3+Math.random()*5,spd:.005+Math.random()*.009,color:e.color,ph:Math.random()*Math.PI*2});
 });
-function Rh(min,max){return min+Math.random()*(max-min)}
+function Rh(mn,mx){return mn+Math.random()*(mx-mn)}
 
 cv.addEventListener('mousemove',e=>{
   const rect=cv.getBoundingClientRect();
   const my=(e.clientY-rect.top)*(H/rect.height);
   let f=-1;for(let i=0;i<5;i++){const y=TOP+i*BH;if(my>y-10&&my<y+BH+10){f=i;break}}hovered=f;
 });
-cv.addEventListener('click',e=>{clicked=clicked===hovered?-1:hovered});
 
-function drawWireframe(shape,cx,cy,color,alpha,lw,scale){
-  ctx.save();ctx.translate(cx,cy);ctx.scale(scale,scale);
+// Wireframe animal shapes
+const shapes=[
+  [{x:0,y:-38},{x:42,y:-22},{x:58,y:2},{x:42,y:25},{x:0,y:38},{x:-42,y:25},{x:-58,y:2},{x:-42,y:-22}],
+  [{x:0,y:-28},{x:35,y:-10},{x:45,y:10},{x:30,y:28},{x:-5,y:32},{x:-32,y:18},{x:-44,y:2},{x:-28,y:-18}],
+  [{x:0,y:-34},{x:22,y:-24},{x:48,y:-8},{x:60,y:12},{x:42,y:30},{x:8,y:36},{x:-28,y:24},{x:-50,y:8},{x:-32,y:-20}],
+  [{x:0,y:-30},{x:32,y:-18},{x:52,y:-2},{x:48,y:20},{x:22,y:34},{x:-12,y:30},{x:-40,y:15},{x:-54,y:2},{x:-32,y:-20}],
+  [{x:0,y:-40},{x:30,y:-28},{x:55,y:-5},{x:60,y:20},{x:40,y:35},{x:2,y:40},{x:-35,y:28},{x:-52,y:8},{x:-58,y:-10},{x:-32,y:-30}],
+];
+
+function drawWireframe(ctx,shape,cx,cy,color,alpha,lw,s){
+  ctx.save();ctx.translate(cx,cy);ctx.scale(s,s);
   ctx.strokeStyle=color;ctx.lineWidth=lw;ctx.globalAlpha=alpha;
-  ctx.beginPath();ctx.moveTo(shape[0].x,shape[0].y);
-  for(let i=1;i<shape.length;i++)ctx.lineTo(shape[i].x,shape[i].y);
-  ctx.closePath();ctx.stroke();
-  // Cross lines for structure
-  ctx.lineWidth=lw*.5;ctx.globalAlpha=alpha*.6;
+  ctx.beginPath();ctx.moveTo(shape[0].x,shape[0].y);for(let i=1;i<shape.length;i++)ctx.lineTo(shape[i].x,shape[i].y);ctx.closePath();ctx.stroke();
+  ctx.lineWidth=lw*.5;ctx.globalAlpha=alpha*.5;
   if(shape.length>=8){ctx.beginPath();ctx.moveTo(shape[0].x,shape[0].y);ctx.lineTo(shape[4]?.x||0,shape[4]?.y||0);ctx.stroke();ctx.beginPath();ctx.moveTo(shape[2]?.x||0,shape[2]?.y||0);ctx.lineTo(shape[6]?.x||0,shape[6]?.y||0);ctx.stroke()}
   ctx.restore();
 }
 
 function draw(){
   ctx.clearRect(0,0,W,H);
-  const t=performance.now()*.001,at=(t%1);
+  const t=performance.now()*.001;
 
-  // Background
-  const bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#faf6f0');bg.addColorStop(1,'#f0ebe4');
-  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#faf6f1';ctx.fillRect(0,0,W,H);
 
   // Hex grid
-  ctx.strokeStyle='#d4a574';ctx.lineWidth=.2;ctx.globalAlpha=.01;
-  for(let x=0;x<W;x+=38)for(let y=0;y<H;y+=34){const ox=(y%68)?19:0;ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.lineTo(x+ox+10*Math.cos(a),y+10*Math.sin(a))}ctx.closePath();ctx.stroke()}
+  ctx.strokeStyle='#d4a574';ctx.lineWidth=.2;ctx.globalAlpha=.008;
+  for(let x=0;x<W;x+=40)for(let y=0;y<H;y+=36){const ox=(y%72)?20:0;ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.lineTo(x+ox+11*Math.cos(a),y+11*Math.sin(a))}ctx.closePath();ctx.stroke()}
   ctx.globalAlpha=1;
 
-  // Column headers
-  ctx.font='8px Courier New,monospace';ctx.textAlign='center';
-  [{x:ZL,t:'MATERIAL'},{x:ZC,t:'ANIMAL'},{x:ZR,t:'PRODUCT'}].forEach(z=>{ctx.fillStyle='rgba(184,117,62,.12)';ctx.fillText(z.t,z.x,TOP-18)});
+  // Column headers - ALWAYS visible
+  ctx.font='9px Courier New,monospace';ctx.textAlign='center';
+  ctx.fillStyle='rgba(184,117,62,.18)';ctx.fillText('⬥ 原料 MATERIAL',M+55,TOP-26);
+  ctx.fillStyle='rgba(90,122,78,.18)';ctx.fillText('● 动物 ANIMAL',M+RW*.45,TOP-26);
+  ctx.fillStyle='rgba(42,37,32,.14)';ctx.fillText('■ 成品 PRODUCT',M+RW*.8,TOP-26);
 
-  // Vertical dashed zone dividers
-  ctx.setLineDash([6,12]);ctx.strokeStyle='rgba(184,117,62,.06)';ctx.lineWidth=.5;
-  [M+RW*.28,M+RW*.72].forEach(dx=>{ctx.beginPath();ctx.moveTo(dx,TOP-10);ctx.lineTo(dx,TOP+5*BH);ctx.stroke()});
+  // Column divider lines
+  ctx.setLineDash([4,16]);ctx.strokeStyle='rgba(184,117,62,.04)';ctx.lineWidth=.4;
+  [M+RW*.28,M+RW*.7].forEach(dx=>{ctx.beginPath();ctx.moveTo(dx,TOP-14);ctx.lineTo(dx,TOP+5*BH);ctx.stroke()});
   ctx.setLineDash([]);
 
-  // Era rows
-  eras.forEach((e,ri)=>{
-    const y=TOP+ri*BH,cy=y+BH/2,isHov=ri===hovered||ri===clicked;
-    const alpha=isHov?1:.3,scale=isHov?1.14:1;
-
-    // Row bg
-    ctx.fillStyle='rgba(255,255,255,'+(isHov?.7:.2)+')';ctx.fillRect(0,y-4,W,BH+8);
-
-    // Era name - left
-    ctx.font=(isHov?'18':'13')+'px Noto Serif SC,serif';ctx.textAlign='right';
-    ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.9:.25;
-    ctx.fillText(e.name,M-14,cy+6);
-    ctx.globalAlpha=1;
-
-    // Horizontal pipeline
-    const grad=ctx.createLinearGradient(M,0,M+RW,0);
-    grad.addColorStop(0,'rgba(184,117,62,0)');grad.addColorStop(.15,'rgba(184,117,62,'+(isHov?.25:.05)+')');
-    grad.addColorStop(.5,'rgba(184,117,62,'+(isHov?.4:.08)+')');grad.addColorStop(.85,'rgba(184,117,62,'+(isHov?.25:.05)+')');
-    grad.addColorStop(1,'rgba(184,117,62,0)');
-    ctx.strokeStyle=grad;ctx.lineWidth=isHov?1.8:.6;
-    ctx.beginPath();ctx.moveTo(M,cy);ctx.lineTo(M+RW,cy);ctx.stroke();
-
-    // Three zone anchor dots
-    [ZL,ZC,ZR].forEach(zx=>{ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.6:.08;ctx.beginPath();ctx.arc(zx,cy,isHov?4.5:2.5,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1});
-
-    // WIREFRAME ANIMAL - big and visible in center
-    drawWireframe(shapes[ri],ZC,cy,e.color,isHov?.35:.08,isHov?1.2:.5,isHov?1.8:1.2);
-
-    // Glow aura around wireframe
-    if(isHov){const ga=ctx.createRadialGradient(ZC,cy,10,ZC,cy,60);ga.addColorStop(0,'rgba(184,117,62,.08)');ga.addColorStop(1,'transparent');ctx.fillStyle=ga;ctx.fillRect(ZC-80,cy-80,160,160)}
-
-    // Particles - directional flow
-    particles.filter(p=>p.era===ri).forEach(p=>{
-      // Flow toward zone target with spring
-      p.x+=(p.tx-p.x)*p.speed;p.y+=(p.ty-p.y)*p.speed*.7;
-      // Periodic retarget
-      if(Math.random()<.002){const zx=[ZL,ZC,ZR][p.zone];p.tx=zx+Rh(-35,35);p.ty=cy+Rh(-20,20)}
-      // Oscillation
-      const osc=Math.sin(t*1.8+p.ph)*5;
-      const py2=p.y+osc;
-      const r2=p.r*(isHov?2.2:1);const a2=p.alpha*(isHov?1:.4);
-      if(a2>.02){ctx.fillStyle=p.color;ctx.globalAlpha=a2;ctx.beginPath();ctx.arc(p.x,py2,r2,0,Math.PI*2);ctx.fill()}
-      // Glow trail for zone-1 particles
-      if(p.zone===1&&isHov&&a2>.15){ctx.strokeStyle=p.color;ctx.globalAlpha=a2*.25;ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(p.x,py2);ctx.lineTo(p.x-6,py2-osc*.3);ctx.stroke()}
-    });
-    ctx.globalAlpha=1;
-
-    // Zone labels on hover
-    if(isHov){
-      ctx.font='10px Noto Serif SC,serif';ctx.textAlign='center';
-      ctx.fillStyle='rgba(42,37,32,.55)';{ctx.fillText(e.mat,ZL,cy-36);ctx.fillText(e.ani,ZC,cy-36);ctx.fillText(e.prd,ZR,cy-36)}
-    }
+  // Zone legend boxes
+  [[M+5,TOP-14,'⬥'], [M+RW*.45-14,TOP-14,'●'], [M+RW*.8-14,TOP-14,'■']].forEach(([lx,ly,icon])=>{
+    ctx.font='11px serif';ctx.fillStyle='rgba(42,37,32,.06)';ctx.fillText(icon,lx,ly+4);
   });
 
-  // CRT scanline
-  ctx.fillStyle='rgba(0,0,0,.012)';for(let y2=0;y2<H;y2+=3)ctx.fillRect(0,y2,W,1);
+  eras.forEach((e,ri)=>{
+    const y=TOP+ri*BH,cy=y+BH/2,isHov=ri===hovered;
+    const a=isHov?1:.28;
+
+    // Row bg
+    ctx.fillStyle='rgba(255,255,255,'+(isHov?.6:.18)+')';ctx.fillRect(0,y-3,W,BH+6);
+
+    // Pipeline line
+    const g=ctx.createLinearGradient(M,0,M+RW,0);
+    g.addColorStop(0,'rgba(184,117,62,0)');g.addColorStop(.15,'rgba(184,117,62,'+(isHov?.22:.04)+')');
+    g.addColorStop(.5,'rgba(184,117,62,'+(isHov?.35:.06)+')');g.addColorStop(.85,'rgba(184,117,62,'+(isHov?.22:.04)+')');
+    g.addColorStop(1,'rgba(184,117,62,0)');
+    ctx.strokeStyle=g;ctx.lineWidth=isHov?1.8:.5;
+    ctx.beginPath();ctx.moveTo(M,cy);ctx.lineTo(M+RW,cy);ctx.stroke();
+
+    // Zone anchor dots
+    [M+55,M+RW*.45,M+RW*.8].forEach(zx=>{ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.5:.06;ctx.beginPath();ctx.arc(zx,cy,isHov?3.5:2,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1});
+
+    // WIREFRAME ANIMAL - large, center
+    drawWireframe(ctx,shapes[ri],M+RW*.45,cy,e.color,isHov?.3:.06,isHov?1:.4,isHov?2:1.3);
+
+    // Hover glow
+    if(isHov){const ga=ctx.createRadialGradient(M+RW*.45,cy,5,M+RW*.45,cy,65);ga.addColorStop(0,'rgba(184,117,62,.1)');ga.addColorStop(1,'transparent');ctx.fillStyle=ga;ctx.fillRect(M+RW*.45-90,cy-90,180,180)}
+
+    // Draw particles - SLOW drift
+    particles.filter(p=>p.era===ri).forEach(p=>{
+      p.x+=(p.tx-p.x)*p.spd;p.y+=(p.ty-p.y)*p.spd*.6;
+      if(Math.random()<.001){const zx=[M+55,M+RW*.45,M+RW*.8][p.type];p.tx=zx+Rh(-35,35);p.ty=cy+Rh(-15,15)}
+      const osc=Math.sin(t*1.2+p.ph)*3;
+      const R=p.r*(isHov?2:1),A=p.type===0?.35:p.type===1?.45:.3;
+      const a2=A*(isHov?1:.45);
+      if(a2>.02){drawShape(ctx,p.x,p.y+p.osc*p.r*.3||osc*.5||0,R,p.type,p.color,a2)}
+    });
+
+    // Era label
+    ctx.font=(isHov?'20':'14')+'px Noto Serif SC,serif';ctx.textAlign='right';
+    ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.9:.22;
+    ctx.fillText(e.name,M-12,cy+6);
+
+    // Zone text - always visible on hover, faint otherwise
+    ctx.font='9px Noto Serif SC,serif';ctx.textAlign='center';
+    [{x:M+55,t:e.mat},{x:M+RW*.45,t:e.ani},{x:M+RW*.8,t:e.prd}].forEach(z=>{
+      ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.55:.08;
+      ctx.fillText(z.t,z.x,cy+(isHov?-28:-22));
+    });
+  });
+  ctx.globalAlpha=1;
+
+  // CRT
+  ctx.fillStyle='rgba(0,0,0,.01)';for(let y2=0;y2<H;y2+=3)ctx.fillRect(0,y2,W,1);
 
   requestAnimationFrame(draw);
 }draw();
