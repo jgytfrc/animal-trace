@@ -390,147 +390,93 @@ section.content-section{background-image:url(\"data:image/svg+xml,%3Csvg width='
 /* ---- FLOW ---- */
 /* ---- TREE ---- */
 /* ---- JOURNEY ---- */
-<div class="ascii-divider">/* ---- JOURNEY ---- */</div>
-
-<section id="journey" style="position:relative;background:#1a1816;overflow:hidden">
-  <div style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden">
-    <canvas id="jCanvas" style="position:absolute;top:0;left:0;width:100%;height:100%"></canvas>
-    <div id="jOverlay" style="position:relative;z-index:2;text-align:center;pointer-events:none;padding:40px">
-      <div id="jEra" style="font-size:clamp(32px,6vw,80px);font-weight:200;letter-spacing:.08em;color:#c8b898;transition:all .6s cubic-bezier(.16,1,.3,1)">Animal Trace</div>
-      <div id="jSub" style="font-size:clamp(12px,2vw,18px);color:rgba(255,255,255,.35);margin-top:8px;letter-spacing:.1em;transition:all .6s cubic-bezier(.16,1,.3,1);font-family:'Courier New',monospace">原料 → 动物 → 成品</div>
-      <div id="jFlow" style="display:flex;gap:clamp(16px,4vw,48px);justify-content:center;margin-top:clamp(20px,4vw,48px);transition:all .6s cubic-bezier(.16,1,.3,1)">
-        <div class="j-card mat"><em>⬥ 原料</em><span></span></div>
-        <div class="j-card ani"><em>● 动物</em><span></span></div>
-        <div class="j-card prd"><em>■ 成品</em><span></span></div>
-      </div>
+/* ---- PULSE ---- */
+<div class="ascii-divider">/* ---- PULSE ---- */</div>
+<section class="content-section" id="viz" style="position:relative;flex-direction:column;padding:100px 48px 80px">
+  <div style="position:absolute;right:60px;top:40px;font-size:clamp(80px,10vw,160px);font-weight:900;opacity:.04;font-family:Courier New,monospace;line-height:1;pointer-events:none">03</div>
+  <div class="section-header"><div class="num">03 / FLOW</div><h2>原料 → 动物 → 成品</h2><p>点击任意一行查看细节 · ⬥原料 · ●动物 · ■成品</p></div>
+  <div class="pulse-track" id="pulseTrack">
+    <div class="pulse-row">
+    <div class="pulse-era"><span>旧石器</span><small>250万年前—1万年前</small></div>
+    <div class="pulse-flow">
+      <div class="pulse-node mat"><em>⬥ 原料</em>骨骼·鹿角·兽皮·牙齿</div>
+      <div class="pulse-connector"><span></span><span></span><span></span></div>
+      <div class="pulse-node ani"><em>● 动物</em>猛犸象·野马·鹿·熊</div>
+      <div class="pulse-connector"><span></span><span></span><span></span></div>
+      <div class="pulse-node prd"><em>■ 成品</em>投矛器·骨针·骨锥·饰品</div>
     </div>
   </div>
-  <!-- Scroll spacer -->
-  <div style="height:500vh"></div>
+    <div class="pulse-row">
+    <div class="pulse-era"><span>新石器</span><small>1万年前—公元前2000年</small></div>
+    <div class="pulse-flow">
+      <div class="pulse-node mat"><em>⬥ 原料</em>骨骼·蚌壳·兽毛·兽骨</div>
+      <div class="pulse-connector"><span></span><span></span><span></span></div>
+      <div class="pulse-node ani"><em>● 动物</em>猪·狗·牛·羊·鱼类</div>
+      <div class="pulse-connector"><span></span><span></span><span></span></div>
+      <div class="pulse-node prd"><em>■ 成品</em>骨角器·陶器·皮革·骨镯</div>
+    </div>
+  </div>
+    <div class="pulse-row">
+    <div class="pulse-era"><span>青铜器</span><small>公元前2000年—公元500年</small></div>
+    <div class="pulse-flow">
+      <div class="pulse-node mat"><em>⬥ 原料</em>骨骼·兽皮·骨甲·象牙</div>
+      <div class="pulse-connector"><span></span><span></span><span></span></div>
+      <div class="pulse-node ani"><em>● 动物</em>豹·犀·虎·象·马·牛</div>
+      <div class="pulse-connector"><span></span><span></span><span></span></div>
+      <div class="pulse-node prd"><em>■ 成品</em>青铜纹饰·甲胄·甲骨文</div>
+    </div>
+  </div>
+    <div class="pulse-row">
+    <div class="pulse-era"><span>铁器至近代</span><small>公元前1200年—18世纪中期</small></div>
+    <div class="pulse-flow">
+      <div class="pulse-node mat"><em>⬥ 原料</em>羽毛·象牙·牛角·玳瑁</div>
+      <div class="pulse-connector"><span></span><span></span><span></span></div>
+      <div class="pulse-node ani"><em>● 动物</em>哺乳类·鸟类·海龟</div>
+      <div class="pulse-connector"><span></span><span></span><span></span></div>
+      <div class="pulse-node prd"><em>■ 成品</em>弓·皮具·皮鞍·奢侈品</div>
+    </div>
+  </div>
+    <div class="pulse-row">
+    <div class="pulse-era"><span>近现代</span><small>18世纪中期—2026年</small></div>
+    <div class="pulse-flow">
+      <div class="pulse-node mat"><em>⬥ 原料</em>象牙·犀角·虎皮·鳞片</div>
+      <div class="pulse-connector"><span></span><span></span><span></span></div>
+      <div class="pulse-node ani"><em>● 动物</em>象·犀·虎·穿山甲·鲸</div>
+      <div class="pulse-connector"><span></span><span></span><span></span></div>
+      <div class="pulse-node prd"><em>■ 成品</em>工业原料·药材·奢侈品</div>
+    </div>
+  </div>
+  </div>
 </section>
-
 <style>
-.j-card{padding:clamp(12px,2vw,24px)clamp(16px,3vw,36px);border-radius:2px;text-align:center;min-width:clamp(120px,20vw,240px);transition:all .6s cubic-bezier(.16,1,.3,1)}
-.j-card em{display:block;font-family:'Courier New',monospace;font-size:clamp(8px,1vw,12px);letter-spacing:.1em;font-style:normal;margin-bottom:8px}
-.j-card span{display:block;font-size:clamp(10px,1.5vw,16px);letter-spacing:.03em;line-height:1.5}
-.j-card.mat{background:rgba(184,117,62,.08);color:#d4a574}
-.j-card.ani{background:rgba(90,122,78,.08);color:#a0c090}
-.j-card.prd{background:rgba(255,255,255,.03);color:rgba(255,255,255,.55)}
+.pulse-track{display:flex;flex-direction:column;max-width:1000px;width:100%}
+.pulse-row{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.03);transition:all .5s cubic-bezier(.16,1,.3,1);cursor:pointer}
+.pulse-row:hover{background:rgba(184,117,62,.03);padding:18px 12px;margin:0 -12px;border-radius:2px;border-color:rgba(184,117,62,.08)}
+.pulse-row.focus{background:rgba(184,117,62,.04);padding:22px 16px;margin:0 -16px;border-radius:2px;border-color:rgba(184,117,62,.15);transform:scale(1.02);z-index:2;box-shadow:0 4px 24px rgba(0,0,0,.04)}
+.pulse-row:not(.focus):not(:hover){opacity:.4}
+.pulse-era{width:100px;flex-shrink:0;text-align:right;padding-right:16px}
+.pulse-era span{display:block;font-size:15px;font-weight:300;color:var(--accent);letter-spacing:.04em;transition:all .4s}
+.pulse-era small{font-size:7px;opacity:.25;font-family:'Courier New',monospace;letter-spacing:.04em}
+.pulse-row:hover .pulse-era span,.pulse-row.focus .pulse-era span{font-size:18px}
+.pulse-flow{flex:1;display:flex;align-items:center;gap:0}
+.pulse-node{flex:1;padding:8px 12px;font-size:10px;letter-spacing:.02em;line-height:1.5;border-radius:2px;transition:all .4s}
+.pulse-node em{display:block;font-size:7px;opacity:.4;font-family:'Courier New',monospace;letter-spacing:.06em;font-style:normal;margin-bottom:2px}
+.pulse-node.mat{background:rgba(184,117,62,.04);color:var(--accent)}
+.pulse-node.ani{background:rgba(90,122,78,.04);color:var(--green)}
+.pulse-node.prd{background:rgba(0,0,0,.015);color:var(--text)}
+.pulse-row:hover .pulse-node,.pulse-row.focus .pulse-node{font-size:11px;padding:10px 14px}
+.pulse-row:hover .pulse-node.mat,.pulse-row.focus .pulse-node.mat{background:rgba(184,117,62,.1)}
+.pulse-row:hover .pulse-node.ani,.pulse-row.focus .pulse-node.ani{background:rgba(90,122,78,.1)}
+.pulse-connector{width:36px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:2px}
+.pulse-connector span{display:block;width:2px;height:2px;border-radius:50%;background:var(--accent);opacity:.15;animation:pulse 2s ease-in-out infinite}
+.pulse-connector span:nth-child(2){animation-delay:.3s}.pulse-connector span:nth-child(3){animation-delay:.6s}
+.pulse-row:hover .pulse-connector span,.pulse-row.focus .pulse-connector span{opacity:.4;width:3px;height:3px}
+@keyframes pulse{0%,100%{opacity:.1;transform:scale(1)}50%{opacity:.6;transform:scale(1.8)}}
+@media(max-width:768px){.pulse-era{width:60px}.pulse-era span{font-size:12px}.pulse-node{font-size:8px}}
 </style>
-
 <script>
-(function(){
-const cv=document.getElementById('jCanvas');
-const eraEl=document.getElementById('jEra'),subEl=document.getElementById('jSub');
-const cards=document.querySelectorAll('.j-card');
-if(!cv)return;
-
-const ctx=cv.getContext('2d');
-const eras=[
-  {name:'旧石器时代',time:'250万年前—1万年前',mat:'骨骼 · 鹿角 · 兽皮 · 牙齿',ani:'猛犸象 · 野马 · 鹿 · 洞熊',prd:'投矛器 · 骨针 · 骨锥 · 穿孔饰品',color:'#b8753e'},
-  {name:'新石器时代',time:'1万年前—公元前2000年',mat:'骨骼 · 蚌壳 · 兽毛 · 兽骨',ani:'猪 · 狗 · 牛 · 羊 · 鱼类',prd:'骨角器 · 陶器 · 皮革制品 · 骨镯',color:'#c8954e'},
-  {name:'青铜器时代',time:'公元前2000年—公元500年',mat:'骨骼 · 兽皮 · 骨甲 · 象牙',ani:'豹 · 犀 · 虎 · 象 · 马 · 牛',prd:'青铜纹饰 · 甲胄 · 甲骨文',color:'#d4a564'},
-  {name:'铁器时代至近代',time:'公元前1200年—18世纪',mat:'羽毛 · 象牙 · 牛角 · 玳瑁',ani:'哺乳动物 · 鸟类 · 玳瑁海龟',prd:'弓 · 皮具 · 皮鞍 · 奢侈品',color:'#5a7a4e'},
-  {name:'近现代',time:'18世纪中期—2026年',mat:'象牙 · 犀角 · 虎皮 · 鳞片',ani:'象 · 犀 · 虎 · 穿山甲 · 鲸',prd:'工业原料 · 药材 · 时尚奢侈品',color:'#c8734a'},
-];
-
-let W,H,particles=[],frame=0,currentEra=-1,progress=0;
-
-function resize(){
-  const dpr=Math.min(devicePixelRatio,2);
-  const rect=cv.parentElement.getBoundingClientRect();
-  W=rect.width;H=rect.height;
-  cv.width=W*dpr;cv.height=H*dpr;
-  cv.style.width=W+'px';cv.style.height=H+'px';
-  ctx.setTransform(dpr,0,0,dpr,0,0);
-}
-resize();window.addEventListener('resize',resize);
-
-// Generate particle pool
-function genParticles(){
-  particles=[];const n=150;
-  for(let i=0;i<n;i++)particles.push({x:Math.random()*W,y:Math.random()*H,r:.5+Math.random()*2.5,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3-.2,a:.2+Math.random()*.4,color:eras[Math.floor(Math.random()*5)].color,ph:Math.random()*Math.PI*2});
-}
-genParticles();
-
-// Scroll tracking
-const spacer=document.querySelector('#journey>div:last-child');
-let scrollProgress=0;
-window.addEventListener('scroll',()=>{
-  if(!spacer)return;
-  const rect=spacer.parentElement.getBoundingClientRect();
-  const totalH=spacer.offsetHeight;
-  const scrolled=-rect.top;
-  scrollProgress=Math.max(0,Math.min(1,scrolled/(totalH-innerHeight)));
-  const era=Math.min(4,Math.floor(scrollProgress*5));
-  const eraP=(scrollProgress*5)%1;
-  if(era!==currentEra||Math.abs(progress-eraP)>.02){currentEra=era;progress=eraP;updateUI(era,eraP)}
-});
-
-function updateUI(era,eraP){
-  const e=eras[era];
-  // Fade transition
-  const fade=eraP<.1?eraP*10:eraP>.9?(1-eraP)*10:1;
-  eraEl.textContent=e.name;eraEl.style.opacity=fade;
-  subEl.textContent=e.time;
-  if(cards[0]){cards[0].querySelector('span').textContent=e.mat;cards[1].querySelector('span').textContent=e.ani;cards[2].querySelector('span').textContent=e.prd}
-}
-
-function drawWireframe(ctx,cx,cy,size,color,alpha,rot){
-  ctx.save();ctx.translate(cx,cy);ctx.rotate(rot||0);
-  ctx.strokeStyle=color;ctx.lineWidth=1.2;ctx.globalAlpha=alpha;
-  const s=size*.5;
-  ctx.beginPath();ctx.moveTo(0,-s);ctx.lineTo(s*.7,-s*.4);ctx.lineTo(s,s*.2);ctx.lineTo(s*.6,s*.7);ctx.lineTo(0,s);ctx.lineTo(-s*.6,s*.7);ctx.lineTo(-s,s*.2);ctx.lineTo(-s*.7,-s*.4);ctx.closePath();ctx.stroke();
-  ctx.lineWidth=.5;ctx.globalAlpha=alpha*.5;
-  ctx.beginPath();ctx.moveTo(0,-s);ctx.lineTo(0,s);ctx.stroke();ctx.beginPath();ctx.moveTo(-s*.7,-s*.4);ctx.lineTo(s*.7,-s*.4);ctx.stroke();
-  ctx.restore();
-}
-
-function draw(){
-  ctx.clearRect(0,0,W,H);
-  const t=frame*.001;frame++;
-
-  // Dark bg with grain
-  ctx.fillStyle='#1a1816';ctx.fillRect(0,0,W,H);
-  ctx.fillStyle='rgba(0,0,0,.3)';for(let i=0;i<200;i++){ctx.fillRect(Math.random()*W,Math.random()*H,2,1)}
-
-  // Hex grid
-  ctx.strokeStyle='rgba(200,150,100,.025)';ctx.lineWidth=.3;
-  for(let x=0;x<W;x+=50)for(let y=0;y<H;y+=44){const ox=(y%88)?25:0;ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.lineTo(x+ox+14*Math.cos(a),y+14*Math.sin(a))}ctx.closePath();ctx.stroke()}
-
-  // Era transition - large wireframe animals
-  if(currentEra>=0){
-    const e=eras[currentEra],sz=Math.min(W,H)*.35;
-    const alpha=.08+.1*Math.sin(progress*Math.PI);
-    drawWireframe(ctx,W*.5,H*.45,sz,e.color,alpha,progress*Math.PI*.05);
-    // Secondary wireframe
-    if(progress>.5)drawWireframe(ctx,W*.35,H*.55,sz*.6,e.color,alpha*.6,(1-progress)*Math.PI*.04);
-    if(progress<.5)drawWireframe(ctx,W*.65,H*.55,sz*.6,e.color,alpha*.6,progress*Math.PI*.04);
-  }
-
-  // Particle system - era-aware
-  particles.forEach(p=>{
-    p.x+=p.vx;p.y+=p.vy+.2*Math.sin(t+p.ph);
-    if(p.y>H+10){p.y=-10;p.x=Math.random()*W}
-    if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;
-    const eIdx=Math.floor((p.y/H)*5);
-    const color=eras[Math.min(4,Math.max(0,eIdx))].color;
-    ctx.fillStyle=color;ctx.globalAlpha=p.a*(.5+.3*Math.sin(t*2+p.ph));
-    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
-  });
-  ctx.globalAlpha=1;
-
-  // CRT scanlines
-  ctx.fillStyle='rgba(0,0,0,.04)';for(let y=0;y<H;y+=3)ctx.fillRect(0,y,W,1);
-  // Vignette
-  const vg=ctx.createRadialGradient(W*.5,H*.45,H*.1,W*.5,H*.45,H*.7);vg.addColorStop(0,'transparent');vg.addColorStop(1,'rgba(0,0,0,.4)');ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
-
-  requestAnimationFrame(draw);
-}
-draw();
-})();
-</script>
-<div class="ascii-divider">/* ---- WORKS: 16_SPECIES / 6_RELATIONSHIPS ---- */</div>
+(function(){const t=document.getElementById('pulseTrack');if(!t)return;let f=null;t.querySelectorAll('.pulse-row').forEach(r=>{r.addEventListener('click',()=>{if(f===r){r.classList.remove('focus');f=null}else{t.querySelectorAll('.pulse-row').forEach(x=>x.classList.remove('focus'));r.classList.add('focus');f=r}})})})();
+</script><div class="ascii-divider">/* ---- WORKS: 16_SPECIES / 6_RELATIONSHIPS ---- */</div>
 <section id="works" style="min-height:100vh;padding:100px 0 80px">
   <div class="section-header"><div class="num">04 / SPECIES</div><h2>受威胁物种</h2><p>悬停查看详情</p></div>
   <div class="flying-posters" id="flyingPosters"></div>
