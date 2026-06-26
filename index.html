@@ -434,11 +434,11 @@ const particles=[];
 eras.forEach((e,ri)=>{
   const y=TOP+ri*BH,cy=y+BH/2;
   // Material particles (diamonds, left zone)
-  for(let i=0;i<12;i++)particles.push({era:ri,type:0,tx:M+Rh(60,140),ty:cy+Rh(-15,15),x:Rh(-40,60)+M+60,y:cy+Rh(-25,25),r:5+Math.random()*8,spd:.0015+Math.random()*.003,color:e.color,ph:Math.random()*Math.PI*2});
+  for(let i=0;i<12;i++)particles.push({era:ri,type:0,tx:M+Rh(60,140),ty:cy+Rh(-15,15),x:Rh(-40,60)+M+60,y:cy+Rh(-25,25),r:6+Math.random()*10,spd:.0015+Math.random()*.003,color:e.color,ph:Math.random()*Math.PI*2});
   // Animal particles (circles, center zone)
-  for(let i=0;i<22;i++)particles.push({era:ri,type:1,tx:M+RW*.45+Rh(-50,50),ty:cy+Rh(-18,18),x:M+RW*.3+Rh(-80,80),y:cy+Rh(-35,35),r:6+Math.random()*9,spd:.001+Math.random()*.0025,color:e.color,ph:Math.random()*Math.PI*2});
+  for(let i=0;i<22;i++)particles.push({era:ri,type:1,tx:M+RW*.45+Rh(-50,50),ty:cy+Rh(-18,18),x:M+RW*.3+Rh(-80,80),y:cy+Rh(-35,35),r:7+Math.random()*11,spd:.001+Math.random()*.0025,color:e.color,ph:Math.random()*Math.PI*2});
   // Product particles (squares, right zone)
-  for(let i=0;i<12;i++)particles.push({era:ri,type:2,tx:M+RW*.8+Rh(-50,50),ty:cy+Rh(-15,15),x:M+RW*.65+Rh(-40,60),y:cy+Rh(-25,25),r:4+Math.random()*6,spd:.002+Math.random()*.004,color:e.color,ph:Math.random()*Math.PI*2});
+  for(let i=0;i<12;i++)particles.push({era:ri,type:2,tx:M+RW*.8+Rh(-50,50),ty:cy+Rh(-15,15),x:M+RW*.65+Rh(-40,60),y:cy+Rh(-25,25),r:5+Math.random()*8,spd:.002+Math.random()*.004,color:e.color,ph:Math.random()*Math.PI*2});
 });
 function Rh(mn,mx){return mn+Math.random()*(mx-mn)}
 
@@ -479,9 +479,9 @@ function draw(){
 
   // Column headers - ALWAYS visible
   ctx.font='9px Courier New,monospace';ctx.textAlign='center';
-  ctx.fillStyle='rgba(184,117,62,.18)';ctx.fillText('⬥ 原料 MATERIAL',M+55,TOP-26);
-  ctx.fillStyle='rgba(90,122,78,.18)';ctx.fillText('● 动物 ANIMAL',M+RW*.45,TOP-26);
-  ctx.fillStyle='rgba(42,37,32,.14)';ctx.fillText('■ 成品 PRODUCT',M+RW*.8,TOP-26);
+  ctx.fillStyle='rgba(184,117,62,.35)';ctx.fillText('⬥ 原料 MATERIAL',M+55,TOP-26);
+  ctx.fillStyle='rgba(90,122,78,.35)';ctx.fillText('● 动物 ANIMAL',M+RW*.45,TOP-26);
+  ctx.fillStyle='rgba(42,37,32,.28)';ctx.fillText('■ 成品 PRODUCT',M+RW*.8,TOP-26);
 
   // Column divider lines
   ctx.setLineDash([4,16]);ctx.strokeStyle='rgba(184,117,62,.04)';ctx.lineWidth=.4;
@@ -512,7 +512,7 @@ function draw(){
     [M+55,M+RW*.45,M+RW*.8].forEach(zx=>{ctx.fillStyle=e.color;ctx.globalAlpha=isHov?.5:.06;ctx.beginPath();ctx.arc(zx,cy,isHov?3.5:2,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1});
 
     // WIREFRAME ANIMAL - large, center
-    drawWireframe(ctx,shapes[ri],M+RW*.45,cy,e.color,isHov?.45:.1,isHov?1.5:.7,isHov?2.5:1.8);
+    drawWireframe(ctx,shapes[ri],M+RW*.45,cy,e.color,isHov?.6:.18,isHov?1.8:1,isHov?3:2);
 
     // Hover glow
     if(isHov){const ga=ctx.createRadialGradient(M+RW*.45,cy,5,M+RW*.45,cy,65);ga.addColorStop(0,'rgba(184,117,62,.1)');ga.addColorStop(1,'transparent');ctx.fillStyle=ga;ctx.fillRect(M+RW*.45-90,cy-90,180,180)}
@@ -522,8 +522,8 @@ function draw(){
       p.x+=(p.tx-p.x)*p.spd;p.y+=(p.ty-p.y)*p.spd*.6;
       if(Math.random()<.001){const zx=[M+55,M+RW*.45,M+RW*.8][p.type];p.tx=zx+Rh(-35,35);p.ty=cy+Rh(-15,15)}
       const osc=Math.sin(t*1.2+p.ph)*3;
-      const R=p.r*(isHov?2:1),A=p.type===0?.35:p.type===1?.45:.3;
-      const a2=A*(isHov?1:.45);
+      const R=p.r*(isHov?2:1),A=p.type===0?.7:p.type===1?.85:.65;
+      const a2=A*(isHov?1:.6);
       if(a2>.02){drawShape(ctx,p.x,p.y+p.osc*p.r*.3||osc*.5||0,R,p.type,p.color,a2)}
     });
 
